@@ -4,24 +4,11 @@ import threeConfig from './js/config/threeConfig'
 // ANIMATE ON SCROLL
 import * as AOS from 'aos'
 import 'aos/dist/aos.css'
-import { siteConfig } from '../config/config'
-
-// import './js/vendor/carousel.js'
-
-// import {} from 'material-icons'
-// FULLPAGE js
-// import fullpage from 'fullpage.js'
-// import 'fullpage.js/dist/fullpage.css'
-
+import contentConfig from '../../../static/admin/contentConfig'
 // import ExperienceManger from './js/components/experiencemanager/experiencemanager'
 // import { MainVR } from './js/mainVR'
 
-// eslint-disable-next-line
-//entry point for webpack to build from webpack
-let __MAIN__ // keep static refrence to the threejs context so we can delete it
-
-// check for webgl compatibility
-function init () {
+const threeCanvas = () => {
   // #region  detect mobile view and configure threejs
   // check the device type the user has. TODO: change configuration to optimize for mobile and tablet useage
   (window.mobileAndTabletcheck = (function () {
@@ -31,14 +18,12 @@ function init () {
   }())) ? threeConfig.isMobile = true : console.log('configuring for desktop usage')
 
   // threeConfig.isMobile = true
-  // Check for webGL capabilities
+  // Check for webGL capabilities and create the threejs canvas
   if (!Detector.webgl) {
     Detector.addGetWebGLMessage()
   } else {
     const canvas = document.getElementById('canvas')// TODO: dynamically render vr mode rather than have it fixed at start
-
-    // canvas.innerText = threeConfig.isMobile
-
+    console.error(canvas)
     // TODO: expand the experience manager
     // new ExperienceManger()
     new Main(canvas) // this is the deafult and reccomended entry for the experience, which is with vr off at default
@@ -47,7 +32,7 @@ function init () {
 
   // initialize AOS
   AOS.init({
-    duration: siteConfig.technical.AOS.animDuration
+    duration: contentConfig.technical.AOS.animDuration
   })
   // #region handle sizing for the pages sections (will be reconfigured when the window resizes)
   let sections = [
@@ -60,130 +45,10 @@ function init () {
   ]
   // #endregion
 
-  let documentGets = {
-    navBar: document.getElementById('nav-bar'),
-    logo: document.getElementById('logo'),
-    rightBranding: document.getElementById('right-branding'),
-    rightBrandingLabel: document.getElementById('right-branding').children.item(0),
-    hover: document.getElementsByClassName('card-overlay'),
-    media: document.getElementsByClassName('media'),
-    mobileMenu: document.getElementById('mobile-menu'),
-    mobileIcon: document.getElementById('nav-icon3'),
-    mobilePages: document.getElementsByClassName('nav-bar__pages'),
-    mainPageName: document.getElementById('name')
-  }
 
-  // #region values to calculate space each section takes for special naviagation
-  let offset = siteConfig.technical.scrollCheck.scrollOffset
-  let sectionOffsets = [
-    -1,
-    sections[0].clientHeight / 2, // its a tiny bit off, this makes the offset more correct
-    sections[0].clientHeight + sections[1].clientHeight - offset,
-    sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight - offset,
-    sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight + sections[3].clientHeight - offset,
-    sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight + sections[3].clientHeight + sections[4].clientHeight - offset
-  ]
-  // #endregion
-
-  // #region ellipse bar navigation
-  let ellipses = document.getElementsByName('ellipses')
-
-  let checkEllipses = () => {
-    for (let i = 0; i < ellipses.length; ++i) {
-      if (ellipses[i].checked) sections[i].scrollIntoView(true)
-    }
-  }
-  // #endregion
-
-  // called when animation ends on parent container
-  // https://stackoverflow.com/questions/37402616/pass-click-event-to-an-element-underneath
-
-  // #region  z index fix for cards
-  // #endregion
-
-  // #region  mobile nav bar
-  let mobileMenuToggle = false
-  let toggleMenu = () => {
-    mobileMenuToggle = !mobileMenuToggle
-    mobileMenuToggle ? documentGets.mobileIcon.classList.add('open')
-      : documentGets.mobileIcon.classList.remove('open')
-    mobileMenuToggle ? documentGets.mobileMenu.classList.add('open')
-      : documentGets.mobileMenu.classList.remove('open')
-    console.log('test')
-  }
-  documentGets.mobileIcon.addEventListener('click', toggleMenu, false)
-  let mobilePages = documentGets.mobilePages
-  for (let i = 0; i < mobilePages.length; ++i) {
-    mobilePages[i].addEventListener('click', toggleMenu, false)
-  }
-
-  // #endregion
-
-  // #region  adding event listeners
-  for (let i = 0; i < ellipses.length; ++i) {
-    ellipses[i].addEventListener('click', checkEllipses, false)
-  }
-
-  // for (let i = 0; i < documentGets.hover.length; ++i) {
-  //   documentGets.hover[i].addEventListener('mouseover', zindexFixAnimEnd, false)
-  // }
-  // window events
-  window.onresize = function () { handleWindowResize() }
-  let handleWindowResize = () => {
-    // just reset the section size calculations
-    sectionOffsets = [
-      -1,
-      sections[0].clientHeight / 2, // its a tiny bit off, this makes the offset more correct
-      sections[0].clientHeight + sections[1].clientHeight - offset,
-      sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight - offset,
-      sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight + sections[3].clientHeight - offset,
-      sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight + sections[3].clientHeight + sections[4].clientHeight - offset
-    ]
-  }
-
-  let prevPos = 0
-
-  window.onscroll = function () { scrollFunction() }
-  let scrollFunction = () => {
-    let currPos = document.body.scrollTop
-    prevPos = currPos
-
-    // only check if user moves more than 20px to reduce function calls
-    if (curPos - prevPos > siteConfig.technical.scrollCheck.checkThreshold) {
-      let currPos2 = document.documentElement.scrollTop
-
-      if (currPos > 50 || currPos2 > 50) { // when we scroll past x we shrink the nav bar
-        documentGets.logo.style.opacity = '0'
-        documentGets.mainPageName.style.opacity = '0'
-      } else {
-        documentGets.mainPageName.style.opacity = '1'
-        documentGets.logo.style.opacity = '1'
-      }
-
-      for (let i = 0; i < sectionOffsets.length; ++i) {
-        if (currPos > sectionOffsets[i] || currPos2 > sectionOffsets[i]) {
-          ellipses[i].checked = true
-          sections[i].style.opacity = '1'
-          // console.error('you are at: '+sections[i].id)
-          // console.error(sections[i])
-          documentGets.rightBrandingLabel.innerText = (i + 1)
-
-          // style line on left based on our current section divided by the total sections
-          documentGets.rightBranding.style.height = ((sectionOffsets[i] / sectionOffsets[sectionOffsets.length - 1]) * 100) + '%'
-          i > 0 && i < sections.length
-            ? documentGets.rightBranding.style.opacity = '1'
-            : documentGets.rightBranding.style.opacity = '0'
-        } else {
-          sections[i].style.opacity = '0'// all elements fade into view, otherwise they fade out
-        }
-      }
-    }
-  }
-  // #endregion
+window.addEventListener('close', () => Main = null)// delete allocated memory for three.js https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Delete_in_strict_mode
 }
-
-init()
-window.addEventListener('close', () => __MAIN__ = null)// delete allocated memory to avoid memory leaks on window reload https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Delete_in_strict_mode
+export {threeCanvas};
 
 // TODO: these are ideal expansions we can explore on this site or future sites
 // material click ripple https://github.com/samthor/rippleJS
@@ -691,3 +556,126 @@ window.addEventListener('close', () => __MAIN__ = null)// delete allocated memor
 // 	  }
 // 118
 // 	}
+
+
+
+  // let documentGets = {
+  //   navBar: document.getElementById('nav-bar'),
+  //   logo: document.getElementById('logo'),
+  //   rightBranding: document.getElementById('right-branding'),
+  //   rightBrandingLabel: document.getElementById('right-branding').children.item(0),
+  //   hover: document.getElementsByClassName('card-overlay'),
+  //   media: document.getElementsByClassName('media'),
+  //   mobileMenu: document.getElementById('mobile-menu'),
+  //   mobileIcon: document.getElementById('nav-icon3'),
+  //   mobilePages: document.getElementsByClassName('nav-bar__pages'),
+  //   mainPageName: document.getElementById('name')
+  // }
+
+  // // #region values to calculate space each section takes for special naviagation
+  // let offset = contentConfig.technical.scrollCheck.scrollOffset
+  // let sectionOffsets = [
+  //   -1,
+  //   sections[0].clientHeight / 2, // its a tiny bit off, this makes the offset more correct
+  //   sections[0].clientHeight + sections[1].clientHeight - offset,
+  //   sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight - offset,
+  //   sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight + sections[3].clientHeight - offset,
+  //   sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight + sections[3].clientHeight + sections[4].clientHeight - offset
+  // ]
+  // // #endregion
+
+  // // #region ellipse bar navigation
+  // let ellipses = document.getElementsByName('ellipses')
+
+  // let checkEllipses = () => {
+  //   for (let i = 0; i < ellipses.length; ++i) {
+  //     if (ellipses[i].checked) sections[i].scrollIntoView(true)
+  //   }
+  // }
+  // // #endregion
+
+  // // called when animation ends on parent container
+  // // https://stackoverflow.com/questions/37402616/pass-click-event-to-an-element-underneath
+
+  // // #region  z index fix for cards
+  // // #endregion
+
+  // // #region  mobile nav bar
+  // let mobileMenuToggle = false
+  // let toggleMenu = () => {
+  //   mobileMenuToggle = !mobileMenuToggle
+  //   mobileMenuToggle ? documentGets.mobileIcon.classList.add('open')
+  //     : documentGets.mobileIcon.classList.remove('open')
+  //   mobileMenuToggle ? documentGets.mobileMenu.classList.add('open')
+  //     : documentGets.mobileMenu.classList.remove('open')
+  //   console.log('test')
+  // }
+  // documentGets.mobileIcon.addEventListener('click', toggleMenu, false)
+  // let mobilePages = documentGets.mobilePages
+  // for (let i = 0; i < mobilePages.length; ++i) {
+  //   mobilePages[i].addEventListener('click', toggleMenu, false)
+  // }
+
+  // // #endregion
+
+  // // #region  adding event listeners
+  // for (let i = 0; i < ellipses.length; ++i) {
+  //   ellipses[i].addEventListener('click', checkEllipses, false)
+  // }
+
+  // // for (let i = 0; i < documentGets.hover.length; ++i) {
+  // //   documentGets.hover[i].addEventListener('mouseover', zindexFixAnimEnd, false)
+  // // }
+  // // window events
+  // window.onresize = function () { handleWindowResize() }
+  // let handleWindowResize = () => {
+  //   // just reset the section size calculations
+  //   sectionOffsets = [
+  //     -1,
+  //     sections[0].clientHeight / 2, // its a tiny bit off, this makes the offset more correct
+  //     sections[0].clientHeight + sections[1].clientHeight - offset,
+  //     sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight - offset,
+  //     sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight + sections[3].clientHeight - offset,
+  //     sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight + sections[3].clientHeight + sections[4].clientHeight - offset
+  //   ]
+  // }
+
+  // let prevPos = 0
+
+  // window.onscroll = function () { scrollFunction() }
+  // let scrollFunction = () => {
+  //   let currPos = document.body.scrollTop
+  //   prevPos = currPos
+
+  //   // only check if user moves more than 20px to reduce function calls
+  //   if (curPos - prevPos > contentConfig.technical.scrollCheck.checkThreshold) {
+  //     let currPos2 = document.documentElement.scrollTop
+
+  //     if (currPos > 50 || currPos2 > 50) { // when we scroll past x we shrink the nav bar
+  //       documentGets.logo.style.opacity = '0'
+  //       documentGets.mainPageName.style.opacity = '0'
+  //     } else {
+  //       documentGets.mainPageName.style.opacity = '1'
+  //       documentGets.logo.style.opacity = '1'
+  //     }
+
+  //     for (let i = 0; i < sectionOffsets.length; ++i) {
+  //       if (currPos > sectionOffsets[i] || currPos2 > sectionOffsets[i]) {
+  //         ellipses[i].checked = true
+  //         sections[i].style.opacity = '1'
+  //         // console.error('you are at: '+sections[i].id)
+  //         // console.error(sections[i])
+  //         documentGets.rightBrandingLabel.innerText = (i + 1)
+
+  //         // style line on left based on our current section divided by the total sections
+  //         documentGets.rightBranding.style.height = ((sectionOffsets[i] / sectionOffsets[sectionOffsets.length - 1]) * 100) + '%'
+  //         i > 0 && i < sections.length
+  //           ? documentGets.rightBranding.style.opacity = '1'
+  //           : documentGets.rightBranding.style.opacity = '0'
+  //       } else {
+  //         sections[i].style.opacity = '0'// all elements fade into view, otherwise they fade out
+  //       }
+  //     }
+  //   }
+  // }
+  // // #endregion

@@ -2,7 +2,6 @@
 import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls'
 import { DragControls } from 'three/examples/jsm/controls/DragControls'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { _Math } from 'three/src/math/Math'
 import threeConfig from '../../config/threeConfig'
 
 // TODO: abstract further to inherit from a global static event handler class

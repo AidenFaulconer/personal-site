@@ -2,14 +2,18 @@
 // for geometry
 import { FrontSide, MeshPhysicalMaterial, PCFSoftShadowMap, MeshBasicMaterial, DoubleSide } from 'three'
 // post processing
-import MultiPassBloomPass from '@superguigui/wagner/src/passes/bloom/MultiPassBloomPass'
-import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass'
+// // import MultiPassBloomPass from '@superguigui/wagner/src/passes/bloom/MultiPassBloomPass'
+// // import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass'
 import { TweenMax } from 'gsap'
 import ShatterEffect from '../components/Interaction/ShatterEffect'
-// fxaa setting
-// import { FXAAShader } from '../shaders/FXAAShader'
-// import { ShaderPass } from '../shaders/ShaderPass'
-// import { RenderPass } from '../shaders/RenderPass'
+
+//environment paths
+import {relative} from 'path'
+const modelPath = '../../../../../static/models/'
+const texturePath = '../../../../../static/img/'
+const relativePath = (pathToFindFrom) => relative(__dirname,pathToFindFrom)//execute this in the scripts needing a path
+
+
 
 // This object contains the initial state of the app which will change realtime from datGUI
 // TODO: make confiugration work realtime rather than at initialization
@@ -21,15 +25,15 @@ export default {
     enabled: false, // toggle use of background
     color: '#100A29',
     sceneBg: {
-      mobile: ['bg_mobile-01.png', 'bg-blank-01.png'],
-      pc: ['bg-01.png', 'bg-blank-01.png']
+      mobile: [(()=>`${relativePath(texturePath)}/`+'bg_mobile-01.png')(), (()=>`${relativePath(texturePath)}/`+'bg-blank-01.png')()],
+      pc: [(()=>`${relativePath(texturePath)}/`+'bg-01.png')(), (()=>`${relativePath(texturePath)}/`+'bg-blank-01.png')()]
     }
   },
   PostProcessing: {
     enabled: false,
     Types: {
-      'FXAA': FXAAPass,
-      'Bloom': MultiPassBloomPass
+      'FXAA': 'FXAAPass',
+      'Bloom': 'MultiPassBloomPass'
     }
   },
   materials: {
@@ -70,7 +74,7 @@ export default {
   },
   models: {
     lionobj: [{
-      path: 'lion.OBJ',
+      path: (()=>`${relativePath(modelPath)}/`+'lion.OBJ')(),
       scale: [2.1, 2.1, 2.1],
       position: [2.4, -0.8, -1],
       material: [{
@@ -87,9 +91,9 @@ export default {
             reflectivity: 2.19
             // refractionRatio: 1.95,
             // envMapIntensity: 1,
-            // envMap: 'textures/bg-01.png',
+            // envMap:  (()=>`${relativePath(texturePath)}/`+'textures/bg-01.png')(),
             // premultipliedAlpha: true
-            // envMap: 'textures/bg-01.png',
+            // envMap: (()=>`${relativePath(texturePath)}/`+'textures/bg-01.png')() 'textures/bg-01.png',
             // shininess: 900,
             // specular: 0x111111,
             // // opacity: 1,
@@ -122,7 +126,7 @@ export default {
     //         reflectivity: 2.19,
     //         refractionRatio: 0.95
     //         // envMapIntensity: 1,
-    //         // envMap: 'textures/bg-01.png',
+    //         // envMap: (()=>`${relativePath(modelPath)}/`+'textures/bg-01.png')()'textures/bg-01.png',
     //         // premultipliedAlpha: true
     //         // shininess: 900,
     //         // specular: 0x111111,
@@ -153,7 +157,7 @@ export default {
     //         // reflectivity: 2.19,
     //         refractionRatio: 0.95
     //         // envMapIntensity: 1,
-    //         // envMap: 'textures/bg-01.png',
+    //         // envMap: (()=>`${relativePath(modelPath)}/`+'textures/bg-01.png')()'textures/bg-01.png',
     //         // premultipliedAlpha: true,
     //         // shininess: 900,
     //         // specular: 0x111111,
@@ -167,7 +171,7 @@ export default {
     //   }]
     // }],
     backdropobj: [{
-      path: 'backdrop.OBJ', // be weary... these are relative to the class using them! (geometry)
+      path: (()=>`${relativePath(modelPath)}/`+'backdrop.OBJ')(),
       scale: [ 3.8, 3.8, 3.8],
       position: [-1.5, 1, -2.5],
       material: [{
@@ -196,7 +200,7 @@ export default {
       }]
     }],
     backdropobj_mobile: [{
-      path: 'backdrop_mobile.OBJ', // be weary... these are relative to the class using them! (geometry)
+      path:  (()=>`${relativePath(modelPath)}/`+'backdrop_mobile.OBJ')(),
       scale: [ 1.8, 1.8, 1.8],
       position: [0, 0, 0],
       material: [{

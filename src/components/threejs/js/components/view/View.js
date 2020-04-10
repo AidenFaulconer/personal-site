@@ -11,7 +11,7 @@ import { Controls } from '../controls/controls'
 import Stats from 'stats-js/src/Stats'
 
 // post processing
-import Composer from '@superguigui/wagner/src/Composer'
+// import Composer from '@superguigui/wagner/src/Composer'
 import ObjectPool from '../gameobject/objectpool'
 
 class View {
@@ -106,7 +106,7 @@ class View {
     // #region
     this._pixelRatio = this._renderer.getPixelRatio()// used in postprocessing uniform values in shader
     this._passes = []
-    this._composer = new Composer(this._renderer)// manager allowing piping in new passes to render pipeline
+    // this._composer = new Composer(this._renderer)// manager allowing piping in new passes to render pipeline
     threeConfig.PostProcessing.enabled ? this.enablePostProcessing() : console.log('disabled postprocessing')
     // #endregion
 
@@ -159,7 +159,7 @@ class View {
       // update render pipeline
       this._renderer.setSize(width, height, false)
       this._renderer.render(this._scene, this._camera)
-      this._composer.setSize(width, height)
+      // this._composer.setSize(width, height)
       // update any render passes here
       // for(let i=0;i<this._passes.length;++i){
       //   this._passes[i]
