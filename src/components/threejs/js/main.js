@@ -69,32 +69,29 @@ class Main extends View {
     DefaultLoadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
       console.log('Loading: ', Math.floor(itemsLoaded / itemsTotal * 100) + '%')
       // show progress in the text of the element
-      document.getElementById('loader-bar').style.width = Math.floor(itemsLoaded / itemsTotal * 100) + '%'
-      document.getElementById('loader-bar').innerText = Math.floor(itemsLoaded / itemsTotal * 100) + '%'
+      // document.getElementById('loader-bar').style.width = Math.floor(itemsLoaded / itemsTotal * 100) + '%'
+      // document.getElementById('loader-bar').innerText = Math.floor(itemsLoaded / itemsTotal * 100) + '%'
     }
     DefaultLoadingManager.onLoad = () => {
       console.log('loaded')
       // tell the window when we are done loading for threejs and apply new styles on the eventj
-      document.getElementById('loader').className += ' finished'
+      // document.getElementById('loader').className += ' finished'
     }
     // #endregion
 
     // initialize scene event handler and interaction handler
-    // #region
-    // event handler
+    // #region event handler
     // TODO
     // scene interaction
     this._interactionHandler = new Interaction(this._camera, canvas, [], this._scene, this._objectPool)
     // #endregion
 
-    // load objs from configuration
-    // #region
+    // #region load objs from configuration
     let geometry = new Geometry(this._scene, this._objectPool)
     geometry.loadFromConfiguration(true, this._interactionHandler)// these objects lookat the mouse
     // #endregion
 
-    // configure scene
-    // #region
+    // #region configure scene
     let backgroundEmpty, background
     if (threeConfig.isMobile) {
       backgroundEmpty = threeConfig.background.sceneBg.mobile[1]
@@ -115,20 +112,20 @@ class Main extends View {
     // this._scene.background = new Color('#affafa');
     // #endregion
 
-    // lights
-    // #region
+    // #region lights
     this._lighting = new Lighting(this._scene)
     this._lighting.place(this._lighting.lightTypes.ambient)
     this._lighting.place(this._lighting.lightTypes.directional)
-    // let directional = this.scene.children[1]// get reference to the direcitonal light
-    // let hemi = this.scene.children[2]// get reference to the direcitonal light
+    let directional = this.scene.children[1]// get reference to the direcitonal light
+
+    let hemi = this.scene.children[2]// get reference to the direcitonal light
     this._lighting.place(this._lighting.lightTypes.hemi)
-    this._updateCallbacks.push(() => {
-      // directional.position.x = 500 * Math.sin(Date.now() / 1240)
-      // directional.position.z = 500 * Math.cos(Date.now() / 1240)
-      // hemi.position.x = 500 * Math.sin(Date.now() / 240)
-      // hemi.position.z = 500 * Math.cos(Date.now() / 240)
-    })
+    // this._updateCallbacks.push(() => {
+    //   directional.position.x = 500 * Math.sin(Date.now() / 1240)
+    //   directional.position.z = 500 * Math.cos(Date.now() / 1240)
+    //   hemi.position.x = 500 * Math.sin(Date.now() / 240)
+    //   hemi.position.z = 500 * Math.cos(Date.now() / 240)
+    // })
     this._lighting.place(this._lighting.lightTypes.point)
     // #endregion
 
@@ -137,7 +134,9 @@ class Main extends View {
     // let raycastPlane = new Geometry(this._scene)
     // raycastPlane.make('plane', [0, -3, 0])(100, 100, 30)
     // raycastPlane.place([0, -2, -10], [0, 0, 0], threeConfig.materials.raycastPlane)
-    // #endregion
+    // // #endregion
+
+
 
     // go through scene objects
     // https://stackoverflow.com/questions/38034816/how-to-move-and-rotate-imported-objects-in-three-js/38039394
@@ -153,8 +152,9 @@ class Main extends View {
         })
       }, 2000)
     }
+    // this._updateCallbacks.push(
+    // () => console.log(this._camera.position))
     // #endregion
-
     this.update()
   }
 }

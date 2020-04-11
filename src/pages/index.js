@@ -6,6 +6,7 @@ import PostLink from '../components/post-link';
 import HeroHeader from '../components/heroHeader';
 import { threeCanvas } from '../components/threejs/app';
 
+
 //loading wrapper to handle three.js assets
 const LoadWrapper = ({}) => (
   <div className="loader" id="loader">
@@ -36,6 +37,7 @@ class ThreeComponent extends React.Component {
   }
 }
 
+
 const IndexPage = ({
   data: {
     site,
@@ -47,23 +49,22 @@ const IndexPage = ({
     .map((edge) => <PostLink key={edge.node.id} post={edge.node} />);
 
   return (
-    <Layout>
+  <>
+    {/** spawns in threejs canvas*/}
+    <ThreeComponent/>
+    <Layout Posts={Posts}>
       <Helmet>
         <title>{site.siteMetadata.title}</title>
         <meta name="description" content={site.siteMetadata.description} />
         {!site.siteMetadata.w3l_dom_key ? null : <meta name="w3l-domain-verification" content={site.siteMetadata.w3l_dom_key} />}
       </Helmet>
-      {/** spawns in threejs canvas*/}
-      <ThreeComponent/>
-      {/** loadwrapper handled by threejs custom component */}
-      <LoadWrapper />
-      {/**page content */}
       <HeroHeader />
-      <h2>Blog Posts &darr;</h2>
-      <div className="grids">
-        {Posts}
-      </div>
+      {/** loadwrapper handled by threejs custom component */}
+      {/**<LoadWrapper />*/}
+      {/**<Sections/>*/}
+      {/**page content */}
     </Layout>
+    </>
   );
 };
 export default IndexPage;

@@ -43,7 +43,6 @@ export default class Interaction {
     // #endregion
   }
 
-  // tween handler (should be abstracted to a class)
   tweenToObject (object) {
     let pos
     object === 'camera' ? pos = (threeConfig.camera.posX, threeConfig.camera.posY, threeConfig.camera.posZ) : pos = object.position.z + threeConfig.camera.posZ
@@ -113,3 +112,19 @@ export default class Interaction {
     this._scene.add(this._debugRay)
   }
 }
+
+
+//#region TODO: consolidate this code into this class for raycasting
+// const { height, width } = this.environment;
+// this.plane = new PlaneBufferGeometry(width * 0.75, height * 0.75, 100, 50);
+// detect user position in scroll
+// this.position.current += (this.scroll.values.target - this.position.current) * 0.1;
+// if (this.position.current < this.position.previous) {
+//   this.direction = "up";
+// } else if (this.position.current > this.position.previous) {
+//   this.direction = "down";
+// } else {
+//   this.direction = "none";
+// }
+// this.position.previous = this.position.current;
+//#endregion raycasting

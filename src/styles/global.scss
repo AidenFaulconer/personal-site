@@ -34,6 +34,75 @@ $third-text-color: rgba(255, 255, 255, 0.1);
 
 //#endregion custom fonts to include
 
+//#region animation mixins @include name to use them
+@mixin animation1 {
+  transition: all .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -webkit-transition: all .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -moz-transition: all .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -ms-transition: all .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -o-transition: all .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+@mixin animation2 {
+  transition: .2s ease-in-out;
+  -webkit-transition: .2s ease-in-out;
+  -moz-transition: .2s ease-in-out;
+  -ms-transition: .2s ease-in-out;
+  -o-transition: .2s ease-in-out;
+}
+
+@mixin animation3 {
+  transition: .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -webkit-transition: .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -moz-transition: .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -ms-transition: .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -o-transition: .4s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+@mixin animation4 {
+  transition: all .75s cubic-bezier(.19, 1, .22, 1);
+  transition: all .75s cubic-bezier(.19, 1, .22, 1),
+    -webkit-all .75s cubic-bezier(.19, 1, .22, 1);
+  -webkit-transition: all .75s cubic-bezier(.19, 1, .22, 1);
+  -moz-transition: all .75s cubic-bezier(.19, 1, .22, 1);
+  -ms-transition: all .75s cubic-bezier(.19, 1, .22, 1);
+  -o-transition: all .75s cubic-bezier(.19, 1, .22, 1);
+}
+
+@mixin animation5 {
+  transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -webkit-transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -moz-transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -ms-transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -o-transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+@mixin lineAnimation {
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: .26vw;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: currentColor;
+    -webkit-transform-origin: right;
+    transform-origin: right;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    @include animation4();
+  }
+
+  &:hover:after {
+    -webkit-transform-origin: left;
+    transform-origin: left;
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+  }
+}
+
+//#endregion animation mixins
+
 // #region custom breakpoints
 $grid-breakpoints: (s: 0,
   sm: 576px,
@@ -60,17 +129,58 @@ $container-max-widths: (sm: 540px,
 //#endregion Remy function to convert pixels to rems
 
 //#region text sizing (golden ratio)
-$small:0.618em;
-$h3:1em;
-$p:1.618em;
-$h2:2.618em;
-$h1:4.236em;
-$title:6.854em;
+//offset to fit screen better
+$small:calc(0.618em);
+$h3:calc(1.0em);
+$p:calc(1.618em);
+$h2:calc(2.618em);
+$h1:calc(4.236em);
+$title:calc(6.854em);
+
+p {
+  font-size: $p;
+}
+
+h3 {
+  font-size: $h3;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: $h2;
+}
+
+h1 {
+  font-size: $h1;
+}
+
 //#endregion text sizing (golden ratio)
+
+$panel-offset: 15%;
 
 // #region custom properties
 $corner:10px;
-$border:1px solid rgba(0, 0, 0, 0.1);
+$border:1px solid rgba(255, 255, 255, .1);
+
+@mixin borderRadius1 {
+  -webkit-border-radius: $corner;
+  -moz-border-radius: $corner;
+  -ms-border-radius: $corner;
+  -o-border-radius: $corner;
+}
+
+@mixin borderRadius100 {
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -ms-border-radius: 100%;
+  -o-border-radius: 100%;
+}
+
+@mixin testBounds {
+  border: 4px solid red;
+}
+
 // #endregion custom properties
 
 // #region custom browser styling
@@ -88,6 +198,7 @@ $border:1px solid rgba(0, 0, 0, 0.1);
 
 html,
 body {
+  color: $primary-text-color;
   margin: 0;
   padding: 0;
 }
@@ -100,7 +211,7 @@ body {
 body {
   font-family: brown-regular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   background-color: $secondary-color;
-  border-top: 10px solid $primary-color;
+  // border-top: 10px solid $primary-color;
 }
 
 a {
@@ -113,8 +224,16 @@ a {
 }
 
 .site-wrapper {
+  font-size: $h3;
+  position: absolute;
   padding: 32px;
-  max-width: 1140px;
+  background: transparent;
+  // border: 2px solid red;
+  left: $panel-offset;
+  width: 70%;
+  box-sizing: border-box; //size this width appropriately
+  // width: calc($panel-offset+$panel-offset - 100%);
+  // max-width: 1140px;
   margin: 0 auto;
 
   img {
@@ -149,9 +268,12 @@ a {
   display: flex;
   justify-content: space-between;
   padding: 20px 0;
-  background: white;
+  // background: ;
+  display: none;
   margin-bottom: 32px;
   align-items: center;
+  @include testBounds();
+
 }
 
 .site-title a {
@@ -162,18 +284,22 @@ a {
 }
 
 .hero-header {
+  margin-top: 20%;
   padding: 0 0 64px;
   max-width: 980px;
+
 }
 
 .headline {
   font-size: $title;
-  font-weight: bold;
+  font-family: 'brown-bold';
+  line-height: 100%;
+  width: 25%;
   margin-bottom: 0.5rem;
 }
 
 .button {
-  padding: 18px 27px;
+  padding: 9px 18px;
   display: inline-block;
   background: #fff;
   border: 1px solid #d3d6e7;
@@ -188,7 +314,7 @@ a {
   &.-primary {
     background-color: $primary-color;
     border-color: $primary-color;
-    color: $primary-text-color;
+    color: $secondary-color;
 
     &:hover {
       background-color: #10072b;
@@ -204,19 +330,24 @@ a {
 }
 
 .primary-content {
-  font-size: 18px;
+  font-size: $h3;
+  color: $secondary-text-color;
   margin-bottom: 32px;
+  width: 50%;
   line-height: 1.5;
   font-weight: 300;
 }
 
 .post {
   padding: 0;
-  background: white;
+  background: $secondary-color;
   line-height: 1.5;
 
   >.blog-post-content {
-    max-width: 768px;
+    @include borderRadius1();
+    border: $border;
+    padding: 2%;
+    max-width: 1000px; //was 768px
     margin: 0 auto;
   }
 
@@ -282,15 +413,14 @@ a {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 32px;
-  margin-top: 32px;
+  height: 5%;
 }
 
 .card {
   display: grid;
   background: white;
-  border-radius: 9px;
-  border: 1px solid #eee;
-  box-shadow: 0 0 30px #d5d5d5;
+  @include borderRadius1();
+  border: $border;
   overflow: hidden;
   line-height: 1.5;
 
@@ -383,28 +513,235 @@ a {
 
 
 
-//new styles
+//#region new styles
+
+#canvas {
+  z-index: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  // display: none;
+}
 
 .panel {
-  position: fixed;
-  height: 100%;
-  width: 206.96px;
 
-  .left {
-    border-left: $border;
-    margin-right: 20px;
+  position: absolute;
+  // height: 100%;
+  height: 1000vh;
+  z-index: 2;
+  box-sizing: border-box;
+  padding: 1%;
+  // width: 206.96px;
+  width: $panel-offset;
+  background: $secondary-color;
+  // border: 2px solid red;
+  // TODO: make the width adjust appropriately
+
+  &.left {
+    border-right: $border;
     left: 0px;
   }
 
-  .right {
-    border-right: $border;
-    margin-left: 20px;
+  &.right {
+    border-left: $border;
     right: 0px
   }
 }
 
+//#region main navbar (ellipse bar)
+//list to easily add items to
+$ellipses-spacing: 1.5rem;
+$ellipses-slider: (slides: 5,
+  transition-speed: 1.5s);
 
-// loading screen
+// hide input radio fields
+input[name="ellipses"] {
+  display: none;
+}
+
+//sas loops to handle carousel interaction
+//style active
+@for $i from 0 through map_get($ellipses-slider, slides) {
+  #ellipses-page__#{$i}:checked~#slider label[for="ellipses-page__#{$i}"] {
+    & .slider-label {
+      color: $primary-text-color;
+    }
+
+    & .slider-number {
+      color: $primary-text-color;
+    }
+
+    & svg {
+      background: $primary-text-color;
+      color: $primary-text-color;
+    }
+  }
+}
+
+.ellipses-bar {
+
+  //desktop navigation bar
+  @include media-breakpoint-up(lg) {
+    position: fixed;
+    // @include testBounds();
+    width: 15%;
+
+    & .ellipses__text {
+      position: relative;
+      margin: 100% auto auto auto;
+      text-align: center;
+      color: $third-text-color;
+    }
+
+    color: $secondary-text-color;
+
+    #slider {
+      box-sizing: border-box;
+      padding: .5%;
+      position: relative;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      justify-content: flex-end;
+      width: 65%;
+      @include borderRadius1();
+      border: $border;
+
+      & label {
+        margin: auto;
+        width: 50%;
+        left: -15%;
+        position: relative;
+        display: flex;
+        cursor: pointer;
+
+        & .slider-label {
+          font-size: $p;
+          order: 2;
+          margin: auto;
+          top: 0px;
+          width: 40px;
+          padding-left: 10%;
+          height: 50%;
+          vertical-align: middle;
+          margin-bottom: 10%;
+        }
+
+        & .slider-number {
+          font-size: $h3;
+          display: none;
+          order: 0;
+          padding-right: 10%;
+        }
+
+        & svg {
+          order: 1;
+          max-width: 100%;
+          max-height: 100%;
+          margin: auto;
+          background: $third-text-color;
+          color: $primary-color;
+          @include borderRadius100();
+          @include animation3();
+        }
+
+        &:hover {
+          & svg {
+            @include animation3();
+            width: 20px;
+            height: 10px;
+            border: 10px solid currentColor;
+            background: currentColor;
+          }
+        }
+      }
+
+
+    }
+
+  }
+
+  //mobile navigation bar
+  @include media-breakpoint-down(md) {}
+}
+
+//#region social media links
+#social-media-bar {
+  position: sticky;
+  top: 44px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0% 15%;
+  display: flex;
+  justify-content: space-between;
+  // @include testBounds();
+
+  & a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    z-index: 51;
+    clear: both;
+    right: 0px;
+    cursor: pointer;
+    width: 22%;
+    height: 100%;
+    vertical-align: middle;
+
+    &::after {
+      position: absolute;
+      display: block;
+      border-radius: 100%;
+      bottom: -12px;
+      border: 5px solid $primary-color;
+      width: 0%;
+      height: 0%;
+      content: '';
+      z-index: 10000;
+      @include borderRadius1();
+      @include animation3();
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+
+    &:hover::after {
+      width: 100%;
+      height: 100%;
+      bottom: 0px;
+      border: 3.5px solid $primary-color;
+      @include borderRadius100;
+    }
+
+    & img {
+      align-self: center;
+      display: inline;
+      width: 80%;
+      height: 80%;
+      margin-bottom: 20%;
+
+      @include media-breakpoint-down(md) {
+        width: 300%;
+      }
+    }
+  }
+}
+
+//#endregion social media links
+
+
+//#endregion nav bar
+
+//#region loading screen
 .loader {
 
   @include media-breakpoint-down(md) {
@@ -475,22 +812,6 @@ a {
   }
 }
 
-.nav-line {
-  @include media-breakpoint-down(md) {
-    display: none;
-    visibility: hidden;
-  }
-
-  @include media-breakpoint-up(lg) {
-    position: absolute;
-    left: 10%;
-    top: 8.5%;
-    width: 75%;
-    z-index: 2;
-    border-top: 2px solid var(--clr-primary);
-  }
-}
-
 //load end
 .finished {
   animation-delay: .5s;
@@ -501,25 +822,6 @@ a {
   animation-fill-mode: forwards;
 }
 
-//animation
-@keyframes finish-load {
-  0% {
-    height: 100%;
-    width: 100%;
-    opacity: 100%;
-  }
-
-
-  100% {
-    opacity: 0%;
-    // height: 0%;
-    visibility: hidden;
-    display: none;
-    color: transparent;
-  }
-}
-
-//loading rings and content
 .lds-ring {
   // border: 3px solid red;
   display: inline-block;
@@ -626,6 +928,23 @@ a {
   }
 }
 
+//#region loading screen animations
+@keyframes finish-load {
+  0% {
+    height: 100%;
+    width: 100%;
+    opacity: 100%;
+  }
+
+  100% {
+    opacity: 0%;
+    // height: 0%;
+    visibility: hidden;
+    display: none;
+    color: transparent;
+  }
+}
+
 //ring animation
 @keyframes lds-ring {
   0% {
@@ -638,6 +957,11 @@ a {
   }
 }
 
+//#endregion loading screen animations
+
+//#endregion loading rings and content
+
+//#endregion new styles
 
 /* Portrait and Landscape */
 @media only screen and (min-width: 768px) {

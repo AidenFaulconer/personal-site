@@ -8,11 +8,11 @@ import { TweenMax } from 'gsap'
 import ShatterEffect from '../components/Interaction/ShatterEffect'
 
 //environment paths
-import {relative} from 'path'
+import {join} from 'path'
 const modelPath = '../../../../../static/models/'
 const texturePath = '../../../../../static/img/'
-const relativePath = (pathToFindFrom) => relative(__dirname,pathToFindFrom)//execute this in the scripts needing a path
-
+// const relativePath = (pathToFindFrom) => relative(__dirname,pathToFindFrom)//execute this in the scripts needing a path
+const relativePath = (pathToFindFrom) => join(process.cwd(),pathToFindFrom)//execute this in the scripts needing a path
 
 
 // This object contains the initial state of the app which will change realtime from datGUI
@@ -23,10 +23,10 @@ export default {
   isMobile: false,
   background: {
     enabled: false, // toggle use of background
-    color: '#100A29',
+    color: '#100A29',//#95E5E1 to test
     sceneBg: {
-      mobile: [(()=>`${relativePath(texturePath)}/`+'bg_mobile-01.png')(), (()=>`${relativePath(texturePath)}/`+'bg-blank-01.png')()],
-      pc: [(()=>`${relativePath(texturePath)}/`+'bg-01.png')(), (()=>`${relativePath(texturePath)}/`+'bg-blank-01.png')()]
+      mobile: ['bg_mobile-01.png', 'bg-blank-01.png'],
+      pc: ['bg-01.png', 'bg-blank-01.png']
     }
   },
   PostProcessing: {
@@ -74,27 +74,30 @@ export default {
   },
   models: {
     lionobj: [{
-      path: (()=>`${relativePath(modelPath)}/`+'lion.OBJ')(),
+      path: './models/lion.OBJ',
       scale: [2.1, 2.1, 2.1],
-      position: [2.4, -0.8, -1],
+      position: [2, -.8, -1],
       material: [{
         type: 'physical',
         props: [
           {
             wireframe: false,
             color: '#95E5E1',
-            transparent: true,
+            // transparent: true,
             metalness: 1,
-            // roughness: 0.5,
-            opacity: 1,
+            clearcoat: 3.74,
+            roughness: 0.5,
+            flatShading: true,
+            // opacity: 1,
             side: FrontSide,
-            reflectivity: 2.19
+            reflectivity: 2.19,
+            // vertexColors: true,
+            // shininess: 900,
             // refractionRatio: 1.95,
             // envMapIntensity: 1,
             // envMap:  (()=>`${relativePath(texturePath)}/`+'textures/bg-01.png')(),
             // premultipliedAlpha: true
             // envMap: (()=>`${relativePath(texturePath)}/`+'textures/bg-01.png')() 'textures/bg-01.png',
-            // shininess: 900,
             // specular: 0x111111,
             // // opacity: 1,
             // blending: THREE.GreaterDepth
@@ -103,7 +106,7 @@ export default {
             // ide: THREE.Backside
           },
           {// fx
-            fx: ShatterEffect
+            fx: 'ShatterEffect'
           }
         ]
       }]
@@ -126,7 +129,7 @@ export default {
     //         reflectivity: 2.19,
     //         refractionRatio: 0.95
     //         // envMapIntensity: 1,
-    //         // envMap: (()=>`${relativePath(modelPath)}/`+'textures/bg-01.png')()'textures/bg-01.png',
+    //         // envMap: 'textures/bg-01.ng')()'textures/bg-01.png',
     //         // premultipliedAlpha: true
     //         // shininess: 900,
     //         // specular: 0x111111,
@@ -157,7 +160,7 @@ export default {
     //         // reflectivity: 2.19,
     //         refractionRatio: 0.95
     //         // envMapIntensity: 1,
-    //         // envMap: (()=>`${relativePath(modelPath)}/`+'textures/bg-01.png')()'textures/bg-01.png',
+    //         // envMap: 'textures/bg-01.ng')()'textures/bg-01.png',
     //         // premultipliedAlpha: true,
     //         // shininess: 900,
     //         // specular: 0x111111,
@@ -171,7 +174,7 @@ export default {
     //   }]
     // }],
     backdropobj: [{
-      path: (()=>`${relativePath(modelPath)}/`+'backdrop.OBJ')(),
+      path: './models/backdrop.OBJ',
       scale: [ 3.8, 3.8, 3.8],
       position: [-1.5, 1, -2.5],
       material: [{
@@ -200,7 +203,7 @@ export default {
       }]
     }],
     backdropobj_mobile: [{
-      path:  (()=>`${relativePath(modelPath)}/`+'backdrop_mobile.OBJ')(),
+      path: './models/backdrop.OBJ',
       scale: [ 1.8, 1.8, 1.8],
       position: [0, 0, 0],
       material: [{
@@ -247,7 +250,7 @@ export default {
   fog: {
     isFog: true,
     color: '#100A29',
-    density: 0.91,
+    density: 1,
     near: 0.10008,
     far: 100
   },
@@ -255,7 +258,7 @@ export default {
     orthographic: false,
     fov: 50,
     near: 0.01,
-    far: 90,
+    far: 85,
     aspect: 1,
     // base position
     posX: 0,
@@ -283,7 +286,7 @@ export default {
     }
   },
   interaction: {
-    showRaycast: true
+    showRaycast: false
   },
   controls: {
     // togglables
@@ -352,7 +355,7 @@ export default {
   renderer: {
     shadow: {
       type: PCFSoftShadowMap,
-      enabled: true,
+      enabled: false,
       helperEnabled: true,
       bias: 0,
       mapWidth: 2048,
@@ -404,11 +407,11 @@ export default {
     hemiLight: {
       enabled: true,
       color: '#95E5E1',
-      groundColor: '#95E5E1',
-      intensity: 3,
+      intensity: 2,
       x: 0,
       y: 0,
       z: 0
+      // groundColor: '#95E5E1',
     }
   },
   // isShowingStats: true,

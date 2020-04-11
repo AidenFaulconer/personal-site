@@ -6,6 +6,13 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import threeConfig from '../../config/threeConfig'
 import ObjectPool from '../../components/gameobject/objectpool'
 
+import { basename } from 'path'
+
+// handle filepaths
+// const env = process.env.NODE_ENV === 'production' ? require('../../../../config/prod.env') : require('../../../../config/dev.env')
+const modelPath = process.cwd() + '/static/models/'
+const texturePath = process.cwd() + '/static/img/'
+
 // for webpack filepath debugging
 
 // This helper class can be used to create and then place geometry in the scene
@@ -21,8 +28,6 @@ export default class Geometry {// two optional paramaters
     this.watchMouse.bind(this)
     this.data = []
     // #endregion
-
-    // console.log(hreeConfig.models.aidenobj[0]['path'])
   }
 
   // load objects from custom configuration (static)
@@ -30,7 +35,7 @@ export default class Geometry {// two optional paramaters
     for (let modelName in threeConfig.models) {
       // load obj via local objloader instance
       let geometryInstance = new Geometry(this._scene)
-      geometryInstance.objLoader.load( threeConfig.models[modelName][0]['path'],
+      geometryInstance.objLoader.load(threeConfig.models[modelName][0]['path'],
         (geometry) => {
           // configure materials //TODO: abstract material creation from threeconfig
           let material, fx
@@ -39,7 +44,7 @@ export default class Geometry {// two optional paramaters
             let materialProps = materialConfig[0]['props'][0]
             // fx = materialConfig[0]['props'][1].fx
             if (materialProps.envMap) {
-              materialProps.envMap = new CubeTextureLoader().load([materialProps.envMap, materialProps.envMap, materialProps.envMap, materialProps.envMap, materialProps.envMap, materialProps.envMap])
+              materialProps.envMap = new CubeTextureLoader().load([materialProps.envMap, materialProps.envMap, materialProps.envMap, materialProps.envMap, materialProps.envMap, materialProps.envMap].map((fileName) => texturePath + fileName))
               materialProps.envMap.minFilter = LinearFilter
             }
             switch (materialConfig[0]['type']) {
@@ -67,23 +72,6 @@ export default class Geometry {// two optional paramaters
               childMesh.name = modelName
               // check for fx on object and append them to material
               // console.log(childMesh.geometry)
-
-              // let effect = fx ? new fx(childMesh.children[0], this._scene, this.interactionHandler, childMesh.position.count / 3) : console.log('no fx for object')
-
-              // get number of faces hasOwnProperty
-              // geometryInstance.numFaces = c .attributes.position.count / 3
-
-              // get faces data and refrences to use with effects, further data is in children of the child mesh
-              // console.log(childMesh)
-              // let geoData = [];
-              // if (childMesh.children.length > 0) {
-              //   for (let i = 0; i < childMesh.children.length; ++i) {
-              //     let grandChild = childMesh.children[i]
-              //     //data from grand child geometry
-              //     geoData.push([grandChild.name, grandChild.geometry.attributes.position.count / 3])
-              //   }
-              // }
-              // geometryInstance.data = geoData;
             })
           }
           geometryInstance.object = geometry
@@ -98,7 +86,7 @@ export default class Geometry {// two optional paramaters
         () => {},
         // on error event
         (err) => {
-          console.error('obj loading failed: ' + err + ' with path:' +  threeConfig.models[modelName][0]['path'] + ' at directory ' + (basename(__dirname) + basename(__filename, '.js')))
+          console.error('obj loading failed: ' + err + ' with path:' + modelPath + threeConfig.models[modelName][0]['path'] + ' at directory ' + (basename(__dirname) + basename(__filename, '.js')))
         })
     }
   }

@@ -19,7 +19,7 @@ export default () => (
       <div className="hero-header">
         <div className="headline">{data.site.siteMetadata.home.title}</div>
         <div className="primary-content">
-          <p>{data.site.siteMetadata.home.description}</p>
+          <h3>{data.site.siteMetadata.home.description}</h3>
         </div>
         <Link to='/contact' className="button -primary">Get in touch &rarr;</Link>
       </div>
