@@ -4,7 +4,6 @@ import threeConfig from './js/config/threeConfig'
 // ANIMATE ON SCROLL
 import * as AOS from 'aos'
 import 'aos/dist/aos.css'
-import contentConfig from '../../../static/admin/contentConfig'
 // import ExperienceManger from './js/components/experiencemanager/experiencemanager'
 // import { MainVR } from './js/mainVR'
 
@@ -32,7 +31,7 @@ const threeCanvas = () => {
 
   // initialize AOS
   AOS.init({
-    duration: contentConfig.technical.AOS.animDuration
+    duration: 1200
   })
   // #region handle sizing for the pages sections (will be reconfigured when the window resizes)
   let sections = [

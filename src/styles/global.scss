@@ -157,7 +157,8 @@ h1 {
 //#endregion text sizing (golden ratio)
 
 $panel-offset: 15%;
-
+$standard-margin: 25px;
+$section-margin: 23vh;
 // #region custom properties
 $corner:10px;
 $border:1px solid rgba(255, 255, 255, .1);
@@ -181,6 +182,14 @@ $border:1px solid rgba(255, 255, 255, .1);
   border: 4px solid red;
 }
 
+@mixin verticalText {
+  text-orientation: sideways;
+  -webkit-text-orientation: sideways;
+  writing-mode: vertical-lr;
+  -webkit-writing-mode: vertical-lr;
+  -ms-writing-mode: vertical-lr;
+}
+
 // #endregion custom properties
 
 // #region custom browser styling
@@ -201,17 +210,18 @@ body {
   color: $primary-text-color;
   margin: 0;
   padding: 0;
+  scroll-behavior: smooth;
 }
 
 * {
-  margin-top: 0
+  margin-top: 0;
+  box-sizing: border-box;
 }
 
 /* System Fonts as used by Medium and WordPress */
 body {
   font-family: brown-regular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   background-color: $secondary-color;
-  // border-top: 10px solid $primary-color;
 }
 
 a {
@@ -231,7 +241,6 @@ a {
   // border: 2px solid red;
   left: $panel-offset;
   width: 70%;
-  box-sizing: border-box; //size this width appropriately
   // width: calc($panel-offset+$panel-offset - 100%);
   // max-width: 1140px;
   margin: 0 auto;
@@ -269,11 +278,11 @@ a {
   justify-content: space-between;
   padding: 20px 0;
   // background: ;
+  // position: absolute;
   display: none;
+  visibility: hidden;
   margin-bottom: 32px;
   align-items: center;
-  @include testBounds();
-
 }
 
 .site-title a {
@@ -283,11 +292,11 @@ a {
   text-transform: uppercase;
 }
 
+//main message
 .hero-header {
-  margin-top: 20%;
-  padding: 0 0 64px;
+  padding: 30vh 0;
   max-width: 980px;
-
+  border: none;
 }
 
 .headline {
@@ -515,6 +524,128 @@ a {
 
 //#region new styles
 
+section {
+  border-top: $border;
+  margin-bottom: $section-margin;
+
+  & .section__header {
+    width: 100%;
+    display: flex;
+    flex-basis: content;
+    justify-content: space-between;
+  }
+
+  & .section__grid {
+    color: $secondary-color;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 32px;
+    height: 5%;
+
+    & .section__grid__card {
+      position: relative;
+      @include borderRadius1();
+      border: $border;
+      display: grid;
+      border: $border;
+      overflow: hidden;
+
+
+      & .card__lid {
+        &::before {
+          content: '';
+          left: 0px;
+          top: 0px;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: white;
+          z-index: -1;
+
+          &:hover {
+            @include animation2();
+            width: 0%;
+          }
+        }
+
+
+        z-index: 1;
+        padding: $standard-margin;
+        right: 0px;
+
+        & .title {
+          width: 80%;
+          margin-bottom: $standard-margin;
+        }
+
+        & .catagory {
+          @include verticalText();
+          position: absolute;
+          text-align: left;
+          padding: 3.5% 4%;
+          color: $primary-text-color;
+          background: $secondary-color;
+          @include borderRadius1();
+          border: 1px solid $primary-text-color;
+          width: 15%;
+          right: -$standard-margin;
+          top: -1px;
+          height: 105%;
+        }
+
+        & .description {
+          width: 70%;
+          margin-bottom: $standard-margin+$standard-margin+$standard-margin;
+
+        }
+
+        & .cta {
+          & p {
+            color: $secondary-color;
+          }
+
+          position: absolute;
+          width: 30%;
+          height: 15%;
+          display: flex;
+          justify-content: space-between;
+          flex-direction: row;
+          bottom: 0px;
+          left: 0px;
+          padding: 2%;
+          line-height: 100%;
+          border-top: 1px solid $secondary-color;
+        }
+      }
+
+      & .preview {
+        position: absolute;
+        z-index: -1;
+
+        & video {
+          background-size: cover;
+          height: 100%;
+          width: 100%;
+        }
+
+        & .sketchfab-embed-wrapper {
+          position: relative;
+          height: 100%;
+
+          & iframe {
+            position: absolute;
+            left: 10%;
+            top: 5%;
+            width: 84.5%;
+            height: 70%;
+          }
+        }
+
+      }
+    }
+  }
+}
+
 #canvas {
   z-index: 0;
   position: absolute;
@@ -533,11 +664,8 @@ a {
 .panel {
 
   position: absolute;
-  // height: 100%;
-  height: 1000vh;
+  height: 100%;
   z-index: 2;
-  box-sizing: border-box;
-  padding: 1%;
   // width: 206.96px;
   width: $panel-offset;
   background: $secondary-color;
@@ -550,6 +678,7 @@ a {
   }
 
   &.right {
+    padding: 1%;
     border-left: $border;
     right: 0px
   }
@@ -590,12 +719,11 @@ input[name="ellipses"] {
   //desktop navigation bar
   @include media-breakpoint-up(lg) {
     position: fixed;
-    // @include testBounds();
     width: 15%;
 
     & .ellipses__text {
       position: relative;
-      margin: 100% auto auto auto;
+      margin: 30vh auto auto auto;
       text-align: center;
       color: $third-text-color;
     }
@@ -603,8 +731,7 @@ input[name="ellipses"] {
     color: $secondary-text-color;
 
     #slider {
-      box-sizing: border-box;
-      padding: .5%;
+      padding: 10% .5%;
       position: relative;
       margin: auto;
       display: flex;
@@ -678,7 +805,6 @@ input[name="ellipses"] {
   position: sticky;
   top: 44px;
   width: 100%;
-  box-sizing: border-box;
   padding: 0% 15%;
   display: flex;
   justify-content: space-between;
@@ -886,7 +1012,6 @@ input[name="ellipses"] {
 
   & div {
     @include media-breakpoint-up(lg) {
-      box-sizing: border-box;
       display: block;
       position: absolute;
       width: 13rem;
@@ -901,7 +1026,6 @@ input[name="ellipses"] {
     }
 
     @include media-breakpoint-down(md) {
-      box-sizing: border-box;
       display: block;
       position: absolute;
       width: 50rem;

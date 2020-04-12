@@ -16,13 +16,13 @@ export default () => (
       }
     `}
     render={data => (
-      <div className="hero-header">
+      <section className="hero-header" id="main">
         <div className="headline">{data.site.siteMetadata.home.title}</div>
         <div className="primary-content">
           <h3>{data.site.siteMetadata.home.description}</h3>
         </div>
         <Link to='/contact' className="button -primary">Get in touch &rarr;</Link>
-      </div>
+      </section>
     )}
   />
 )
