@@ -4,6 +4,7 @@ import * as ReactDom from "react-dom"
 import {StaticQuery,Link, graphql } from "gatsby"
 
 //TODO: add a contentID that refs a blog article, or find a better workaround here
+//TODO: dont dangerously set inner html to avoid injeciton vunerabilities, write a script to pre-process it in nodejs rather than in react
 const SectionBuilder = () =>
 {
 return(
@@ -35,8 +36,8 @@ return(
                   description
                 }
                 contact {
-                  phone
-                  email
+                  title
+                  value
                 }
               }
             }
@@ -76,8 +77,8 @@ const {title,description,model,catagory,mediaUrl,postPath} = card;
 return(
 <article className="section__grid__card">
   <div className="card__lid">
-    <h2 className="title">{title}</h2>
-    <h3 className="description">{description}</h3>
+    <h2 className="title" attribute="title">{title}</h2>
+    <h3 className="description" attribute="description">{description}</h3>
     <h3 className="catagory">{catagory}</h3>
      <Link to={postPath}>
         <div className="cta">
@@ -107,9 +108,9 @@ const Skills = ({data}) => (
 const {title,description,summaryPoints} = card;
 return(
 <article className="section__grid__card">
-  <div className="card__lid">
-    <h2 className="title">{title}</h2>
-    <h3 className="description">{description}</h3>
+  <div className="card">
+    <h2 className="title" attribute="title">{title}</h2>
+    <h3 className="description" attribute="description" dangerouslySetInnerHTML={{ __html: description }}/>
     <ul>
     {summaryPoints.map((point)=>(
     <li className="summary__point">{point}</li>
@@ -123,28 +124,30 @@ return(
 )
 
 
-const About = ({data}) =>(
+const About = ({data}) =>{
+return(
 <div className="section__grid">
 {/**build cards from data */}
-{Object.keys(data).map((card)=>{
-  const {title,description,mediaUrl} = data[card];
-  return (
+  {data.map((card)=>{
+  const {title,description,mediaUrl} = data;//we are receiving an object not an array like the others, build two cards
+  console.log(data);
+  return(
   <article className="section__grid__card">
-      {mediaUrl && (
+      {mediaUrl && (//one card for image
         <img src={mediaUrl}/>
-      )||(
-        <div className="card__lid">
-          <h2 className="title">{title}</h2>
-          <h3 className="description">{description}</h3>
+      )||(//one card for details
+        <div className="card">
+          <h2 className="title" attribute="title">{title}</h2>
+          <h3 className="description" attribute="description" dangerouslySetInnerHTML={{ __html: description }}/>
         </div>
       )
       }
     </article>
-  )
-})
+  )})}
 }
 </div>
 )
+}
 
 
 
@@ -152,12 +155,13 @@ const Services = ({data}) => (
 <div className="section__grid">
 {/**build cards from data */}
 {data.map((card)=>{
-const {title,description} = card;
+const {title , description} = card;
+console.warn(card && description)
 return(
 <article className="section__grid__card">
-  <div className="card__lid">
-    <h2 className="title">{title}</h2>
-    <h3 className="description">{description}</h3>
+  <div className="card">
+    <h2 className="title" attribute="title">{title}</h2>
+    <h3 className="description" attribute="description">{description}</h3>
   </div>
 </article>
 )
@@ -169,13 +173,13 @@ return(
 const Contact = ({data}) => (
 <div className="section__grid">
 {/**build cards from data */}
-{Object.keys(data).map((card)=>{
-const {phone,email} = data[card];
+{data.map((card)=>{
+const {title,value} = card;
 return(
 <article className="section__grid__card">
-  <div className="card__lid">
-    <h2 className="title">{card}</h2>
-    <h3 className="description">{phone?phone:email}</h3>
+  <div className="card">
+    <h2 className="title" attribute="title">{title}</h2>
+    <h3 className="description" attribute="description">{value}</h3>
   </div>
 </article>
 )

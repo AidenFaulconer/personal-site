@@ -145,7 +145,7 @@ const IndexPage = ({
 
   //componentDidMount
   useEffect(()=>{
-    // window.onresize = function () { handleWindowResize() }//recalculare sections
+    // window.onresize = ()=> handleWindowResize()//recalculare sections
     // setCurPosition([
     // '',//prev
     // ''//new

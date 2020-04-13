@@ -5,7 +5,7 @@ const PostLink = ({ post }) => (
   <article className="card ">
     <Link to={post.frontmatter.path}>
       {!!post.frontmatter.thumbnail && (
-        <img src={post.frontmatter.thumbnail} alt={post.frontmatter.title + "- Featured Shot"} />
+        <img loading='lazy' src={post.frontmatter.thumbnail} alt={post.frontmatter.title + "- Featured Shot"} />
       )}
     </Link>
     <header>

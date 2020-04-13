@@ -1,5 +1,5 @@
+//use arrays, the logic handling this uses .map which wont work on objects
 module.exports = {
-
   "projects":
     [{
       "model": false,
@@ -42,8 +42,8 @@ module.exports = {
       "mediaUrl": "https://sketchfab.com/models/ea71b4a0e59443529d5cfb082953059b/embed",
       "catagory": "3d Model",
       "description": "3d mech bust made in z-brush"
-    }]
-    ,
+  }
+  ],
   "skills": [
     {
       "title": "TEAMWORK",
@@ -60,11 +60,11 @@ module.exports = {
       "title": "LEARNING",
       "description": `Im passionite about technology, my actions speak for themselves. I have over <a
       href = 'https://www.linkedin.com/in/aiden-faulconer/' > 20 online course
-      certifications < /a> in IT,
+      certifications </a> in IT,
       fully competent in more than 3 programming languages,
       and perform daily acts to imporve my
       development & design skills.I also have
-      multiple gold badges on < a href = 'https://www.hackerrank.com/aidenf091?hr_r=1' > Hackerrank < /a>. Finally, i'm
+      multiple gold badges on <a href='https://www.hackerrank.com/aidenf091?hr_r=1'> Hackerrank </a>. Finally, i'm
       nearing my bachelors degree in software engineering proving my commitment to learning,
       and providing a
       strong university grade education in IT.
@@ -133,24 +133,41 @@ module.exports = {
   "services": [
     {
       "title": "3D Graphics",
-      "description": ""
+      "description": `Having experience doing 3d graphics programming from both a low and high level, I will work effortlessy on your game/3d product and pick up the pace quickly.`
     },
     {
       "title": "Design",
-      "description": ""
+      "description": `My design services range from UI/UX, to simple logos and brand strategies for your organization. I bring a technical background which will help guide UI/UX design decisions.`
     },
     {
       "title": "Full-Stack Development",
-      "description": ""
+      "description": `I've been a development lead, and a participant in many exciting software projects. I'll bring my expeirence to help formulate the requirements for your projects, and deploy them in your environments while providing documentation in-and-out of the codebase. Knowing such a wide variety of back-end and front-end technologies/frameworks means ill deffinitly adapt to your technicals needs on your project.`
     }
   ],
-  "about": {
-    "title": "",
-    "description": "",
-    "mediaUrl": ""
-  },
-  "contact": {
-    "phone": "+61 0475565709",
-    "email": "aidenf09@yahoo.com"
-  }
+  "about": [{
+    "title": "BACKGROUND",
+    "description": `Before graduating University I was contracted for the Australian War Memorial. I created 3D/VR experiences for the 1.14 million visitors to Nations Capital.
+<pre></pre>
+Currently I am the Lead Software developer/designer for Mentoras, where I am creating a marketplace for consultants and mentors
+<pre></pre>
+In my free time i’m a freelance designer and software developer. And a vfx artist currently assembling a show-reel`},
+{"mediaUrl": ""}],
+  "contact": [
+    {
+    "title":"phone",
+    "value": "+61 0475565709"
+    },
+    {
+    "title": "email",
+    "value": "aidenf09@yahoo.com"
+    }
+  ],
+  "description": [
+  "UX DESIGNER",
+  "UI DEVELOPER",
+  "3D DESIGNER",
+  "SOFTWARE DEVELOPER",
+  "BUSINESS DEVELOPER",
+  "LETS CREATE TOGETHER...",
+  ]
 }

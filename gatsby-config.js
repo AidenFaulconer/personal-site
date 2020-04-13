@@ -18,7 +18,7 @@ module.exports = {
     siteUrl: `https://delog-w3layouts.netlify.com/`,
     home: {
       title: `AIDEN FAULCONER`,
-      description: `I have been specifically designed to become a digital home for designers and developers, help them build amazing professional looking websites with ease. You don't have to worry about nitty gritty of web hosting services to run a blog and yet take full advantage of CMS to manage content :)`,
+      description: `null`,//deffered to array in mainpagecontent
     },
     /* injected configuration for the main pages content*/
     mainPageContent: require('./static/admin/contentConfig.js'),

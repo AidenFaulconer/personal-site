@@ -249,10 +249,10 @@ export default {
   },
   fog: {
     isFog: true,
-    color: '#100A29',
-    density: 1,
+    color: '#201452',//was #100A29
+    density: 3,
     near: 0.10008,
-    far: 100
+    far: 120
   },
   camera: {
     orthographic: false,

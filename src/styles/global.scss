@@ -8,6 +8,14 @@ $primary-color: #8CF2D9;
 $primary-text-color: #fff;
 $secondary-text-color: rgba(255, 255, 255, 0.6);
 $third-text-color: rgba(255, 255, 255, 0.1);
+$gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
+
+@mixin reverseColor {
+  /* This value is the OPPOSITE color of our background */
+  color: $primary-text-color;
+  mix-blend-mode: difference;
+}
+
 // #endregion custom page colors
 
 //#region custom fonts to include
@@ -52,11 +60,11 @@ $third-text-color: rgba(255, 255, 255, 0.1);
 }
 
 @mixin animation3 {
-  transition: .4s cubic-bezier(0.23, 1, 0.320, 1);
-  -webkit-transition: .4s cubic-bezier(0.23, 1, 0.320, 1);
-  -moz-transition: .4s cubic-bezier(0.23, 1, 0.320, 1);
-  -ms-transition: .4s cubic-bezier(0.23, 1, 0.320, 1);
-  -o-transition: .4s cubic-bezier(0.23, 1, 0.320, 1);
+  transition: all .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -webkit-transition: all .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -moz-transition: all .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -ms-transition: all .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -o-transition: all .4s cubic-bezier(0.23, 1, 0.320, 1);
 }
 
 @mixin animation4 {
@@ -233,6 +241,7 @@ a {
   }
 }
 
+//#region generic styles (used for all pages)
 .site-wrapper {
   font-size: $h3;
   position: absolute;
@@ -342,9 +351,23 @@ a {
   font-size: $h3;
   color: $secondary-text-color;
   margin-bottom: 32px;
-  width: 50%;
+  width: 70%;
   line-height: 1.5;
   font-weight: 300;
+
+  & .typewriter {
+    & span {
+      border-right: .05em solid;
+      animation: caret 1s steps(1) infinite;
+      -webkit-animation: caret 1s steps(1) infinite;
+    }
+
+    @keyframes caret {
+      50% {
+        border-color: transparent;
+      }
+    }
+  }
 }
 
 .post {
@@ -520,11 +543,22 @@ a {
   }
 }
 
+//#endregion generic styles (used for all pages)
 
+//#region main page styles
 
-//#region new styles
 
 section {
+
+  & a {
+    color: $primary-color;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   border-top: $border;
   margin-bottom: $section-margin;
 
@@ -551,6 +585,45 @@ section {
       overflow: hidden;
 
 
+      //#region mixins reused with different card types, should remain consistent
+      @mixin title {
+        & .title {
+          width: 80%;
+          margin-bottom: $standard-margin;
+        }
+      }
+
+      @mixin description {
+        & .description {
+          width: 70%;
+          margin-bottom: $standard-margin;
+        }
+      }
+
+      //#endregion mixins reused with different card types, should remain consistent
+
+      & .card {
+        width: 100%;
+        height: 100%;
+        background: white;
+        padding: $standard-margin;
+        @include title();
+        @include description();
+        @include animation3();
+
+        &:hover {
+          & li {
+            text-align: center;
+          }
+
+          @include animation3();
+          background: $secondary-color;
+          color: $primary-text-color;
+          border: 1px solid $primary-text-color;
+        }
+      }
+
+      //used on projects section (has hover effects)
       & .card__lid {
         &::before {
           content: '';
@@ -561,22 +634,48 @@ section {
           height: 100%;
           background: white;
           z-index: -1;
+          @include animation1();
+        }
 
-          &:hover {
-            @include animation2();
+        @include animation1();
+
+        &:hover {
+          @include animation1();
+          color: $primary-text-color;
+          cursor: pointer;
+
+          &::before {
+            @include animation1();
             width: 0%;
+            left: 0%;
+            font-size: 0px;
+          }
+
+          color: transparent;
+          // @include reverseColor();
+
+          & .title {}
+
+          & .description {
+            // display: none;
+          }
+
+          & .catagory {
+            opacity: 0%;
+            @include animation1();
+          }
+
+          & .cta {
+            display: none;
           }
         }
 
-
         z-index: 1;
         padding: $standard-margin;
+        padding-bottom: $standard-margin+$standard-margin+$standard-margin+$standard-margin; //make room for absoloutely positioned CTA
         right: 0px;
-
-        & .title {
-          width: 80%;
-          margin-bottom: $standard-margin;
-        }
+        @include description();
+        @include title();
 
         & .catagory {
           @include verticalText();
@@ -584,19 +683,14 @@ section {
           text-align: left;
           padding: 3.5% 4%;
           color: $primary-text-color;
-          background: $secondary-color;
+          background: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
           @include borderRadius1();
           border: 1px solid $primary-text-color;
           width: 15%;
-          right: -$standard-margin;
-          top: -1px;
-          height: 105%;
-        }
-
-        & .description {
-          width: 70%;
-          margin-bottom: $standard-margin+$standard-margin+$standard-margin;
-
+          right: -$standard-margin * .65;
+          top: 0px;
+          @include animation1();
+          height: 100%;
         }
 
         & .cta {
@@ -604,22 +698,25 @@ section {
             color: $secondary-color;
           }
 
+          line-height: 100%;
           position: absolute;
           width: 30%;
-          height: 15%;
+          height: $standard-margin+$standard-margin;
           display: flex;
           justify-content: space-between;
           flex-direction: row;
           bottom: 0px;
           left: 0px;
           padding: 2%;
-          line-height: 100%;
-          border-top: 1px solid $secondary-color;
+          // border-top: 1px solid $secondary-color;
+          @include lineAnimation();
+          color: $secondary-color;
         }
       }
 
       & .preview {
         position: absolute;
+        bottom: -1px;
         z-index: -1;
 
         & video {
@@ -644,6 +741,26 @@ section {
       }
     }
   }
+
+  & ul {
+    display: inline-block;
+    padding: 10%;
+  }
+
+  & li {
+    margin-bottom: $standard-margin / 2;
+    list-style-image: url('../../static/svg/arrow.svg');
+    @include animation3();
+
+    &:hover {
+      font-size: $p;
+      @include borderRadius1();
+      @include animation3();
+      font-weight: bolder;
+      border: $border;
+    }
+  }
+
 }
 
 #canvas {
@@ -662,13 +779,14 @@ section {
 }
 
 .panel {
-
   position: absolute;
-  height: 100%;
+  height: 100vh * 6.6;
   z-index: 2;
   // width: 206.96px;
+  opacity: .9;
   width: $panel-offset;
-  background: $secondary-color;
+  background: linear-gradient(0deg, #180F3E 0%, #100A29 10%);
+  // background: $secondary-color;
   // border: 2px solid red;
   // TODO: make the width adjust appropriately
 
@@ -1087,6 +1205,7 @@ input[name="ellipses"] {
 
 //#endregion new styles
 
+
 /* Portrait and Landscape */
 @media only screen and (min-width: 768px) {
   .grids {
@@ -1103,5 +1222,11 @@ input[name="ellipses"] {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 64px;
+  }
+
+  section {
+    & .section__grid {
+      & .section__grid__card {}
+    }
   }
 }
