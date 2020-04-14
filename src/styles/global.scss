@@ -85,6 +85,14 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
   -o-transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
 }
 
+@mixin animationLinear {
+  transition: linear;
+  -webkit-transition: linear;
+  -moz-transition: linear;
+  -ms-transition: linear;
+  -o-transition: linear;
+}
+
 @mixin lineAnimation {
   &:after {
     content: "";
@@ -779,8 +787,8 @@ section {
 }
 
 .panel {
-  position: absolute;
-  height: 100vh * 6.6;
+  position: fixed;
+  height: 100%;
   z-index: 2;
   // width: 206.96px;
   opacity: .9;
@@ -793,6 +801,16 @@ section {
   &.left {
     border-right: $border;
     left: 0px;
+
+    & #line-indicator {
+      position: relative;
+      pointer-events: none;
+      @include animationLinear();
+      border-right: 1px solid $primary-color;
+      height: 0%;
+      width: 100%;
+      z-index: 1;
+    }
   }
 
   &.right {

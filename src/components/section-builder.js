@@ -59,7 +59,7 @@ return(
             key={sectionName+i}
             data={data.site.siteMetadata.mainPageContent[sectionName]}
             />
-            {i === Object.keys(sections).length && console.error('sections loaded')}
+            {/** i === Object.keys(sections).length && console.error('sections loaded') */}
           </section>
           </>
         )
@@ -129,13 +129,12 @@ return(
 <div className="section__grid">
 {/**build cards from data */}
   {data.map((card)=>{
-  const {title,description,mediaUrl} = data;//we are receiving an object not an array like the others, build two cards
-  console.log(data);
+  const {title,description,mediaUrl} = card;//we are receiving an object not an array like the others, build two cards
   return(
   <article className="section__grid__card">
-      {mediaUrl && (//one card for image
+      {mediaUrl != '' && (//spawn card for image
         <img src={mediaUrl}/>
-      )||(//one card for details
+      )||(//spawn card for details
         <div className="card">
           <h2 className="title" attribute="title">{title}</h2>
           <h3 className="description" attribute="description" dangerouslySetInnerHTML={{ __html: description }}/>
@@ -156,7 +155,7 @@ const Services = ({data}) => (
 {/**build cards from data */}
 {data.map((card)=>{
 const {title , description} = card;
-console.warn(card && description)
+// console.warn(card && description)
 return(
 <article className="section__grid__card">
   <div className="card">

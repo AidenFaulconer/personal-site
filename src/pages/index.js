@@ -34,61 +34,89 @@ const ThreeComponent = () => {
 //#region Ellipse Navigation bar
 const EllipseBar = ({userAt}) => {
   //state & accompanying setter
-  const [sections,setSections] = useState([])//the initial state
-  const [curSection,setCurSection] = useState('main')//the initial state
-  //#region auto pick the current section
-  let prevPos,curPos = 0;
-    // let offset = 100;//in pixels
-  // let sectionOffsets = [
-  //   -1,
-  //   sections[0].clientHeight / 2, // its a tiny bit off, this makes the offset more correct
-  //   sections[0].clientHeight + sections[1].clientHeight - offset,
-  //   sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight - offset,
-  //   sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight + sections[3].clientHeight - offset,
-  //   sections[0].clientHeight + sections[1].clientHeight + sections[2].clientHeight + sections[3].clientHeight + sections[4].clientHeight - offset
-  // ]
-  // let lineIndicator = document.getElementById('indicator');
-  //#endregion auto pick the current section
+  const [sections,setSections] = useState([])//the initial state used in jsx
+
+  //#region local function state (not reliable for use in jsx!!!)
+  let sectionsCPY = []//the local function state NOT used in jsx
+  let ellipses = [];
+  let lineIndicator = null;
+  let offset = 0;
+  let prevPosition = 0;
+  let sectionBreakpoints = [];
+  //#endregion local function state (not reliable for use in jsx!!!)
 
   //componentDidMount
   useEffect(()=>{
+    //#region get all the sections which will be used to determine the page height
     let documentGets = document.getElementsByTagName('section');
+    //set initial section state for local functions
+    sectionsCPY = Object.keys(documentGets).map((elem) => [documentGets[elem]]);
+    //set initial section state for jsx
     setSections([
     ...sections,//prevState
-    ...Object.keys(documentGets).map((elem) => [documentGets[elem]])//newState
-    ])
-    //#region window events
-  //   window.onscroll = () => {
-  //   currPos = document.body.scrollTop;
-  //   // only check if user moves more than 20px from the last call to reduce function calls
-  //   if (curPos - prevPos > 20) {
+    ...sectionsCPY
+    ]/*newState*/)
+    //#endregion get all the sections which will be used to determine the page height
 
-  //     //update left line indicator
-  //     lineIndicator.style.height = ((sectionOffsets[i] / sectionOffsets[sectionOffsets.length - 1]) * 100) + '%'
-  //     for (let i = 0; i < sectionOffsets.length; ++i) {
-  //       if (currPos > sectionOffsets[i] || currPos2 > sectionOffsets[i]) {
-  //         ellipses[i].checked = true
-  //         // console.error('you are at: '+sections[i].id)
-  //         // console.error(sections[i])
-  //         // style line on left based on our current section divided by the total sections
-  //       } else {
-  //         sections[i].style.opacity = '0'// all elements fade into view, otherwise they fade out
-  //       }
-  //     }
-  //   }
-  //   prevPos = curPos;//set previous position to be the current (since we are done computing)
-  // }
+    //get the lineIndicator element spawned in the layout component (will update our relative position in here)
+    lineIndicator = document.getElementById('line-indicator');
+
+    //#region attatch window events
+    window.onresize = ()=> measureSections()//recalculare section heights
+    window.onscroll = () => handleCurrentPosition()//handle logic for when we scroll
     //#endregion window events
+
+    //#region call initial window events
+    measureSections();//section state not accessible in this componentDidMount function call, use the local copy instead
+    handleCurrentPosition();
+    //#end region call initial window events
   },[])
 
-  //functions modifying local data (cannot be referenced in jsx)
-  let ellipses = [];
+  //#region functions modifying local data (cannot be referenced in jsx)
   const checkEllipses = () => {
     ellipses.length<0 ? '' : ellipses = document.getElementsByName("ellipses");//if no ellipses get the ellipses (they will correspond to sections length)
     for (let i = 0; i < sections.length; ++i) {
       if (ellipses[i].checked) sections[i][0].scrollIntoView(true)//sass logic handles the checked input box for us
     }
   }
+  //calculate section lengths on a 1:1 correspondence with the sections
+  const measureSections = (s) => {//if no value passed in, default to the react state held section list
+  let newMeasurements = [0];//first breakpoint is 0!
+
+  sectionsCPY.map((element)=>element[0].clientHeight)//get all the heights (in backward order)
+  .reduce((accumulatedHeight,nextSectionHeight,i)=>{//then reduce these to create a mapping of each sections height from the top of the page
+
+  //push new measurement (first section breakpoint should be 0!)
+  newMeasurements.push((accumulatedHeight)-offset)
+
+  return (accumulatedHeight+nextSectionHeight)//keep accumulating
+  })
+
+  // console.warn(`${[...newMeasurements]} is the new array of measurements`)
+  //set new measurements
+
+  sectionBreakpoints = newMeasurements//set the new measurements on this components state so it forces an update of the UI
+  }
+
+  const handleCurrentPosition = () => {
+    let thisPosition = window.scrollY
+        let lineIndicatorHeight = ((thisPosition/(sectionBreakpoints[sectionBreakpoints.length-1]+900) * 100));
+        (lineIndicatorHeight > 100) ? '' : lineIndicator.style.height = lineIndicatorHeight + '%';
+        // console.warn(lineIndicatorHeight);
+    if (thisPosition - prevPosition > 10 || Math.abs(prevPosition - thisPosition) > 10) {//we only handle every 30pixels we scroll down OR up to reduce overhead
+      for (let i = 0;i<=sectionBreakpoints.length;++i){//increment ahead since we start from 0 on sectionBreakpoints
+        //#region handle a hit breakpoint
+        if(thisPosition>=sectionBreakpoints[i] || thisPosition-sectionBreakpoints[i] > 0){//we hit a breakpoint
+        //get percentage of page scrolled through and set the height to reflect that
+        checkEllipses();ellipses[i].checked = true;//update then check the current one
+        }
+        //#endregion handle a hit breakpoint
+      }
+    }
+    prevPosition = thisPosition;//now this position is the previous one
+  }
+  //#endregion functions modifying local data (cannot be referenced in jsx)
+
 
 return (
 <div className='ellipses-bar' id='ellipses-bar'>
@@ -110,7 +138,8 @@ return (
     }
       </div>
   </div>
-)}
+)
+}
 //#endregion Ellipse Navigation bar
 
 //#region Social media links (on the right)
@@ -140,16 +169,8 @@ const IndexPage = ({
   const Posts = edges
     .filter((edge) => !!edge.node.frontmatter.date) // You can filter your posts based on some criteria
     .map((edge) => <PostLink key={edge.node.id} post={edge.node} />);
-
-  const [curPosition,setCurPosition] = useState(0)//creates currPosition and the setstate function
-
   //componentDidMount
   useEffect(()=>{
-    // window.onresize = ()=> handleWindowResize()//recalculare sections
-    // setCurPosition([
-    // '',//prev
-    // ''//new
-    // ])
   },[])
 
   return (
@@ -182,15 +203,15 @@ const IndexPage = ({
       {/**main page left interactive panel*/}
       <div className="panel left">
         <img src="./svg/logo.svg" style={{margin:'10% 32%',position:'absolute', width:'30%'}} loading='lazy'viewBox="0 0 10 10"/>
-        <EllipseBar
-          userAt={curPosition}
-        />
+        <EllipseBar/>
+        <div id='line-indicator' className='line-indicator'/>
       </div>
 
     </>
   );
 };
-export default IndexPage;
+
+export default IndexPage
 
 export const pageQuery = graphql`
   query indexPageQuery {

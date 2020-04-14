@@ -147,11 +147,17 @@ module.exports = {
   "about": [{
     "title": "BACKGROUND",
     "description": `Before graduating University I was contracted for the Australian War Memorial. I created 3D/VR experiences for the 1.14 million visitors to Nations Capital.
-<pre></pre>
-Currently I am the Lead Software developer/designer for Mentoras, where I am creating a marketplace for consultants and mentors
-<pre></pre>
-In my free time i’m a freelance designer and software developer. And a vfx artist currently assembling a show-reel`},
-{"mediaUrl": ""}],
+    <pre></pre>
+    Currently I am the Lead Software developer/designer for Mentoras, where I am creating a marketplace for consultants and mentors
+    <pre></pre>
+    In my free time i’m a freelance designer and software developer. And a vfx artist currently assembling a show-reel`,
+    "mediaUrl": ""
+    },
+    {
+    "title":"photo of me",
+    "description": "photo of me",
+    "mediaUrl": "https://i.imgur.com/9oRAGBj.jpg"
+  }],
   "contact": [
     {
     "title":"phone",
@@ -167,7 +173,6 @@ In my free time i’m a freelance designer and software developer. And a vfx art
   "UI DEVELOPER",
   "3D DESIGNER",
   "SOFTWARE DEVELOPER",
-  "BUSINESS DEVELOPER",
   "LETS CREATE TOGETHER...",
   ]
 }
