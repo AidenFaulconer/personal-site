@@ -100,6 +100,8 @@ class View {
     // camera controls (camera configuration happens in here)
     this._controls = new Controls(this._camera, this._renderer.domElement, [], this.scene)
     this._updateCallbacks.push(this._controls.update.bind(this._controls))
+    if(this._updateCallbacks.length> 3) this._updateCallbacks = [];
+
     // #endregion
 
     // post processing

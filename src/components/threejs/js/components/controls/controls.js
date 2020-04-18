@@ -117,7 +117,5 @@ export class Controls {
   update () {
     if (this.orientationEnabled) this._orientation.update()
     // console.error(this._camera.position)
-
-    // console.error(this._camera.position)
   }
 }

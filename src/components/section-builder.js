@@ -2,6 +2,8 @@
 import React from "react"
 import * as ReactDom from "react-dom"
 import {StaticQuery,Link, graphql } from "gatsby"
+import SVG from 'react-inlinesvg';
+import ContentViewer from "./content-viewer";
 
 //TODO: add a contentID that refs a blog article, or find a better workaround here
 //TODO: dont dangerously set inner html to avoid injeciton vunerabilities, write a script to pre-process it in nodejs rather than in react
@@ -46,7 +48,7 @@ return(
     `}
     render={data => (
     Object.keys(sections).map((sectionName,i)=>{
-        const SectionComponent = sections[sectionName]
+        const SectionComponent = sections[sectionName]//get tangible reference for react to dynamically generate a component from
         return(
         <>
           <section id={sectionName} key={sectionName+i}>
@@ -54,11 +56,12 @@ return(
               <h1 data-aos="fade-up">{sectionName.toUpperCase()}</h1>
               <h1 data-aos="fade-up">{++i}</h1>
             </div>
-
+            <div className="section__wrapper">
             <SectionComponent
             key={sectionName+i}
             data={data.site.siteMetadata.mainPageContent[sectionName]}
             />
+            </div>
             {/** i === Object.keys(sections).length && console.error('sections loaded') */}
           </section>
           </>
@@ -70,36 +73,38 @@ return(
 )};
 
 const Projects = ({data}) => (
-<div className="section__grid">
+<div className="section__grid" >
 {/**build cards from data */}
 {data.map((card)=>{
 const {title,description,model,catagory,mediaUrl,postPath} = card;
 return(
-<article className="section__grid__card">
-  <div className="card__lid">
+<article className="section__grid__projects">
+  <div className="projects__card">
+
     <h2 className="title" attribute="title">{title}</h2>
     <h3 className="description" attribute="description">{description}</h3>
     <h3 className="catagory">{catagory}</h3>
-     <Link to={postPath}>
-        <div className="cta">
-          <p>see more</p>
-          <img src="./svg/arrow.svg"/>
-        </div>
-     </Link>
-  </div>
+
+    <Link to={postPath}>
+      <div className="cta">
+        <p>see more</p>
+      </div>
+    </Link>
+
   <div className="preview">
-  {model && (<></>) || (
-  <video className="video-fluid" autoPlay loop muted playsInline>
-    <source loading='lazy' src={mediaUrl} type="video/mp4" />
-  </video>
-  )}
+    {model && (<></>) || (
+    <video className="video-fluid" autoPlay loop muted playsInline>
+      <source loading='lazy' src={mediaUrl} type="video/mp4" />
+    </video>
+    )}
+  </div>
+
   </div>
 </article>
 )
 })}
 </div>
 )
-
 
 const Skills = ({data}) => (
 <div className="section__grid">
@@ -122,7 +127,6 @@ return(
 })}
 </div>
 )
-
 
 const About = ({data}) =>{
 return(
@@ -148,8 +152,6 @@ return(
 )
 }
 
-
-
 const Services = ({data}) => (
 <div className="section__grid">
 {/**build cards from data */}
@@ -167,7 +169,6 @@ return(
 })}
 </div>
 )
-
 
 const Contact = ({data}) => (
 <div className="section__grid">
@@ -194,31 +195,5 @@ about: About,
 services: Services,
 contact: Contact
 }
-
-
-// const Skills = () =>(
-// <StaticQuery
-//      query={graphql`
-//       query SkillsQuery {
-//           site {
-//             siteMetadata {
-//               mainPageContent {
-//                 skills {
-//                   title
-//                   catagory
-//                   summaryPoins
-//                 }
-//               }
-//             }
-//           }
-//         }
-//     `}
-//     render={data => (
-//     <>
-//     {JSON.stringify(data)}
-//     </>
-//     )}
-//   />
-// );
 
 export default SectionBuilder;

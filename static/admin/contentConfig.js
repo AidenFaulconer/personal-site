@@ -1,7 +1,8 @@
 //use arrays, the logic handling this uses .map which wont work on objects
 module.exports = {
   "projects":
-    [{
+    [
+    {
       "model": false,
       "title": "Movement Recognition in VR",
       "mediaUrl": "https://i.imgur.com/t55NQ7m.mp4",
@@ -144,7 +145,8 @@ module.exports = {
       "description": `I've been a development lead, and a participant in many exciting software projects. I'll bring my expeirence to help formulate the requirements for your projects, and deploy them in your environments while providing documentation in-and-out of the codebase. Knowing such a wide variety of back-end and front-end technologies/frameworks means ill deffinitly adapt to your technicals needs on your project.`
     }
   ],
-  "about": [{
+  "about": [
+    {
     "title": "BACKGROUND",
     "description": `Before graduating University I was contracted for the Australian War Memorial. I created 3D/VR experiences for the 1.14 million visitors to Nations Capital.
     <pre></pre>
@@ -157,7 +159,8 @@ module.exports = {
     "title":"photo of me",
     "description": "photo of me",
     "mediaUrl": "https://i.imgur.com/9oRAGBj.jpg"
-  }],
+    }
+  ],
   "contact": [
     {
     "title":"phone",
@@ -169,10 +172,10 @@ module.exports = {
     }
   ],
   "description": [
-  "UX DESIGNER",
-  "UI DEVELOPER",
-  "3D DESIGNER",
-  "SOFTWARE DEVELOPER",
-  "LETS CREATE TOGETHER...",
+  "UX designer",
+  "UI developer",
+  "3D designer",
+  "Software Developer",
+  "Lets boost your online presence",
   ]
 }

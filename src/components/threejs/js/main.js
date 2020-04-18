@@ -31,7 +31,6 @@ import Geometry from './components/gameobject/geometry'
 // data for initial scene
 import threeConfig from './config/threeConfig.js'
 import Lighting from './components/lighting/lighting'
-
 // the view class contains the camera, render pipeline, and scene... TODO: abstract scene seperatly
 // TODO: Go through code and add naming convention __property for private object refrences
 class Main extends View {
@@ -144,11 +143,11 @@ class Main extends View {
     if (threeConfig.isMobile) {
       setTimeout(() => {
         this._objectPool.getPool()[0].traverse((mesh) => {
-          console.log(mesh)
+          // console.log(mesh)
           let thisMesh = mesh
+          let rad = 0;
           // new Object3D().position
-          this._updateCallbacks.push(() => thisMesh.rotation.y > 18 ? thisMesh.rotation.y = 0 : thisMesh.rotation.y += 0.001)
-          // this.camera.lookAt({ ...thisMesh.position })
+          this._updateCallbacks.push(() => {(rad>.001)? rad-=0.0001 : rad+=0.00001;thisMesh.rotation.y+=rad})
         })
       }, 2000)
     }

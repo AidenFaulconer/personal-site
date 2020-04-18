@@ -1,9 +1,6 @@
-//#region sass imports
-@import '../../node_modules/bootstrap-scss/mixins';
-//#endregion sass imports
-
 // #region custom page colors
 $secondary-color: #100A29;
+$foregroung-color: #080515;
 $primary-color: #8CF2D9;
 $primary-text-color: #fff;
 $secondary-text-color: rgba(255, 255, 255, 0.6);
@@ -11,12 +8,46 @@ $third-text-color: rgba(255, 255, 255, 0.1);
 $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 
 @mixin reverseColor {
-  /* This value is the OPPOSITE color of our background */
+  /*ThisvalueistheOPPOSITEcolorofourbackground*/
   color: $primary-text-color;
-  mix-blend-mode: difference;
+  // mix-blend-mode:;
+
+}
+
+@mixin grayscale {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
 }
 
 // #endregion custom page colors
+
+//#region customize scrollbar
+@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
+
+  // For Google Chrome
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $foreground-color;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $background-color;
+  }
+
+  // For Internet Explorer
+  & {
+    scrollbar-face-color: $foreground-color;
+    scrollbar-track-color: $background-color;
+  }
+}
+
+//#endregion customize scrollbar
+
+
 
 //#region custom fonts to include
 @font-face {
@@ -41,6 +72,33 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 }
 
 //#endregion custom fonts to include
+
+//#region z-index layers (help organize the positioning of overlapping elements
+@mixin layer0 {
+  // z-index: 0;
+}
+
+@mixin layer-1 {
+  // z-index: -1;
+}
+
+@mixin layer-2 {
+  // z-index: -2;
+}
+
+@mixin layer1 {
+  // z-index: 1;
+}
+
+@mixin layer2 {
+  // z-index: 2;
+}
+
+@mixin layer3 {
+  // z-index: 3;
+}
+
+//#endregion z-index layers (help organize the positioning of overlapping elements
 
 //#region animation mixins @include name to use them
 @mixin animation1 {
@@ -117,12 +175,109 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
   }
 }
 
+@mixin logoAnimaiton {
+
+  //TODO make a logo animation
+  .logo-part {
+    animation: moveIn 5s ease alternate infinite;
+    -webkit-animation: moveIn 5s ease alternate infinite;
+
+    &:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    &:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+
+    &:nth-child(5) {
+      animation-delay: 0.4s;
+    }
+  }
+
+  @keyframes moveIn {
+    90% {
+      transform: scale(1.0);
+    }
+
+    100% {
+      transform: scale(1.1);
+    }
+  }
+}
+
+
+@mixin hoverFillBottom {
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0%;
+    bottom: 0px;
+    z-index: -1;
+    background: $third-text-color;
+    @include animation1();
+  }
+
+  &:hover {
+    &::after {
+      height: 100%;
+      @include animation1();
+    }
+  }
+}
+
+@mixin hoverFillLeft {
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
+    background: $third-text-color;
+    @include animation1();
+  }
+
+  &:hover {
+    &::after {
+      width: 100%;
+      @include animation1();
+    }
+  }
+}
+
 //#endregion animation mixins
+@mixin shadow1 {
+  box-shadow: 0px 0px 10px rgba($foregroung-color, $alpha: .15);
+}
+
+//#region sass imports
+@import '../../node_modules/bootstrap-scss/mixins';
+
+//#region hamburger menu styling and importation
+$hamburger-layer-color: $primary-color;
+$hamburger-layer-width: 3.5em; //WAS 60PX
+$hamburger-layer-height: .4em; //WAS 15PX
+$hamburger-layer-spacing: .7em; //WAS 8PX
+$hamburger-types: (stand-r); //only imprt this one to reduce css bundle size
+@import '../../node_modules/hamburgers/_sass/hamburgers/hamburgers.scss';
+//#endregion hamburger menu styling and importation
+
+
+//#endregion sass imports
 
 // #region custom breakpoints
 $grid-breakpoints: (s: 0,
-  sm: 576px,
-  md: 768px,
+  sm: 576px, //standard for phones
+  md: 768px, //standard for ipad
   lg: 992px,
   xl: 1000px) !default;
 
@@ -172,12 +327,22 @@ h1 {
 
 //#endregion text sizing (golden ratio)
 
+//#region desktop element dimension properties
 $panel-offset: 15%;
 $standard-margin: 25px;
 $section-margin: 23vh;
+//#endregion desktop element dimension properties
+
+//#region mobile element dimension properties
+$mobile-panel-offset: 15%;
+$mobile-standard-margin: 10px;
+$mobile-section-margin: 12vh;
+//#endregion mobile element dimension properties
+
 // #region custom properties
 $corner:10px;
 $border:1px solid rgba(255, 255, 255, .1);
+$border2:1px solid rgba(0, 0, 0, .1);
 
 @mixin borderRadius1 {
   -webkit-border-radius: $corner;
@@ -185,6 +350,7 @@ $border:1px solid rgba(255, 255, 255, .1);
   -ms-border-radius: $corner;
   -o-border-radius: $corner;
 }
+
 
 @mixin borderRadius100 {
   border-radius: 100%;
@@ -204,6 +370,20 @@ $border:1px solid rgba(255, 255, 255, .1);
   writing-mode: vertical-lr;
   -webkit-writing-mode: vertical-lr;
   -ms-writing-mode: vertical-lr;
+}
+
+@mixin rotate90 {
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+}
+
+//common usage, used to fill the parent element container
+@mixin occupyContainer {
+  width: 100%;
+  height: 100%;
 }
 
 // #endregion custom properties
@@ -227,6 +407,18 @@ body {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
+  font-size: 1em;
+
+  //tablet
+  @include media-breakpoint-between(sm, lg) {
+
+    font-size: .9em; //drop font size by 25%
+  }
+
+  //mobile
+  @include media-breakpoint-down(sm) {
+    font-size: .85em; //drop font size by 25%
+  }
 }
 
 * {
@@ -237,7 +429,7 @@ body {
 /* System Fonts as used by Medium and WordPress */
 body {
   font-family: brown-regular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  background-color: $secondary-color;
+  background: $foregroung-color;
 }
 
 a {
@@ -251,15 +443,23 @@ a {
 
 //#region generic styles (used for all pages)
 .site-wrapper {
+
+  //when in mobile, site content positions on the left side (the left panel will dissapear)
+  @include media-breakpoint-down(sm) {
+    left: 0px;
+    width: auto; //was 80%
+  }
+
+  @include media-breakpoint-between(sm, lg) {
+    width: $panel-offset * 5.7;
+  }
+
+
   font-size: $h3;
   position: absolute;
-  padding: 32px;
-  background: transparent;
-  // border: 2px solid red;
+  background: transparent; // border: 2px solid red;
   left: $panel-offset;
   width: 70%;
-  // width: calc($panel-offset+$panel-offset - 100%);
-  // max-width: 1140px;
   margin: 0 auto;
 
   img {
@@ -291,11 +491,15 @@ a {
 }
 
 .site-header {
+  top: $standard-margin;
   display: flex;
   justify-content: space-between;
   padding: 20px 0;
-  // background: ;
-  // position: absolute;
+  background: $secondary-color;
+  z-index: 3;
+  opacity: 80%;
+  width: 65%;
+  position: fixed;
   display: none;
   visibility: hidden;
   margin-bottom: 32px;
@@ -309,9 +513,9 @@ a {
   text-transform: uppercase;
 }
 
-//main message
+//TODO: move site header out of hero header
 .hero-header {
-  padding: 30vh 0;
+  padding: 30vh $standard-margin*1.5;
   max-width: 980px;
   border: none;
 }
@@ -322,6 +526,11 @@ a {
   line-height: 100%;
   width: 25%;
   margin-bottom: 0.5rem;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $h1;
+    top: 0px;
+  }
 }
 
 .button {
@@ -356,12 +565,16 @@ a {
 }
 
 .primary-content {
-  font-size: $h3;
+  font-size: $small;
   color: $secondary-text-color;
-  margin-bottom: 32px;
   width: 70%;
-  line-height: 1.5;
+
   font-weight: 300;
+
+  @include media-breakpoint-down(sm) {
+
+    font-size: $small;
+  }
 
   & .typewriter {
     & span {
@@ -381,7 +594,7 @@ a {
 .post {
   padding: 0;
   background: $secondary-color;
-  line-height: 1.5;
+
 
   >.blog-post-content {
     @include borderRadius1();
@@ -399,7 +612,7 @@ a {
   .post-title {
     text-align: center;
     margin: 0 0 0.5rem;
-    line-height: 1.3;
+
     font-size: 2rem;
   }
 
@@ -433,8 +646,7 @@ a {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    @include occupyContainer();
     z-index: 1;
   }
 
@@ -462,7 +674,7 @@ a {
   @include borderRadius1();
   border: $border;
   overflow: hidden;
-  line-height: 1.5;
+
 
   &:hover .post-link {
     color: $primary-color;
@@ -528,7 +740,7 @@ a {
     appearance: none;
     border: 1px solid #d3d6e7;
     border-radius: 6px;
-    line-height: 32px;
+
     padding: 6px 12px;
     width: calc(100% - 24px);
     margin-bottom: 1.5rem;
@@ -557,7 +769,18 @@ a {
 
 
 section {
+  width: 100%; //this is modified inline in react
+  border-top: $border;
+  z-index: 0;
 
+  @include media-breakpoint-down(sm) {
+    margin-bottom: $mobile-section-margin;
+    width: 97.5vw;
+    padding: $mobile-section-margin * .50;
+  }
+
+
+  //when user screen fit mobile screen
   & a {
     color: $primary-color;
     text-decoration: none;
@@ -567,37 +790,63 @@ section {
     }
   }
 
-  border-top: $border;
-  margin-bottom: $section-margin;
-
   & .section__header {
+    @include shadow1();
+    z-index: -1;
+    padding: $standard-margin;
     width: 100%;
     display: flex;
     flex-basis: content;
     justify-content: space-between;
+    background: $foregroung-color;
+
+    @include media-breakpoint-down(sm) {
+      background: transparent;
+      font-size: $small;
+    }
   }
 
-  & .section__grid {
-    color: $secondary-color;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 32px;
-    height: 5%;
+  //allows overflowing on mobile view
+  & .section__wrapper {
+    width: auto;
 
-    & .section__grid__card {
-      position: relative;
+    //mobile stlying
+    @include media-breakpoint-down(sm) {
       @include borderRadius1();
-      border: $border;
-      display: grid;
-      border: $border;
-      overflow: hidden;
+      border: 1px solid $primary-text-color;
+      width: 100%;
 
+    }
+
+    & .section__grid {
+      color: $secondary-color;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 32px;
+      height: 5%;
+      padding: 4%;
+
+      //mobile
+      @include media-breakpoint-down(sm) {
+        padding: 2%;
+        grid-gap: 10px;
+        overflow: scroll;
+        overflow-y: hidden;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      }
 
       //#region mixins reused with different card types, should remain consistent
       @mixin title {
+
         & .title {
           width: 80%;
           margin-bottom: $standard-margin;
+          line-height: 1em;
+
+          //drop margin size on mobile
+          @include media-breakpoint-down(sm) {
+            margin-bottom: $mobile-standard-margin;
+          }
         }
       }
 
@@ -605,168 +854,273 @@ section {
         & .description {
           width: 70%;
           margin-bottom: $standard-margin;
+
+          //drop margin size on mobile
+          @include media-breakpoint-down(sm) {
+            margin-bottom: $mobile-standard-margin;
+            width: 95%;
+          }
+        }
+      }
+
+      @mixin preview {
+        & .preview {
+          position: absolute;
+          top: -5%;
+          left: -5%;
+          @include occupyContainer();
+          @include borderRadius1();
+          @include animation1();
+          @include shadow1();
+          z-index: -2;
+
+          & video {
+            @include occupyContainer();
+            @include borderRadius1();
+            opacity: .4;
+            max-width: 100%;
+            background-size: contain;
+            object-fit: cover;
+          }
+
+          & .sketchfab-embed-wrapper {
+            position: relative;
+            height: 100%;
+
+            & iframe {
+              position: absolute;
+              left: 10%;
+              top: 5%;
+              width: 84.5%;
+              height: 70%;
+            }
+          }
+
+        }
+      }
+
+      @mixin cta {
+        & .cta {
+          &::before {
+            content: '';
+            position: absolute;
+            z-index: -2;
+            width: 105%;
+            left: -2.5%;
+            top: -2.5%;
+            height: 105%;
+            opacity: .1;
+            border: 1px solid black;
+            @include shadow1();
+            @include animation3();
+            @include borderRadius100();
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            @include occupyContainer();
+            @include animation3();
+            @include borderRadius100();
+            background: $primary-text-color
+          }
+
+          &:hover {
+            transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            @include animation3();
+
+            &::before {}
+          }
+
+          cursor: pointer;
+          position: absolute;
+          bottom: -10%;
+          left: -10%;
+          color: $foregroung-color;
+          width: 100px;
+          height: 100px;
+          display: flex;
+          flex-direction: column;
+          padding: 5% 0;
+          justify-content: center;
+          @include animation3();
+          @include animation3();
+          @include borderRadius100();
+          z-index: 3;
+          // @include animation3();
+
+          & p {
+            line-height: 1em;
+            font-size: $h3;
+            margin: auto;
+          }
+
+          & svg {
+            position: relative;
+            @include occupyContainer();
+            fill: $foregroung-color;
+          }
+
+          //mobile
+          @include media-breakpoint-down(sm) {
+            display: none;
+            padding: 0% 10%;
+            @include borderRadius1();
+          }
         }
       }
 
       //#endregion mixins reused with different card types, should remain consistent
 
-      & .card {
-        width: 100%;
-        height: 100%;
-        background: white;
+      //standard grid of cards does not go into into right panel
+      & .section__grid__card {
+        position: relative;
+        @include borderRadius1();
+        border: $border;
+        display: grid;
         padding: $standard-margin;
-        @include title();
-        @include description();
-        @include animation3();
 
-        &:hover {
-          & li {
-            text-align: center;
+
+        & img {
+          @include borderRadius1();
+
+          &:hover {
+            @include grayscale();
+          }
+        }
+
+
+        & .card {
+          z-index: 2;
+          background: white;
+          padding: $standard-margin;
+          //mobile
+          @include occupyContainer();
+          @include title();
+          @include description();
+          @include animation3();
+
+          @include media-breakpoint-down(sm) {
+            min-width: 250px;
           }
 
-          @include animation3();
-          background: $secondary-color;
-          color: $primary-text-color;
-          border: 1px solid $primary-text-color;
+
+          &:hover {
+            & li {
+              padding: 1.5%;
+              margin-left: -$standard-margin * 2;
+              background: white;
+              color: $foregroung-color;
+              @include borderRadius1();
+            }
+
+            @include animation3();
+            background: $foregroung-color;
+            color: $primary-text-color;
+          }
         }
       }
 
-      //used on projects section (has hover effects)
-      & .card__lid {
-        &::before {
-          content: '';
-          left: 0px;
-          top: 0px;
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background: white;
-          z-index: -1;
+      & .section__grid__projects {
+        // z-index: 3;
+        padding-left: $standard-margin * 2;
+        margin-bottom: $standard-margin * 3;
+        margin-right: $standard-margin * 3;
+        z-index: 2;
+
+        //used on projects section (has hover effects)
+        & .projects__card {
+          color: $secondary-color;
+          background-color: $primary-text-color;
+          position: relative;
+          padding: $standard-margin;
+
+          padding-bottom: $standard-margin * 3;
+          right: 0px;
+          @include borderRadius1();
+
+          @include shadow1();
           @include animation1();
-        }
+          @include occupyContainer();
 
-        @include animation1();
+          @include title();
+          @include description();
+          @include cta();
+          //underneath all other content, then comes up on hover
+          @include preview();
 
-        &:hover {
-          @include animation1();
-          color: $primary-text-color;
-          cursor: pointer;
+          //mobile
+          @include media-breakpoint-down(sm) {
+            //lower this padding in mobile
+            min-width: 290px;
+            margin-top: $standard-margin;
+          }
 
-          &::before {
+          //#region project card hover effect
+          &:hover {
             @include animation1();
-            width: 0%;
-            left: 0%;
-            font-size: 0px;
+            color: transparent;
+
+            & .catagory {
+              opacity: 0%;
+              @include animation1();
+            }
+
+            & .preview {
+              @include animation1();
+              z-index: 1;
+              left: 0%;
+              top: 0%;
+
+              & video {
+                opacity: 1;
+              }
+            }
           }
 
-          color: transparent;
-          // @include reverseColor();
-
-          & .title {}
-
-          & .description {
-            // display: none;
-          }
+          //#endregion hover effect
 
           & .catagory {
-            opacity: 0%;
-            @include animation1();
-          }
-
-          & .cta {
-            display: none;
-          }
-        }
-
-        z-index: 1;
-        padding: $standard-margin;
-        padding-bottom: $standard-margin+$standard-margin+$standard-margin+$standard-margin; //make room for absoloutely positioned CTA
-        right: 0px;
-        @include description();
-        @include title();
-
-        & .catagory {
-          @include verticalText();
-          position: absolute;
-          text-align: left;
-          padding: 3.5% 4%;
-          color: $primary-text-color;
-          background: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
-          @include borderRadius1();
-          border: 1px solid $primary-text-color;
-          width: 15%;
-          right: -$standard-margin * .65;
-          top: 0px;
-          @include animation1();
-          height: 100%;
-        }
-
-        & .cta {
-          & p {
-            color: $secondary-color;
-          }
-
-          line-height: 100%;
-          position: absolute;
-          width: 30%;
-          height: $standard-margin+$standard-margin;
-          display: flex;
-          justify-content: space-between;
-          flex-direction: row;
-          bottom: 0px;
-          left: 0px;
-          padding: 2%;
-          // border-top: 1px solid $secondary-color;
-          @include lineAnimation();
-          color: $secondary-color;
-        }
-      }
-
-      & .preview {
-        position: absolute;
-        bottom: -1px;
-        z-index: -1;
-
-        & video {
-          background-size: cover;
-          height: 100%;
-          width: 100%;
-        }
-
-        & .sketchfab-embed-wrapper {
-          position: relative;
-          height: 100%;
-
-          & iframe {
+            top: 0px;
+            height: 100%;
             position: absolute;
-            left: 10%;
-            top: 5%;
-            width: 84.5%;
-            height: 70%;
+            text-align: left;
+            padding: 3%;
+            color: $primary-text-color;
+            background: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
+            border: $border2;
+            width: 10%;
+            right: -$standard-margin * .75;
+            z-index: 3;
+            @include verticalText();
+            @include animation1();
+            border-radius: 0 $corner $corner 0;
+            -webkit-border-radius: 0 $corner $corner 0;
+            -moz-border-radius: 0 $corner $corner 0;
+            -ms-border-radius: 0 $corner $corner 0;
+            -o-border-radius: 0 $corner $corner 0;
+
+            & h3 {
+              margin: 50% auto;
+            }
           }
+
         }
 
       }
     }
-  }
-
-  & ul {
-    display: inline-block;
-    padding: 10%;
   }
 
   & li {
     margin-bottom: $standard-margin / 2;
     list-style-image: url('../../static/svg/arrow.svg');
     @include animation3();
-
-    &:hover {
-      font-size: $p;
-      @include borderRadius1();
-      @include animation3();
-      font-weight: bolder;
-      border: $border;
-    }
+    margin-left: $standard-margin;
   }
 
 }
@@ -774,13 +1128,18 @@ section {
 #canvas {
   z-index: 0;
   position: absolute;
-  width: 100%;
-  height: 100%;
+  @include occupyContainer();
   overflow: hidden;
 
   canvas {
-    width: 100%;
-    height: 100%;
+    @include occupyContainer();
+  }
+
+  // @include media-breakpoint-between() {}
+
+  @include media-breakpoint-down(sm) {
+    // position: fixed;
+    // opacity: .5;
   }
 
   // display: none;
@@ -789,35 +1148,125 @@ section {
 .panel {
   position: fixed;
   height: 100%;
-  z-index: 2;
-  // width: 206.96px;
-  opacity: .9;
-  width: $panel-offset;
-  background: linear-gradient(0deg, #180F3E 0%, #100A29 10%);
-  // background: $secondary-color;
-  // border: 2px solid red;
-  // TODO: make the width adjust appropriately
+  z-index: 1;
+  background: rgba($foregroung-color, .6);
+  @include shadow1();
 
+  @include hoverFillBottom();
+
+  //where the nav bar resides
   &.left {
+    width: $panel-offset;
     border-right: $border;
+    @include animation1();
     left: 0px;
 
+
     & #line-indicator {
-      position: relative;
+      position: absolute;
       pointer-events: none;
       @include animationLinear();
-      border-right: 1px solid $primary-color;
+      border-right: 2px solid $primary-color;
       height: 0%;
-      width: 100%;
+      top: 0px;
+      width: 101%;
       z-index: 1;
+    }
+
+    & svg {
+      fill: $primary-color;
+      display: block;
+      width: 25%;
+      z-index: 4;
+      margin: $standard-margin auto;
+
+      // margin-top: $standard-margin*2;
+    }
+
+    //turn the left panel into a bottom panel (content within this panel have adjustments made indivial of this panel scss hierarchy)
+    @include media-breakpoint-down(sm) {
+      & svg {
+        width: 40%;
+      }
+
+      background: transparant;
+      width: 0px;
+      height:0px;
+
+      & #line-indicator {
+        display: none;
+        visibility: hidden;
+      }
+    }
+
+    //tablet left panel (slightly wider)
+
+    @include media-breakpoint-between(sm, lg) {
+      width: $panel-offset;
     }
   }
 
+
   &.right {
-    padding: 1%;
+    width: $panel-offset;
+    // background: $foregroung-color;
     border-left: $border;
-    right: 0px
+    right: 0px;
+
+    @include media-breakpoint-down(sm) {
+      width: $panel-offset * .0;
+    }
+
+    @include media-breakpoint-between(sm, lg) {
+      width: $panel-offset * .0;
+    }
   }
+
+
+}
+
+.hamburger {
+  z-index: 1001;
+  position: fixed;
+  top: 2%;
+  right: 0%;
+  display: none;
+
+  @include media-breakpoint-down(sm) {
+    display: block;
+    margin: auto;
+  }
+}
+
+.mobile__menu__overlay {
+  z-index: 1000;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  background-size: cover;
+  @include occupyContainer();
+  padding: 30% 20px;
+  background-image: url('https://i.imgur.com/jNPlJI5.png');
+  background-color: $foregroung-color;
+  display: none;
+
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+
+  & span {
+    font-size: 4em;
+    display: flex;
+
+    & a {
+      color: $primary-text-color;
+    }
+
+    margin-bottom: $mobile-standard-margin * 2;
+  }
+
+  opacity: 1;
+  display: block;
 }
 
 //#region main navbar (ellipse bar)
@@ -826,15 +1275,13 @@ $ellipses-spacing: 1.5rem;
 $ellipses-slider: (slides: 5,
   transition-speed: 1.5s);
 
-// hide input radio fields
-input[name="ellipses"] {
-  display: none;
-}
-
 //sas loops to handle carousel interaction
 //style active
 @for $i from 0 through map_get($ellipses-slider, slides) {
   #ellipses-page__#{$i}:checked~#slider label[for="ellipses-page__#{$i}"] {
+
+    @include animation3();
+
     & .slider-label {
       color: $primary-text-color;
     }
@@ -844,106 +1291,121 @@ input[name="ellipses"] {
     }
 
     & svg {
-      background: $primary-text-color;
-      color: $primary-text-color;
+      // background: $primary-text-color;
+      // color: $primary-text-color;
+      fill: $primary-text-color;
     }
   }
 }
 
 .ellipses-bar {
-
+  z-index: 5;
   //desktop navigation bar
-  @include media-breakpoint-up(lg) {
-    position: fixed;
-    width: 15%;
+  color: $secondary-text-color;
+  position: fixed;
+  width: $panel-offset;
 
-    & .ellipses__text {
+  & .ellipses__text {
+    position: relative;
+    text-align: center;
+    margin-top: 30vh;
+    width: 100%;
+    color: $third-text-color;
+  }
+
+  // hide input radio fields
+  & input[name="ellipses"] {
+    display: none;
+  }
+
+  #slider {
+    position: relative;
+    margin: auto;
+    align-self: center;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 40%;
+    border: $border;
+    @include borderRadius1();
+
+    & label {
+      margin: 5% auto;
+      width: 100%;
       position: relative;
-      margin: 30vh auto auto auto;
-      text-align: center;
-      color: $third-text-color;
-    }
-
-    color: $secondary-text-color;
-
-    #slider {
-      padding: 10% .5%;
-      position: relative;
-      margin: auto;
       display: flex;
-      justify-content: space-between;
       flex-direction: column;
-      justify-content: flex-end;
-      width: 65%;
-      @include borderRadius1();
-      border: $border;
+      cursor: pointer;
 
-      & label {
-        margin: auto;
-        width: 50%;
-        left: -15%;
+      & .slider-label {
         position: relative;
-        display: flex;
-        cursor: pointer;
-
-        & .slider-label {
-          font-size: $p;
-          order: 2;
-          margin: auto;
-          top: 0px;
-          width: 40px;
-          padding-left: 10%;
-          height: 50%;
-          vertical-align: middle;
-          margin-bottom: 10%;
-        }
-
-        & .slider-number {
-          font-size: $h3;
-          display: none;
-          order: 0;
-          padding-right: 10%;
-        }
-
-        & svg {
-          order: 1;
-          max-width: 100%;
-          max-height: 100%;
-          margin: auto;
-          background: $third-text-color;
-          color: $primary-color;
-          @include borderRadius100();
-          @include animation3();
-        }
-
-        &:hover {
-          & svg {
-            @include animation3();
-            width: 20px;
-            height: 10px;
-            border: 10px solid currentColor;
-            background: currentColor;
-          }
-        }
+        font-size: $small;
+        color: $third-text-color;
+        display: inline-block;
+        margin-top: -10%;
+        width: 100%;
+        height: 1%;
+        text-align: center;
+        order: 3;
       }
 
+      & .slider-number {
+        font-size: $small;
+        display: none;
+        padding-right: 10%;
+      }
 
+      & svg {
+        position: relative;
+        width: 100%;
+        fill: $third-text-color;
+        order: 2;
+        color: $primary-color;
+        @include animation3();
+      }
+
+      &:hover {
+        & svg {
+          @include animation3();
+          fill: $primary-text-color;
+        }
+
+        & .slider-label {
+          color: $primary-text-color;
+        }
+      }
     }
+
 
   }
 
-  //mobile navigation bar
-  @include media-breakpoint-down(md) {}
+
+  //tablet navigation bar
+  @include media-breakpoint-between(sm, lg) {
+
+    #slider {
+      font-size: 1.5em;
+      padding: 0%;
+      width: 60%;
+      margin: auto;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    visibility: hidden;
+  }
+
 }
 
 //#region social media links
 #social-media-bar {
   position: sticky;
-  top: 44px;
+  margin-top: $standard-margin * 2;
   width: 100%;
-  padding: 0% 15%;
+  padding: 0% 1vw;
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
   // @include testBounds();
 
   & a {
@@ -951,11 +1413,10 @@ input[name="ellipses"] {
     display: flex;
     justify-content: center;
     z-index: 51;
-    clear: both;
     right: 0px;
+    height: 30%;
+    width: 20%;
     cursor: pointer;
-    width: 22%;
-    height: 100%;
     vertical-align: middle;
 
     &::after {
@@ -963,38 +1424,56 @@ input[name="ellipses"] {
       display: block;
       border-radius: 100%;
       bottom: -12px;
-      border: 5px solid $primary-color;
+      border: 5px solid $primary-text-color;
       width: 0%;
+      margin: auto;
       height: 0%;
       content: '';
-      z-index: 10000;
+      z-index: 3;
       @include borderRadius1();
       @include animation3();
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(sm) {
         display: none;
       }
     }
 
     &:hover::after {
-      width: 100%;
-      height: 100%;
-      bottom: 0px;
+      @include occupyContainer();
+      bottom: -5%;
       border: 3.5px solid $primary-color;
       @include borderRadius100;
     }
 
-    & img {
+    &:hover svg {
+      fill: $primary-color;
+    }
+
+    & svg {
+      fill: $primary-text-color;
       align-self: center;
       display: inline;
-      width: 80%;
-      height: 80%;
+      @include occupyContainer();
       margin-bottom: 20%;
+      max-height: 100%;
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(sm) {
         width: 300%;
       }
+
     }
+  }
+
+  @include media-breakpoint-between(sm, lg) {
+    justify-content: space-evenly;
+
+    & a {
+      margin: $standard-margin*.5 auto;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    display: none;
   }
 }
 
@@ -1006,7 +1485,7 @@ input[name="ellipses"] {
 //#region loading screen
 .loader {
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(sm) {
     height: 100%;
     width: 100%;
     top: 0%;
@@ -1115,7 +1594,7 @@ input[name="ellipses"] {
     font-family: 'brown-bold';
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(sm) {
     display: inline-block;
     position: relative;
     top: 10%;
@@ -1161,7 +1640,7 @@ input[name="ellipses"] {
       -webkit-animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     }
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
       display: block;
       position: absolute;
       width: 50rem;
@@ -1242,9 +1721,4 @@ input[name="ellipses"] {
     grid-gap: 64px;
   }
 
-  section {
-    & .section__grid {
-      & .section__grid__card {}
-    }
-  }
 }

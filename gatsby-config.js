@@ -4,6 +4,7 @@
  * See: https://www.gatsbyjs.org/docs/gatsby-config/
  */
 
+//get environment variables from .env files, so we can set production and development specific links
 const ACTIVE_ENV =
 	process.env.GATSBY_ACTIVE_ENV || process.env.NODE_ENV || 'development';
 require('dotenv').config({

@@ -1,6 +1,5 @@
-// interpolations
-// for geometry
 import { FrontSide, MeshPhysicalMaterial, PCFSoftShadowMap, MeshBasicMaterial, DoubleSide } from 'three'
+
 // post processing
 // // import MultiPassBloomPass from '@superguigui/wagner/src/passes/bloom/MultiPassBloomPass'
 // // import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass'
@@ -8,11 +7,8 @@ import { TweenMax } from 'gsap'
 import ShatterEffect from '../components/Interaction/ShatterEffect'
 
 //environment paths
-import {join} from 'path'
 const modelPath = '../../../../../static/models/'
 const texturePath = '../../../../../static/img/'
-// const relativePath = (pathToFindFrom) => relative(__dirname,pathToFindFrom)//execute this in the scripts needing a path
-const relativePath = (pathToFindFrom) => join(process.cwd(),pathToFindFrom)//execute this in the scripts needing a path
 
 
 // This object contains the initial state of the app which will change realtime from datGUI
@@ -23,7 +19,7 @@ export default {
   isMobile: false,
   background: {
     enabled: false, // toggle use of background
-    color: '#100A29',//#95E5E1 to test
+    color: '#080515',//#95E5E1 to test
     sceneBg: {
       mobile: ['bg_mobile-01.png', 'bg-blank-01.png'],
       pc: ['bg-01.png', 'bg-blank-01.png']
@@ -203,7 +199,7 @@ export default {
       }]
     }],
     backdropobj_mobile: [{
-      path: './models/backdrop.OBJ',
+      path: './models/backdrop_mobile.OBJ',
       scale: [ 1.8, 1.8, 1.8],
       position: [0, 0, 0],
       material: [{
@@ -232,12 +228,6 @@ export default {
       }]
     }]
   },
-  //   texture: {
-  //     path: './assets/textures/',
-  //     imageFiles: [
-  //       { name: 'UV', image: 'UV_Grid_Sm.jpg' }
-  //     ]
-  //   },
   mesh: {
     enableHelper: false,
     wireframe: false,
@@ -422,3 +412,17 @@ export default {
   maxAnisotropy: 1,
   dpr: 1
 }
+
+
+//#region
+// let time = {t: 0};
+
+// let r = new TWEEN.Tween(time, this.tweens)
+//     .to({t: 1}, CAMERA_TWEEN_DURATION)
+//     .onUpdate((tween) => {
+//          this.camera.quaternion.slerp(this.player.quaternion, tween.t);
+//     })
+//     .easing(TWEEN.Easing.Quartic.InOut)
+//     .start();
+
+//#endregion
