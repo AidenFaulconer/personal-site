@@ -5,11 +5,12 @@ date: 2020-02-20T14:59:36.571Z
 title: Dummy Content from Fillerama
 thumbnail: /assets/image-5.jpg
 ---
+
 # No, I'll fix it. I'm good at fixing rot. Call me the Rotmeister. No, I'm the Doctor. Don't call me the Rotmeister.
 
 I am the Doctor, and you are the Daleks! You hit me with a cricket bat. You know when grown-ups tell you 'everything's going to be fine' and you think they're probably lying to make you feel better? You hit me with a cricket bat.
 
-You've swallowed a planet! No… It's a thing; it's like a plan, but with more greatness. You hate me; you want to kill me! Well, go on! **Kill me!** *KILL ME!* Sorry, checking all the water in this area; there's an escaped fish.
+You've swallowed a planet! No… It's a thing; it's like a plan, but with more greatness. You hate me; you want to kill me! Well, go on! **Kill me!** _KILL ME!_ Sorry, checking all the water in this area; there's an escaped fish.
 
 ## Did I mention we have comfy chairs?
 
@@ -23,9 +24,9 @@ No… It's a thing; it's like a plan, but with more greatness. Annihilate? No. N
 
 It's a fez. I wear a fez now. Fezes are cool. You know how I sometimes have really brilliant ideas? You know how I sometimes have really brilliant ideas? Sorry, checking all the water in this area; there's an escaped fish.
 
-* I am the last of my species, and I know how that weighs on the heart so don't lie to me!
-* You hit me with a cricket bat.
-* You know when grown-ups tell you 'everything's going to be fine' and you think they're probably lying to make you feel better?
+- I am the last of my species, and I know how that weighs on the heart so don't lie to me!
+- You hit me with a cricket bat.
+- You know when grown-ups tell you 'everything's going to be fine' and you think they're probably lying to make you feel better?
 
 I'm the Doctor. Well, they call me the Doctor. I don't know why. I call me the Doctor too. I still don't know why. I'm nobody's taxi service; I'm not gonna be there to catch you every time you feel like jumping out of a spaceship.
 

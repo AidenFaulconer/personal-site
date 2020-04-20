@@ -1,65 +1,91 @@
-//use arrays, the logic handling this uses .map which wont work on objects
+// use arrays, the logic handling this uses .map which wont work on objects
 module.exports = {
-  "projects":
-    [
+  projects: [
     {
-      "model": false,
-      "title": "Movement Recognition in VR",
-      "mediaUrl": "https://i.imgur.com/t55NQ7m.mp4",
-      "catagory": "VR Application",
-      "description": "Scores users movement against pre-recorded movement. Providing an extensible solution for training, used here in the context of Tai Chi"
+      model: false,
+      title: "Movement Recognition in VR",
+      mediaUrl: "https://i.imgur.com/t55NQ7m.mp4",
+      catagory: "VR Application",
+      description:
+        "Scores users movement against pre-recorded movement. Providing an extensible solution for training, used here in the context of Tai Chi",
+      blog: {
+        about: "",
+        objectives: "",
+        results: ""
+      }
     },
     {
-      "model": false,
-      "title": "On Closer Inspection",
-      "mediaUrl": "https://i.imgur.com/2acj61h.mp4",
-      "catagory": "Fullstack Application",
-      "description": "A project I was involved in during my time at the Australian War Memorial, a configurable VR experience for virtual exhibits"
+      model: false,
+      title: "On Closer Inspection",
+      mediaUrl: "https://i.imgur.com/2acj61h.mp4",
+      catagory: "Fullstack Application",
+      description:
+        "A project I was involved in during my time at the Australian War Memorial, a configurable VR experience for virtual exhibits",
+      blog: {
+        about: "",
+        objectives: "",
+        results: ""
+      }
     },
     {
-      "model": false,
-      "title": "OpenGL Game engine",
-      "mediaUrl": "https://i.imgur.com/RO4eieT.mp4",
-      "catagory": "Graphics Programming",
-      "description": "Minimal viable game engine coded in c++ on top of openGL"
+      model: false,
+      title: "OpenGL Game engine",
+      mediaUrl: "https://i.imgur.com/RO4eieT.mp4",
+      catagory: "Graphics Programming",
+      description: "Minimal viable game engine coded in c++ on top of openGL",
+      blog: {
+        about: "",
+        objectives: "",
+        results: ""
+      }
     },
     {
-      "model": false,
-      "title": "Python apps",
-      "mediaUrl": "https://i.imgur.com/jaP2kH5.mp4",
-      "catagory": "Desktop Application",
-      "description": "simple console/GUI apps made in python"
-    },
-    {
-      "model": true,
-      "title": "3d character",
-      "mediaUrl": "https://sketchfab.com/models/64f06381ab2f47139c09875ec0c7b254/embed",
-      "catagory": "3d Model",
-      "description": "Rigged game charecter for an upcoming vfx show reel"
-    },
-    {
-      "model": true,
-      "title": "Mech Bust",
-      "mediaUrl": "https://sketchfab.com/models/ea71b4a0e59443529d5cfb082953059b/embed",
-      "catagory": "3d Model",
-      "description": "3d mech bust made in z-brush"
-  }
+      model: false,
+      title: "Python apps",
+      mediaUrl: "https://i.imgur.com/jaP2kH5.mp4",
+      catagory: "Desktop Application",
+      description: "simple console/GUI apps made in python",
+      blog: {
+        about: "",
+        objectives: "",
+        results: ""
+      }
+    }
+    //   {
+    //     "model": true,
+    //     "title": "3d character",
+    //     "mediaUrl": "https://sketchfab.com/models/64f06381ab2f47139c09875ec0c7b254/embed",
+    //     "catagory": "3d Model",
+    //     "description": "Rigged game charecter for an upcoming vfx show reel"
+    //   },
+    //   {
+    //     "model": true,
+    //     "title": "Mech Bust",
+    //     "mediaUrl": "https://sketchfab.com/models/ea71b4a0e59443529d5cfb082953059b/embed",
+    //     "catagory": "3d Model",
+    //     "description": "3d mech bust made in z-brush"
+    // }
   ],
-  "skills": [
+  skills: [
     {
-      "title": "TEAMWORK",
-      "description": ` I love working in teams, coming from experience at the Australian War Memorial, being a
+      title: "TEAMWORK",
+      description: ` I love working in teams, coming from experience at the Australian War Memorial, being a
       Manager in retail,
       and as a lead developer
       for Mentoras.I always orient myself towards the teams goals,
       instead of
       just my own.
       `,
-      "summaryPoints": ["Empathetic", "Communicative", "Collaborative", "Open-Minded"]
+      summaryPoints: [
+        "Empathetic",
+        "Communicative",
+        "Collaborative",
+        "Open-Minded"
+      ]
     },
     {
-      "title": "LEARNING",
-      "description": `Im passionite about technology, my actions speak for themselves. I have over <a
+      title: "LEARNING",
+      description: `Im passionite about technology, my actions speak for themselves. I have over <a
       href = 'https://www.linkedin.com/in/aiden-faulconer/' > 20 online course
       certifications </a> in IT,
       fully competent in more than 3 programming languages,
@@ -70,11 +96,11 @@ module.exports = {
       and providing a
       strong university grade education in IT.
       `,
-      "summaryPoints": ["Comitted", "Passionite about the work I do"]
+      summaryPoints: ["Comitted", "Passionite about the work I do"]
     },
     {
-      "title": "3D",
-      "description": ` I love 3d, its the dimension we are built for and its also the new frontier for technology. I know the
+      title: "3D",
+      description: ` I love 3d, its the dimension we are built for and its also the new frontier for technology. I know the
       environment really well,
       from my experience building vr applications,
       3 d modelling,
@@ -83,19 +109,22 @@ module.exports = {
       experiences.All of which comes together to make me a well rounded individial
       for any 3 d related work.
       `,
-      "summaryPoints": ["Good with Trigonomotry",
+      summaryPoints: [
+        "Good with Trigonomotry",
         "Understands Shaders",
         "Good at 3d Modelling",
         "Specialised through hobby & professional experience"
       ]
     },
     {
-      "title": "TECHNICAL",
-      "description": `Being a developer is about being agile, and working with change not against it. Over my career ive learned a
+      title: "TECHNICAL",
+      description: `Being a developer is about being agile, and working with change not against it. Over my career ive learned a
       lot,
       I am competent in the following tech.
       `,
-      "summaryPoints": ["AWS", "React, Vue, and Gatsby.js",
+      summaryPoints: [
+        "AWS",
+        "React, Vue, and Gatsby.js",
         "C#, Java, and C++",
         "Drupal, and Wordpress",
         "MongoDB, and MySQL",
@@ -103,12 +132,12 @@ module.exports = {
       ]
     },
     {
-      "title": "DESIGN",
-      "description": `I'm a creative individual with attention to detail, I love typography, branding, and visually communicating
+      title: "DESIGN",
+      description: `I'm a creative individual with attention to detail, I love typography, branding, and visually communicating
       ideas.This compliments my coding skills resulting in products that will speak to your audiences and
       make an aesthetically pleasing experience.
       `,
-      "summaryPoints": [
+      summaryPoints: [
         "great with typography",
         "love UI design",
         "big on Color theory",
@@ -116,66 +145,66 @@ module.exports = {
       ]
     },
     {
-      "title": "UI/UX",
-      "description": `I make sure my work is empathetic, and iterates around both the users needs and
+      title: "UI/UX",
+      description: `I make sure my work is empathetic, and iterates around both the users needs and
       organizations needs.I commit myself to user reasearch before developing products,
       then wireframe and
       prototype the results all around a clean and organized information architecture.All of this,
       to make sure
       users keep coming back
       for more!`,
-      "summaryPoints": [
+      summaryPoints: [
         "Organized",
         "Committed to reasearch",
         "Always taking the users perspective"
       ]
     }
   ],
-  "services": [
+  services: [
     {
-      "title": "3D Graphics",
-      "description": `Having experience doing 3d graphics programming from both a low and high level, I will work effortlessy on your game/3d product and pick up the pace quickly.`
+      title: "3D Graphics",
+      description: `Having experience doing 3d graphics programming from both a low and high level, I will work effortlessy on your game/3d product and pick up the pace quickly.`
     },
     {
-      "title": "Design",
-      "description": `My design services range from UI/UX, to simple logos and brand strategies for your organization. I bring a technical background which will help guide UI/UX design decisions.`
+      title: "Design",
+      description: `My design services range from UI/UX, to simple logos and brand strategies for your organization. I bring a technical background which will help guide UI/UX design decisions.`
     },
     {
-      "title": "Full-Stack Development",
-      "description": `I've been a development lead, and a participant in many exciting software projects. I'll bring my expeirence to help formulate the requirements for your projects, and deploy them in your environments while providing documentation in-and-out of the codebase. Knowing such a wide variety of back-end and front-end technologies/frameworks means ill deffinitly adapt to your technicals needs on your project.`
+      title: "Full-Stack Development",
+      description: `I've been a development lead, and a participant in many exciting software projects. I'll bring my expeirence to help formulate the requirements for your projects, and deploy them in your environments while providing documentation in-and-out of the codebase. Knowing such a wide variety of back-end and front-end technologies/frameworks means ill deffinitly adapt to your technicals needs on your project.`
     }
   ],
-  "about": [
+  about: [
     {
-    "title": "BACKGROUND",
-    "description": `Before graduating University I was contracted for the Australian War Memorial. I created 3D/VR experiences for the 1.14 million visitors to Nations Capital.
+      title: "BACKGROUND",
+      description: `Before graduating University I was contracted for the Australian War Memorial. I created 3D/VR experiences for the 1.14 million visitors to Nations Capital.
     <pre></pre>
     Currently I am the Lead Software developer/designer for Mentoras, where I am creating a marketplace for consultants and mentors
     <pre></pre>
     In my free time i’m a freelance designer and software developer. And a vfx artist currently assembling a show-reel`,
-    "mediaUrl": ""
+      mediaUrl: ""
     },
     {
-    "title":"photo of me",
-    "description": "photo of me",
-    "mediaUrl": "https://i.imgur.com/9oRAGBj.jpg"
+      title: "photo of me",
+      description: "photo of me",
+      mediaUrl: "https://i.imgur.com/9oRAGBj.jpg"
     }
   ],
-  "contact": [
+  contact: [
     {
-    "title":"phone",
-    "value": "+61 0475565709"
+      title: "phone",
+      value: "+61 0475565709"
     },
     {
-    "title": "email",
-    "value": "aidenf09@yahoo.com"
+      title: "email",
+      value: "aidenf09@yahoo.com"
     }
   ],
-  "description": [
-  "UX designer",
-  "UI developer",
-  "3D designer",
-  "Software Developer",
-  "Lets boost your online presence",
+  description: [
+    "UX designer",
+    "UI developer",
+    "3D designer",
+    "Software Developer",
+    "Lets boost your online presence"
   ]
-}
+};

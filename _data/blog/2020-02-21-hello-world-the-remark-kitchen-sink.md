@@ -2,9 +2,10 @@
 template: BlogPost
 path: /remark-kitchen-sink
 date: 2020-02-21T12:12:25.364Z
-title: 'Hello World: The remark Kitchen Sink'
+title: "Hello World: The remark Kitchen Sink"
 thumbnail: /assets/image-6.jpg
 ---
+
 # h1 Heading 8-)
 
 ## h2 Heading
@@ -19,11 +20,11 @@ thumbnail: /assets/image-6.jpg
 
 ## Horizontal Rules
 
-- - -
+---
 
-- - -
+---
 
-- - -
+---
 
 ## Typographic replacements
 
@@ -33,7 +34,7 @@ Enable typographer option to see result.
 
 test.. test... test..... test?..... test!....
 
-!!!!!! ???? ,,  -- ---
+!!!!!! ???? ,, -- ---
 
 "Smartypants, double quotes" and 'single quotes'
 
@@ -43,9 +44,9 @@ test.. test... test..... test?..... test!....
 
 **This is bold text**
 
-*This is italic text*
+_This is italic text_
 
-*This is italic text*
+_This is italic text_
 
 ~~Strikethrough~~
 
@@ -61,15 +62,16 @@ test.. test... test..... test?..... test!....
 
 Unordered
 
-* Create a list by starting a line with `+`, `-`, or `*`
-* Sub-lists are made by indenting 2 spaces:
+- Create a list by starting a line with `+`, `-`, or `*`
+- Sub-lists are made by indenting 2 spaces:
 
-  * Marker character change forces new list start:
+  - Marker character change forces new list start:
 
-    * Ac tristique libero volutpat at
-    * Facilisis in pretium nisl aliquet
-    * Nulla volutpat aliquam velit
-* Very easy!
+    - Ac tristique libero volutpat at
+    - Facilisis in pretium nisl aliquet
+    - Nulla volutpat aliquam velit
+
+- Very easy!
 
 Ordered
 
@@ -106,7 +108,7 @@ Sample text here...
 Syntax highlighting
 
 ```js
-var foo = function (bar) {
+var foo = function(bar) {
   return bar++;
 };
 
@@ -161,8 +163,8 @@ see [how to change output](https://github.com/markdown-it/markdown-it-emoji#chan
 
 ### [Subscript](https://github.com/markdown-it/markdown-it-sub) / [Superscript](https://github.com/markdown-it/markdown-it-sup)
 
-* 19^th^
-* H\~2\~O
+- 19^th^
+- H\~2\~O
 
 ### [<ins>](https://github.com/markdown-it/markdown-it-ins)
 
@@ -194,11 +196,11 @@ and multiple paragraphs.
 
 Term 1
 
-:   Definition 1 with lazy continuation.
+: Definition 1 with lazy continuation.
 
-Term 2 with *inline markup*
+Term 2 with _inline markup_
 
-:   Definition 2
+: Definition 2
 
 ```
     { some code, part of Definition 2 }
@@ -206,12 +208,12 @@ Term 2 with *inline markup*
 Third paragraph of definition 2.
 ```
 
-*Compact style:*
+_Compact style:_
 
-Term 1   ~ Definition 1
+Term 1 ~ Definition 1
 
-Term 2   \~ Definition 2a
-  \~ Definition 2b
+Term 2 \~ Definition 2a
+\~ Definition 2b
 
 ### [Abbreviations](https://github.com/markdown-it/markdown-it-abbr)
 
@@ -223,15 +225,15 @@ It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
 
 ### [Custom containers](https://github.com/markdown-it/markdown-it-container)
 
-::: warning *here be dragons* :::---
+::: warning _here be dragons_ :::---
 **Advertisement :)**
 
-* **[pica](https://nodeca.github.io/pica/demo/)** - high quality and fast image resize in browser.
-* **[babelfish](https://github.com/nodeca/babelfish/)** - developer friendly i18n with plurals support and easy syntax.
+- **[pica](https://nodeca.github.io/pica/demo/)** - high quality and fast image resize in browser.
+- **[babelfish](https://github.com/nodeca/babelfish/)** - developer friendly i18n with plurals support and easy syntax.
 
 You will like those projects!
 
-- - -
+---
 
 # h1 Heading 8-)
 
@@ -247,11 +249,11 @@ You will like those projects!
 
 ## Horizontal Rules
 
-- - -
+---
 
-- - -
+---
 
-- - -
+---
 
 ## Typographic replacements
 
@@ -261,7 +263,7 @@ Enable typographer option to see result.
 
 test.. test... test..... test?..... test!....
 
-!!!!!! ???? ,,  -- ---
+!!!!!! ???? ,, -- ---
 
 "Smartypants, double quotes" and 'single quotes'
 
@@ -271,9 +273,9 @@ test.. test... test..... test?..... test!....
 
 **This is bold text**
 
-*This is italic text*
+_This is italic text_
 
-*This is italic text*
+_This is italic text_
 
 ~~Strikethrough~~
 
@@ -289,15 +291,16 @@ test.. test... test..... test?..... test!....
 
 Unordered
 
-* Create a list by starting a line with `+`, `-`, or `*`
-* Sub-lists are made by indenting 2 spaces:
+- Create a list by starting a line with `+`, `-`, or `*`
+- Sub-lists are made by indenting 2 spaces:
 
-  * Marker character change forces new list start:
+  - Marker character change forces new list start:
 
-    * Ac tristique libero volutpat at
-    * Facilisis in pretium nisl aliquet
-    * Nulla volutpat aliquam velit
-* Very easy!
+    - Ac tristique libero volutpat at
+    - Facilisis in pretium nisl aliquet
+    - Nulla volutpat aliquam velit
+
+- Very easy!
 
 Ordered
 
@@ -334,7 +337,7 @@ Sample text here...
 Syntax highlighting
 
 ```js
-var foo = function (bar) {
+var foo = function(bar) {
   return bar++;
 };
 
@@ -389,8 +392,8 @@ see [how to change output](https://github.com/markdown-it/markdown-it-emoji#chan
 
 ### [Subscript](https://github.com/markdown-it/markdown-it-sub) / [Superscript](https://github.com/markdown-it/markdown-it-sup)
 
-* 19^th^
-* H\~2\~O
+- 19^th^
+- H\~2\~O
 
 ### [<ins>](https://github.com/markdown-it/markdown-it-ins)
 
@@ -422,11 +425,11 @@ and multiple paragraphs.
 
 Term 1
 
-:   Definition 1 with lazy continuation.
+: Definition 1 with lazy continuation.
 
-Term 2 with *inline markup*
+Term 2 with _inline markup_
 
-:   Definition 2
+: Definition 2
 
 ```
     { some code, part of Definition 2 }
@@ -434,12 +437,12 @@ Term 2 with *inline markup*
 Third paragraph of definition 2.
 ```
 
-*Compact style:*
+_Compact style:_
 
-Term 1   ~ Definition 1
+Term 1 ~ Definition 1
 
-Term 2   \~ Definition 2a
-  \~ Definition 2b
+Term 2 \~ Definition 2a
+\~ Definition 2b
 
 ### [Abbreviations](https://github.com/markdown-it/markdown-it-abbr)
 
@@ -451,4 +454,4 @@ It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
 
 ### [Custom containers](https://github.com/markdown-it/markdown-it-container)
 
-::: warning *here be dragons* :::
+::: warning _here be dragons_ :::

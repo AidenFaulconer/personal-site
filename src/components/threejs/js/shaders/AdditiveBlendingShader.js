@@ -1,15 +1,14 @@
 THREE.AdditiveBlendingShader = {
-  
   uniforms: {
-    tDiffuse: { value:null },
-    tAdd: { value:null }
+    tDiffuse: { value: null },
+    tAdd: { value: null }
   },
 
   vertexShader: [
     "varying vec2 vUv;",
     "void main() {",
-      "vUv = uv;",
-      "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+    "vUv = uv;",
+    "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
     "}"
   ].join("\n"),
 
@@ -18,10 +17,9 @@ THREE.AdditiveBlendingShader = {
     "uniform sampler2D tAdd;",
     "varying vec2 vUv;",
     "void main() {",
-      "vec4 color = texture2D( tDiffuse, vUv );",
-      "vec4 add = texture2D( tAdd, vUv );",
-      "gl_FragColor = color + add;",
+    "vec4 color = texture2D( tDiffuse, vUv );",
+    "vec4 add = texture2D( tAdd, vUv );",
+    "gl_FragColor = color + add;",
     "}"
   ].join("\n")
-
 };

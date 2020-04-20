@@ -1,6 +1,6 @@
 // #region custom page colors
 $secondary-color: #100A29;
-$foregroung-color: #080515;
+$foreground-color: #080515;
 $primary-color: #8CF2D9;
 $primary-text-color: #fff;
 $secondary-text-color: rgba(255, 255, 255, 0.6);
@@ -20,6 +20,10 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 }
 
 // #endregion custom page colors
+
+//#region TODO: get positioning mixins
+//#endregion positioning mixins
+
 
 //#region customize scrollbar
 @mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
@@ -73,77 +77,52 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 
 //#endregion custom fonts to include
 
-//#region z-index layers (help organize the positioning of overlapping elements
-@mixin layer0 {
-  // z-index: 0;
-}
-
-@mixin layer-1 {
-  // z-index: -1;
-}
-
-@mixin layer-2 {
-  // z-index: -2;
-}
-
-@mixin layer1 {
-  // z-index: 1;
-}
-
-@mixin layer2 {
-  // z-index: 2;
-}
-
-@mixin layer3 {
-  // z-index: 3;
-}
 
 //#endregion z-index layers (help organize the positioning of overlapping elements
 
 //#region animation mixins @include name to use them
-@mixin animation1 {
-  transition: all .5s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -webkit-transition: all .5s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -moz-transition: all .5s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -ms-transition: all .5s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -o-transition: all .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+@mixin animation1($propery: all) {
+  transition: $propery .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -webkit-transition: $propery .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -moz-transition: $propery .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -ms-transition: $propery .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -o-transition: $propery .5s cubic-bezier(0.39, 0.575, 0.565, 1);
 }
 
-@mixin animation2 {
-  transition: .2s ease-in-out;
-  -webkit-transition: .2s ease-in-out;
-  -moz-transition: .2s ease-in-out;
-  -ms-transition: .2s ease-in-out;
-  -o-transition: .2s ease-in-out;
+@mixin animation2($propery: all) {
+  transition: $property .2s ease-in-out;
+  -webkit-transition: $property .2s ease-in-out;
+  -moz-transition: $property .2s ease-in-out;
+  -ms-transition: $property .2s ease-in-out;
+  -o-transition: $property .2s ease-in-out;
 }
 
-@mixin animation3 {
-  transition: all .4s cubic-bezier(0.23, 1, 0.320, 1);
-  -webkit-transition: all .4s cubic-bezier(0.23, 1, 0.320, 1);
-  -moz-transition: all .4s cubic-bezier(0.23, 1, 0.320, 1);
-  -ms-transition: all .4s cubic-bezier(0.23, 1, 0.320, 1);
-  -o-transition: all .4s cubic-bezier(0.23, 1, 0.320, 1);
+@mixin animation3($propery: all) {
+  transition: $propery .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -webkit-transition: $propery .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -moz-transition: $propery .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -ms-transition: $propery .4s cubic-bezier(0.23, 1, 0.320, 1);
+  -o-transition: $propery .4s cubic-bezier(0.23, 1, 0.320, 1);
 }
 
-@mixin animation4 {
-  transition: all .75s cubic-bezier(.19, 1, .22, 1);
-  transition: all .75s cubic-bezier(.19, 1, .22, 1),
-    -webkit-all .75s cubic-bezier(.19, 1, .22, 1);
-  -webkit-transition: all .75s cubic-bezier(.19, 1, .22, 1);
-  -moz-transition: all .75s cubic-bezier(.19, 1, .22, 1);
-  -ms-transition: all .75s cubic-bezier(.19, 1, .22, 1);
-  -o-transition: all .75s cubic-bezier(.19, 1, .22, 1);
+@mixin animation4($propery: all) {
+  transition: $property .75s cubic-bezier(.19, 1, .22, 1);
+  transition: $property .75s cubic-bezier(.19, 1, .22, 1);
+  -webkit-transition: $property .75s cubic-bezier(.19, 1, .22, 1);
+  -moz-transition: $property .75s cubic-bezier(.19, 1, .22, 1);
+  -ms-transition: $property .75s cubic-bezier(.19, 1, .22, 1);
+  -o-transition: $property .75s cubic-bezier(.19, 1, .22, 1);
 }
 
-@mixin animation5 {
-  transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -webkit-transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -moz-transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -ms-transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -o-transition: .2s cubic-bezier(0.39, 0.575, 0.565, 1);
+@mixin animation5($propery: all) {
+  transition: $propery .2s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -webkit-transition: $propery .2s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -moz-transition: $propery .2s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -ms-transition: $propery .2s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -o-transition: $propery .2s cubic-bezier(0.39, 0.575, 0.565, 1);
 }
 
-@mixin animationLinear {
+@mixin animationLinear($propery: all) {
   transition: linear;
   -webkit-transition: linear;
   -moz-transition: linear;
@@ -256,7 +235,7 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 
 //#endregion animation mixins
 @mixin shadow1 {
-  box-shadow: 0px 0px 10px rgba($foregroung-color, $alpha: .15);
+  box-shadow: 0px 0px 10px rgba($foreground-color, $alpha: .15);
 }
 
 //#region sass imports
@@ -372,7 +351,16 @@ $border2:1px solid rgba(0, 0, 0, .1);
   -ms-writing-mode: vertical-lr;
 }
 
-@mixin rotate90 {
+@mixin rotate-90 {
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+}
+
+
+@mixin rotate-90 {
   transform: rotate(-90deg);
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
@@ -429,7 +417,7 @@ body {
 /* System Fonts as used by Medium and WordPress */
 body {
   font-family: brown-regular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  background: $foregroung-color;
+  background: $foreground-color;
 }
 
 a {
@@ -566,7 +554,7 @@ a {
 
 .primary-content {
   font-size: $small;
-  color: $secondary-text-color;
+  color: $primary-color;
   width: 70%;
 
   font-weight: 300;
@@ -771,6 +759,7 @@ a {
 section {
   width: 100%; //this is modified inline in react
   border-top: $border;
+  margin-bottom: $standard-margin*4;
   z-index: 0;
 
   @include media-breakpoint-down(sm) {
@@ -798,7 +787,7 @@ section {
     display: flex;
     flex-basis: content;
     justify-content: space-between;
-    background: $foregroung-color;
+    background: $foreground-color;
 
     @include media-breakpoint-down(sm) {
       background: transparent;
@@ -941,7 +930,7 @@ section {
           position: absolute;
           bottom: -10%;
           left: -10%;
-          color: $foregroung-color;
+          color: $foreground-color;
           width: 100px;
           height: 100px;
           display: flex;
@@ -963,7 +952,7 @@ section {
           & svg {
             position: relative;
             @include occupyContainer();
-            fill: $foregroung-color;
+            fill: $foreground-color;
           }
 
           //mobile
@@ -1015,12 +1004,12 @@ section {
               padding: 1.5%;
               margin-left: -$standard-margin * 2;
               background: white;
-              color: $foregroung-color;
+              color: $foreground-color;
               @include borderRadius1();
             }
 
             @include animation3();
-            background: $foregroung-color;
+            background: $foreground-color;
             color: $primary-text-color;
           }
         }
@@ -1145,11 +1134,14 @@ section {
   // display: none;
 }
 
+
+
+
 .panel {
   position: fixed;
   height: 100%;
   z-index: 1;
-  background: rgba($foregroung-color, .6);
+  background: rgba($foreground-color, .6);
   @include shadow1();
 
   @include hoverFillBottom();
@@ -1173,15 +1165,41 @@ section {
       z-index: 1;
     }
 
-    & svg {
+    & .logo {
+      position: relative;
       fill: $primary-color;
-      display: block;
-      width: 25%;
       z-index: 4;
-      margin: $standard-margin auto;
-
-      // margin-top: $standard-margin*2;
+      margin: -.1px auto;
+      margin-top: $standard-margin * 2.8;
+      margin-bottom: -$standard-margin * 5;
+      width: min-content;
     }
+
+    & #progress-indicator {
+      position: relative;
+      display: block;
+      margin: 0 auto;
+      margin-top: $standard-margin * 2;
+      top: 0%;
+
+      // width: max-content
+      & circle {
+        stroke: $primary-color;
+        // transition: stroke-dashoffset 0.35s;
+        transform-origin: 50% 50%;
+        @include rotate-90();
+      }
+    }
+
+
+    // & #progress-indicator {
+    //   position: relative;
+    //   margin: auto;
+    //   top: -10%;
+    //   // display: bloc
+    //   width: 40%;
+
+    // }
 
     //turn the left panel into a bottom panel (content within this panel have adjustments made indivial of this panel scss hierarchy)
     @include media-breakpoint-down(sm) {
@@ -1209,7 +1227,7 @@ section {
 
   &.right {
     width: $panel-offset;
-    // background: $foregroung-color;
+    // background: $foreground-color;
     border-left: $border;
     right: 0px;
 
@@ -1238,16 +1256,16 @@ section {
   }
 }
 
+
 .mobile__menu__overlay {
   z-index: 1000;
   position: fixed;
-  left: 0px;
   top: 0px;
   background-size: cover;
   @include occupyContainer();
   padding: 30% 20px;
   background-image: url('https://i.imgur.com/jNPlJI5.png');
-  background-color: $foregroung-color;
+  background-color: $foreground-color;
   display: none;
 
   display: flex;
@@ -1257,6 +1275,7 @@ section {
   & span {
     font-size: 4em;
     display: flex;
+    padding-left: 35%;
 
     & a {
       color: $primary-text-color;
@@ -1302,13 +1321,12 @@ $ellipses-slider: (slides: 5,
   z-index: 5;
   //desktop navigation bar
   color: $secondary-text-color;
-  position: fixed;
-  width: $panel-offset;
+  width: 100%;
 
   & .ellipses__text {
     position: relative;
     text-align: center;
-    margin-top: 30vh;
+    margin-top: 14vh;
     width: 100%;
     color: $third-text-color;
   }
@@ -1321,6 +1339,7 @@ $ellipses-slider: (slides: 5,
   #slider {
     position: relative;
     margin: auto;
+    padding: 10%;
     align-self: center;
     display: flex;
     justify-content: space-between;
@@ -1330,7 +1349,7 @@ $ellipses-slider: (slides: 5,
     @include borderRadius1();
 
     & label {
-      margin: 5% auto;
+      // margin: 0px auto;
       width: 100%;
       position: relative;
       display: flex;
@@ -1342,21 +1361,23 @@ $ellipses-slider: (slides: 5,
         font-size: $small;
         color: $third-text-color;
         display: inline-block;
-        margin-top: -10%;
+        margin-bottom: 15px;
+        margin-top: -5px;
         width: 100%;
-        height: 1%;
+        height: 0px;
         text-align: center;
         order: 3;
       }
 
       & .slider-number {
-        font-size: $small;
+        // font-size: $small;
         display: none;
-        padding-right: 10%;
+        // padding: 10%;
       }
 
       & svg {
         position: relative;
+        margin: 0% auto;
         width: 100%;
         fill: $third-text-color;
         order: 2;
@@ -1424,7 +1445,7 @@ $ellipses-slider: (slides: 5,
       display: block;
       border-radius: 100%;
       bottom: -12px;
-      border: 5px solid $primary-text-color;
+      border: 5px solid $primary-color;
       width: 0%;
       margin: auto;
       height: 0%;
@@ -1441,16 +1462,16 @@ $ellipses-slider: (slides: 5,
     &:hover::after {
       @include occupyContainer();
       bottom: -5%;
-      border: 3.5px solid $primary-color;
+      border: .5px solid $primary-text-color;
       @include borderRadius100;
     }
 
     &:hover svg {
-      fill: $primary-color;
+      fill: $primary-text-color;
     }
 
     & svg {
-      fill: $primary-text-color;
+      fill: $primary-color;
       align-self: center;
       display: inline;
       @include occupyContainer();

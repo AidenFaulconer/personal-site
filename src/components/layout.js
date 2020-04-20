@@ -1,11 +1,9 @@
-import React from "react"
-import { Link, useStaticQuery, graphql } from "gatsby"
-import Navigation from "../components/navigation"
-import 'prismjs/themes/prism-okaidia.css';
+import React from "react";
+import { Link, useStaticQuery, graphql } from "gatsby";
+import Navigation from "../components/navigation";
+import "prismjs/themes/prism-okaidia.css";
 
-
-
-export default ({Posts, children }) => {
+export default ({ Posts, children }) => {
   const data = useStaticQuery(
     graphql`
       query {
@@ -16,7 +14,7 @@ export default ({Posts, children }) => {
         }
       }
     `
-  )
+  );
   return (
     <div className="site-wrapper">
       <header className="site-header">
@@ -29,8 +27,14 @@ export default ({Posts, children }) => {
       {children}
       {/**persistent footer at the bottom of every page*/}
       <footer className="site-footer">
-        <p>&copy; 2020 Aiden Faulconer &bull; Crafted with <span role="img" aria-label="love">❤️</span> by <a href="./">Aiden Faulconer</a></p>
+        <p>
+          &copy; 2020 Aiden Faulconer &bull; Crafted with{" "}
+          <span role="img" aria-label="love">
+            ❤️
+          </span>{" "}
+          by <a href="./">Aiden Faulconer</a>
+        </p>
       </footer>
     </div>
-  )
-}
+  );
+};

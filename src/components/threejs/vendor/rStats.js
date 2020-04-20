@@ -87,7 +87,6 @@
 //   var _base; var _div; var _elHeight = 10; var _elWidth = 200
 //   var _perfCounters = {}
 
-
 //   function Graph (_dom, _id, _defArg) {
 //     var _def = _defArg || {}
 //     var _canvas = document.createElement('canvas');

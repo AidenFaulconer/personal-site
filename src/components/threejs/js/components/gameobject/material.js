@@ -1,14 +1,14 @@
-import * as THREE from 'three'
+import * as THREE from "three";
 
 // import threeConfig from '../../config/threeConfig'
 
 // USe this class as a helper to set up some default materials
 export default class Material {
-  constructor (color) {
+  constructor(color) {
     this.basic = new THREE.MeshBasicMaterial({
       color,
       side: THREE.DoubleSide
-    })
+    });
 
     this.standard = new THREE.MeshStandardMaterial({
       color,
@@ -16,8 +16,8 @@ export default class Material {
       roughness: 1,
       metalness: 0,
       side: THREE.DoubleSide
-    })
+    });
 
-    this.wire = new THREE.MeshBasicMaterial({ wireframe: true })
+    this.wire = new THREE.MeshBasicMaterial({ wireframe: true });
   }
 }
