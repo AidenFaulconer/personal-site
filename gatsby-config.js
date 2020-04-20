@@ -4,7 +4,7 @@
  * See: https://www.gatsbyjs.org/docs/gatsby-config/
  */
 
-//get environment variables from .env files, so we can set production and development specific links
+// get environment variables from .env files, so we can set production and development specific links
 const ACTIVE_ENV =
   process.env.GATSBY_ACTIVE_ENV || process.env.NODE_ENV || "development";
 require("dotenv").config({
@@ -16,12 +16,12 @@ module.exports = {
   siteMetadata: {
     title: `Aiden Faulconer`,
     description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `aidenfaulconer.com`,
+    siteUrl: `https://delog-w3layouts.netlify.com/`,
     home: {
       title: `AIDEN FAULCONER`,
-      description: `null` //deffered to array in mainpagecontent
+      description: `null` // deffered to array in mainpagecontent
     },
-    /* injected configuration for the main pages content*/
+    /* injected configuration for the main pages content */
     mainPageContent: require("./static/admin/contentConfig.js"),
     /* W3Layouts domain verification key for contact forms https://my.w3layouts.com/Forms/ */
     w3l_dom_key: `5e609f7a2d23fCF_Domain_verify`

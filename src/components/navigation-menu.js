@@ -117,7 +117,7 @@ export default () => {
     }
     const thisPageProgress =
       (thisPosition / sectionBreakpoints[sectionBreakpoints.length - 1]) * 100;
-    setPageProgress(thisPageProgress > 100 ? 100 : thisPageProgress + 2.8);
+    setPageProgress(thisPageProgress > 100 ? 100 : thisPageProgress);
 
     // console.warn(lineIndicatorHeight);
     if (
