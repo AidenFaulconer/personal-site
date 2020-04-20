@@ -6,7 +6,6 @@ import {
   OrthographicCamera,
   Vector3
 } from "three";
-import Stats from "stats-js/src/Stats";
 import threeConfig from "../../config/threeConfig";
 import { Controls } from "../controls/controls";
 
@@ -24,7 +23,7 @@ export default class {
     this._objectPool = new ObjectPool();
 
     // stats
-    if (threeConfig.isDev) this._stats = new Stats();
+    // if (threeConfig.isDev) this._stats = new Stats();
 
     // width and height of canvas container
     this._winWidth = this._canvas.clientWidth;
