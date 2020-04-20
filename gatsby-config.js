@@ -16,7 +16,7 @@ module.exports = {
   siteMetadata: {
     title: `Aiden Faulconer`,
     description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://delog-w3layouts.netlify.com/`,
+    siteUrl: `aidenfaulconer.com`,
     home: {
       title: `AIDEN FAULCONER`,
       description: `null` //deffered to array in mainpagecontent
