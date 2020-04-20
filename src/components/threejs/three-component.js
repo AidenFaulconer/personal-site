@@ -5,9 +5,6 @@ import threeConfig from "./js/config/threeConfig";
 // ANIMATE ON SCROLL
 import "aos/dist/aos.css";
 // dont use {main}
-if (typeof window !== "undefined") {
-  const Detector = require("./js/utils/detector");
-}
 // import ExperienceManger from './js/components/experiencemanager/experiencemanager'
 // import { MainVR } from './js/mainVR'
 
@@ -38,14 +35,7 @@ export default () => {
       })())
         ? (threeConfig.isMobile = true)
         : console.log("configuring for desktop usage");
-
-      // threeConfig.isMobile = true
-      // Check for webGL capabilities and create the threejs canvas
-      if (!Detector.webgl) {
-        Detector.addGetWebGLMessage();
-      } else {
-        setThreeContext(new Main(canvasRef.current)); // this is the deafult and reccomended entry for the experience, which is with vr off at default
-      }
+      setThreeContext(new Main(canvasRef.current)); // this is the deafult and reccomended entry for the experience, which is with vr off at default
       // #endregion
 
       // initialize AOS

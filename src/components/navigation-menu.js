@@ -109,8 +109,11 @@ export default () => {
   });
 
   const handleCurrentPosition = useCallback(() => {
+    let thisPosition = 0;
     if (typeof window !== "undefined") {
-      const thisPosition = window.scrollY;
+      thisPosition = window.scrollY;
+    } else {
+      thisPosition = document.body.scrollTop;
     }
     const thisPageProgress =
       (thisPosition / sectionBreakpoints[sectionBreakpoints.length - 1]) * 100;
