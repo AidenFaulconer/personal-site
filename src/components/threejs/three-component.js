@@ -17,7 +17,7 @@ export default () => {
   useEffect(() => {
     // #region  detect mobile view and configure threejs
     // check the device type the user has. TODO: change configuration to optimize for mobile and tablet useage better
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && threeContext == null) {
       (window.mobileAndTabletcheck = (function() {
         let check = false;
         (function(a) {
@@ -44,6 +44,11 @@ export default () => {
       });
 
       window.addEventListener("close", () => setThreeContext(null)); // delete allocated memory for three.js https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Delete_in_strict_mode
+
+      // oncomponent unmount
+      return () => {
+        setThreeContext(threeContext);
+      }; // preserve context
     }
   }, []);
 

@@ -13,18 +13,17 @@ import {
   Object3D
 } from "three"; // when to use { } im imports depends on how each module is exported... https://stackoverflow.com/questions/48537180/difference-between-import-something-from-somelib-and-import-something-from
 // import { obj } from 'three/examples/jsm/loaders/OBJLoader2Parallel'
-import Material from "./material";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import { basename } from "path";
+import Material from "./material";
 
 import threeConfig from "../../config/threeConfig";
-import ObjectPool from "../../components/gameobject/objectpool";
-
-import { basename } from "path";
+import ObjectPool from "./objectpool";
 
 // handle filepaths
 // const env = process.env.NODE_ENV === 'production' ? require('../../../../config/prod.env') : require('../../../../config/dev.env')
-const modelPath = process.cwd() + "/static/models/";
-const texturePath = process.cwd() + "/static/img/";
+const modelPath = `${process.cwd()}/static/models/`;
+const texturePath = `${process.cwd()}/static/img/`;
 
 // for webpack filepath debugging
 
@@ -45,18 +44,19 @@ export default class Geometry {
   }
 
   // load objects from custom configuration (static)
-  loadFromConfiguration(events = false, interactionHandler) {
-    for (let modelName in threeConfig.models) {
+  loadFromConfiguration(interactionHandler) {
+    for (const modelName in threeConfig.models) {
       // load obj via local objloader instance
-      let geometryInstance = new Geometry(this._scene);
+      const geometryInstance = new Geometry(this._scene);
       geometryInstance.objLoader.load(
-        threeConfig.models[modelName][0]["path"],
+        threeConfig.models[modelName][0].path,
         geometry => {
           // configure materials //TODO: abstract material creation from threeconfig
-          let material, fx;
+          let material;
+          let fx;
           if (threeConfig.models[modelName][0].material) {
-            let materialConfig = threeConfig.models[modelName][0]["material"];
-            let materialProps = materialConfig[0]["props"][0];
+            const materialConfig = threeConfig.models[modelName][0].material;
+            const materialProps = materialConfig[0].props[0];
             // fx = materialConfig[0]['props'][1].fx
             if (materialProps.envMap) {
               materialProps.envMap = new CubeTextureLoader().load(
@@ -71,7 +71,7 @@ export default class Geometry {
               );
               materialProps.envMap.minFilter = LinearFilter;
             }
-            switch (materialConfig[0]["type"]) {
+            switch (materialConfig[0].type) {
               case "physical":
                 material = new MeshPhysicalMaterial(materialProps);
                 break;
@@ -96,9 +96,9 @@ export default class Geometry {
               material
                 ? (childMesh.material = material)
                 : console.log("using default material");
-              childMesh.scale.set(...threeConfig.models[modelName][0]["scale"]);
+              childMesh.scale.set(...threeConfig.models[modelName][0].scale);
               childMesh.position.set(
-                ...threeConfig.models[modelName][0]["position"]
+                ...threeConfig.models[modelName][0].position
               );
               // idenfity objects by their configured name (allow deletion and other useful methods in threejs)
               childMesh.name = modelName;
@@ -108,7 +108,7 @@ export default class Geometry {
           }
           geometryInstance.object = geometry;
           // bind the event handler to the instance while we pass it in (IMPORTANT OR WE WILL GET UNDEFINED BEHAVIOR IN OBJECT REFRENCE)
-          if (events)
+          if (threeConfig.models[modelName][0].interactive)
             interactionHandler.eventHandlers.push(
               geometryInstance.watchMouse.bind(geometryInstance)
             );
@@ -122,13 +122,9 @@ export default class Geometry {
         // on error event
         err => {
           console.error(
-            "obj loading failed: " +
-              err +
-              " with path:" +
-              modelPath +
-              threeConfig.models[modelName][0]["path"] +
-              " at directory " +
-              (basename(__dirname) + basename(__filename, ".js"))
+            `obj loading failed: ${err} with path:${modelPath}${
+              threeConfig.models[modelName][0].path
+            } at directory ${basename(__dirname) + basename(__filename, ".js")}`
           );
         }
       );

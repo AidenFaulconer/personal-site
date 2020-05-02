@@ -97,7 +97,7 @@ export default class extends View {
 
     // #region load objs from configuration
     const geometry = new Geometry(this._scene, this._objectPool);
-    geometry.loadFromConfiguration(true, this._interactionHandler); // these objects lookat the mouse
+    geometry.loadFromConfiguration(this._interactionHandler); // these objects lookat the mouse
     // #endregion
 
     // #region configure scene
@@ -164,15 +164,16 @@ export default class extends View {
     // #region
     if (threeConfig.isMobile) {
       setTimeout(() => {
-        this._objectPool.getPool()[0].traverse(mesh => {
-          // console.log(mesh)
+        this._objectPool.getPool()[1].traverse(mesh => {
           const thisMesh = mesh;
           let rad = 0;
+          thisMesh.children.map(subMesh =>
+            this._updateCallbacks.push(() => {
+              rad > 0.001 ? (rad -= 0.0001) : (rad += Math.random() * 0.0001);
+              subMesh.rotation.x += rad;
+            })
+          );
           // new Object3D().position
-          this._updateCallbacks.push(() => {
-            rad > 0.001 ? (rad -= 0.0001) : (rad += 0.00001);
-            thisMesh.rotation.y += rad;
-          });
         });
       }, 2000);
     }

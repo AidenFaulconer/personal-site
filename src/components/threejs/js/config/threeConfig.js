@@ -75,6 +75,7 @@ export default {
   models: {
     lionobj: [
       {
+        interactive: true,
         path: "./models/lion.OBJ",
         scale: [2.1, 2.1, 2.1],
         position: [2, -0.8, -1],
@@ -180,9 +181,10 @@ export default {
     // }],
     backdropobj: [
       {
+        interactive: true,
         path: "./models/backdrop.OBJ",
         scale: [3.8, 3.8, 3.8],
-        position: [-1.5, 1, -2.5],
+        position: [-1.5, 1, -1.5],
         material: [
           {
             type: "physical",
@@ -213,6 +215,7 @@ export default {
     ],
     backdropobj_mobile: [
       {
+        interactive: false,
         path: "./models/backdrop_mobile.OBJ",
         scale: [1.8, 1.8, 1.8],
         position: [0, 0, 0],
@@ -259,13 +262,13 @@ export default {
     color: "#201452", //was #100A29
     density: 3,
     near: 0.10008,
-    far: 120
+    far: 90
   },
   camera: {
     orthographic: false,
     fov: 50,
     near: 0.01,
-    far: 85,
+    far: 90,
     aspect: 1,
     // base position
     posX: 0,

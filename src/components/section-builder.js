@@ -52,7 +52,7 @@ export default () => {
           const SectionComponent = sections[sectionName]; // get tangible reference for react to dynamically generate a component from
           return (
             <>
-              <section id={sectionName} key={sectionName + i}>
+              <section id={sectionName} key={sectionName + i} className="mainPage">
                 <div className="section__header">
                   <h1 data-aos="fade-up">{sectionName.toUpperCase()}</h1>
                   <h1 data-aos="fade-up">{++i}</h1>

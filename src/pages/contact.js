@@ -7,7 +7,7 @@ const ContactPage = ({ data: { site } }) => {
   return (
     <Layout>
       <Helmet>
-        <title>Contact — {site.siteMetadata.title}</title>
+        <title>Contact —{site.siteMetadata.title}</title>
         <meta name="description" content={site.siteMetadata.description} />
       </Helmet>
       <div className="two-grids -contact">
@@ -41,7 +41,7 @@ const ContactPage = ({ data: { site } }) => {
             </div>
             <div>
               <label htmlFor="w3lMessage">Message</label>
-              <textarea name="w3lMessage" id="w3lMessage"></textarea>
+              <textarea name="w3lMessage" id="w3lMessage" />
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <input

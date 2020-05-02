@@ -2,6 +2,7 @@
 $secondary-color: #100A29;
 $foreground-color: #080515;
 $primary-color: #8CF2D9;
+$primary-color-inverse: #7E1B25;
 $primary-text-color: #fff;
 $secondary-text-color: rgba(255, 255, 255, 0.6);
 $third-text-color: rgba(255, 255, 255, 0.1);
@@ -10,7 +11,14 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 @mixin reverseColor {
   /*ThisvalueistheOPPOSITEcolorofourbackground*/
   color: $primary-text-color;
-  // mix-blend-mode:;
+  mix-blend-mode: difference;
+
+}
+
+@mixin multiplyColor {
+  /*ThisvalueistheOPPOSITEcolorofourbackground*/
+  background: $primary-color;
+  mix-blend-mode: multiply;
 
 }
 
@@ -23,7 +31,6 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 
 //#region TODO: get positioning mixins
 //#endregion positioning mixins
-
 
 //#region customize scrollbar
 @mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
@@ -51,8 +58,6 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 
 //#endregion customize scrollbar
 
-
-
 //#region custom fonts to include
 @font-face {
   font-family: 'brown-thin';
@@ -77,16 +82,15 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 
 //#endregion custom fonts to include
 
-
 //#endregion z-index layers (help organize the positioning of overlapping elements
 
 //#region animation mixins @include name to use them
 @mixin animation1($propery: all) {
-  transition: $propery .5s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -webkit-transition: $propery .5s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -moz-transition: $propery .5s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -ms-transition: $propery .5s cubic-bezier(0.39, 0.575, 0.565, 1);
-  -o-transition: $propery .5s cubic-bezier(0.39, 0.575, 0.565, 1);
+  transition: $propery .25s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -webkit-transition: $propery .25s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -moz-transition: $propery .25s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -ms-transition: $propery .25s cubic-bezier(0.39, 0.575, 0.565, 1);
+  -o-transition: $propery .25s cubic-bezier(0.39, 0.575, 0.565, 1);
 }
 
 @mixin animation2($propery: all) {
@@ -190,6 +194,27 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 }
 
 
+@mixin hoverFillTop {
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0%;
+    top: 0px;
+    z-index: -1;
+    background: $third-text-color;
+    @include animation1();
+  }
+
+  &:hover {
+    &::after {
+      height: 100%;
+      @include animation1();
+    }
+  }
+}
+
 @mixin hoverFillBottom {
 
   &::after {
@@ -234,8 +259,9 @@ $gradient-color: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
 }
 
 //#endregion animation mixins
+
 @mixin shadow1 {
-  box-shadow: 0px 0px 10px rgba($foreground-color, $alpha: .15);
+  box-shadow: 0px 0px 15px rgba($foreground-color, $alpha: .5);
 }
 
 //#region sass imports
@@ -387,7 +413,107 @@ $border2:1px solid rgba(0, 0, 0, .1);
   background: transparent;
 }
 
+button {
+  background: transparent;
+  border: none;
+
+  &:hover {
+    fill: $primary-color;
+    cursor: pointer;
+  }
+}
+
+@mixin hideScrollbar {
+  /* Internet Explorer 10+ */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+  }
+}
+
 // #endregion custom browser styling
+
+//#region react-transition-group stylings
+
+//before (no active)
+.blog-transition-enter {
+  left: 100vw;
+}
+
+//after (active)
+.blog-transition-enter-active {
+  left: 0vw;
+  transition: left 1s;
+  -webkit-transition: left 1s;
+  -moz-transition: left 1s;
+  -ms-transition: left 1s;
+  -o-transition: left 1s;
+}
+
+//persist final state
+.blog-transition-enter-done {
+  left: 0vw;
+}
+
+//before (no active)
+.home-transition-enter {
+  left: -100vw;
+}
+
+//after (active)
+.home-transition-enter-active {
+  left: 0vw;
+  transition: left 1s;
+  -webkit-transition: left 1s;
+  -moz-transition: left 1s;
+  -ms-transition: left 1s;
+  -o-transition: left 1s;
+}
+
+//persist final state
+.home-transition-enter-done {
+  left: 0vw;
+}
+
+//before (no active)
+.canvas-transition-enter {
+  opacity: 0;
+}
+
+//after (active)
+.canvas-transition-enter-active {
+  opacity: 1;
+  transition: opacity 1.5s;
+  -webkit-transition: opacity 1.5s;
+  -moz-transition: opacity 1.5s;
+  -ms-transition: opacity 1.5s;
+  -o-transition: opacity 1.5s;
+}
+
+//persist final state
+.canvas-transition-enter-done {
+  opacity: 1;
+}
+
+//from script
+.click-active {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  @include animation1(transform);
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+}
+
+//#endregion react-transition-group stylings
+
+//#region layout styling
 
 html,
 body {
@@ -429,7 +555,6 @@ a {
   }
 }
 
-//#region generic styles (used for all pages)
 .site-wrapper {
 
   //when in mobile, site content positions on the left side (the left panel will dissapear)
@@ -442,7 +567,7 @@ a {
     width: $panel-offset * 5.7;
   }
 
-
+  overflow: hidden;
   font-size: $h3;
   position: absolute;
   background: transparent; // border: 2px solid red;
@@ -456,10 +581,20 @@ a {
 }
 
 .navigation {
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  justify-content: space-around;
+  flex-direction: row;
+  font-size: $h3;
+  row-gap: $standard-margin/2;
+  padding: 0 30%;
+  // background: $foreground-color;
   font-weight: 300;
+  text-transform: capitalize;
 
   a {
-    color: #888;
+    color: $primary-text-color;
     text-decoration: none;
     margin: 0 8px 0;
 
@@ -472,32 +607,36 @@ a {
       color: $primary-color;
     }
 
-    &:last-child {
-      margin-right: 0;
-    }
   }
+
 }
 
 .site-header {
-  top: $standard-margin;
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 0;
-  background: $secondary-color;
   z-index: 3;
-  opacity: 80%;
-  width: 65%;
+  text-align: center;
+  opacity: .8;
+  left: 0px;
+  width: $panel-offset;
+  // @include testBounds();
   position: fixed;
-  display: none;
-  visibility: hidden;
-  margin-bottom: 32px;
+  // display: none;
+  // visibility: hidden;
+  margin-bottom: $standard-margin;
+  margin-top: $standard-margin * 6.5;
   align-items: center;
+
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+    visibility: hidden;
+  }
 }
 
 .site-title a {
   color: $primary-color;
   text-decoration: none;
   font-weight: 900;
+  display: none;
   text-transform: uppercase;
 }
 
@@ -506,6 +645,7 @@ a {
   padding: 30vh $standard-margin*1.5;
   max-width: 980px;
   border: none;
+
 }
 
 .headline {
@@ -520,6 +660,615 @@ a {
     top: 0px;
   }
 }
+
+//#region navigation styling
+#canvas {
+  z-index: 0;
+  position: absolute;
+  @include occupyContainer();
+  overflow: hidden;
+
+  canvas {
+    @include occupyContainer();
+  }
+
+  // @include media-breakpoint-between() {}
+
+  @include media-breakpoint-down(sm) {
+    // position: fixed;
+    // opacity: .5;
+  }
+
+  // display: none;
+}
+
+
+.panel {
+  position: fixed;
+  height: 100%;
+  z-index: 1;
+  @include shadow1();
+  @include hoverFillTop();
+
+  //where the nav bar resides
+  &.left {
+    background: rgba($foreground-color, .9);
+    width: $panel-offset;
+    // border-right: $border;
+    @include animation1();
+    left: 0px;
+
+    & .logo {
+      position: relative;
+      fill: $primary-color;
+      z-index: 4;
+      margin: -.1px auto;
+      margin-top: $standard-margin * 2.8;
+      margin-bottom: -$standard-margin * 5;
+      width: min-content;
+    }
+
+    & #progress-indicator {
+      position: relative;
+      display: block;
+      margin: 0 auto;
+      margin-top: $standard-margin * 2;
+      top: 0%;
+
+      // width: max-content
+      & circle {
+        stroke: $primary-color;
+        stroke-width: 2px;
+        // transition: stroke-dashoffset 0.35s;
+        transform-origin: 50% 50%;
+        @include rotate-90();
+      }
+    }
+
+
+    // & #progress-indicator {
+    //   position: relative;
+    //   margin: auto;
+    //   top: -10%;
+    //   // display: bloc
+    //   width: 40%;
+
+    // }
+
+    //turn the left panel into a bottom panel (content within this panel have adjustments made indivial of this panel scss hierarchy)
+    @include media-breakpoint-down(sm) {
+      & svg {
+        width: 40%;
+      }
+
+      background: transparant;
+      width: 0px;
+      height:0px;
+
+      & #line-indicator {
+        display: none;
+        visibility: hidden;
+      }
+    }
+
+    //tablet left panel (slightly wider)
+
+    @include media-breakpoint-between(sm, lg) {
+      width: $panel-offset;
+    }
+  }
+
+
+  &.right {
+    width: $panel-offset;
+    // border-left: $border;
+    fill: $primary-color;
+    color: $primary-color;
+    right: 0px;
+    background: rgba($foreground-color, .9);
+
+    @include media-breakpoint-down(sm) {
+      width: $panel-offset * .0;
+    }
+
+    @include media-breakpoint-between(sm, lg) {
+      width: $panel-offset * .0;
+    }
+  }
+
+
+}
+
+.hamburger {
+  z-index: 1001;
+  position: fixed;
+  top: 2%;
+  right: 0%;
+  display: none;
+
+  @include media-breakpoint-down(sm) {
+    display: block;
+    margin: auto;
+  }
+}
+
+
+.mobile__menu__overlay {
+  z-index: 1000;
+  position: fixed;
+  top: 0px;
+  background-size: cover;
+  @include occupyContainer();
+  padding: 30% 20px;
+  background-image: url('https://i.imgur.com/jNPlJI5.png');
+  background-color: $foreground-color;
+  display: none;
+
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+
+  & span {
+    font-size: 4em;
+    display: flex;
+    padding-left: 35%;
+
+    & a {
+      color: $primary-text-color;
+    }
+
+    margin-bottom: $mobile-standard-margin * 2;
+  }
+
+  opacity: 1;
+  display: block;
+}
+
+//#region main navbar (ellipse bar)
+//list to easily add items to
+$ellipses-spacing: 1.5rem;
+$ellipses-slider: (slides: 5,
+  transition-speed: 1.5s);
+
+//sas loops to handle carousel interaction
+//style active
+@for $i from 0 through map_get($ellipses-slider, slides) {
+  #ellipses-page__#{$i}:checked~#slider label[for="ellipses-page__#{$i}"] {
+
+    @include animation3();
+
+    & .slider-label {
+      color: $primary-text-color;
+    }
+
+    & .slider-number {
+      color: $primary-text-color;
+    }
+
+    & svg {
+      // background: $primary-text-color;
+      // color: $primary-text-color;
+      fill: $primary-text-color;
+    }
+  }
+}
+
+.ellipses-bar {
+  z-index: 5;
+  //desktop navigation bar
+  color: $secondary-text-color;
+  width: 100%;
+
+  & .ellipses__text {
+    position: relative;
+    text-align: center;
+    margin-top: 14vh;
+    margin-bottom: 1vh;
+    width: 100%;
+    color: $third-text-color;
+  }
+
+  // hide input radio fields
+  & input[name="ellipses"] {
+    display: none;
+  }
+
+  #slider {
+    position: relative;
+    margin: auto;
+    padding: 5%;
+    align-self: center;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    width: 35%;
+    border: $border;
+    @include borderRadius1();
+
+    & label {
+      // margin: 0px auto;
+      width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+
+      & .slider-label {
+        position: relative;
+        font-size: $small;
+        color: $third-text-color;
+        display: inline-block;
+        margin-bottom: 15px;
+        margin-top: -5px;
+        width: 100%;
+        height: 0px;
+        text-align: center;
+        order: 3;
+      }
+
+      & .slider-number {
+        // font-size: $small;
+        display: none;
+        // padding: 10%;
+      }
+
+      & svg {
+        position: relative;
+        margin: 0% auto;
+        width: 100%;
+        fill: $third-text-color;
+        order: 2;
+        color: $primary-color;
+        @include animation3();
+      }
+
+      &:hover {
+        & svg {
+          @include animation3();
+          fill: $primary-text-color;
+        }
+
+        & .slider-label {
+          color: $primary-text-color;
+        }
+      }
+    }
+
+
+  }
+
+
+  //tablet navigation bar
+  @include media-breakpoint-between(sm, lg) {
+
+    #slider {
+      font-size: 1.5em;
+      padding: 0%;
+      width: 60%;
+      margin: auto;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    visibility: hidden;
+  }
+
+}
+
+//#region social media links
+#social-media-bar {
+  position: sticky;
+  margin-top: $standard-margin * 2.5;
+  width: 100%;
+  height: 10vh;
+  padding: 0% 1vw;
+  display: flex;
+  fill: inherit;
+  color: inherit;
+  justify-content: space-between;
+  flex-direction: row;
+
+  & a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    z-index: 51;
+    right: 0px;
+    height: 30%;
+    fill: inherit;
+    color: inherit;
+    width: 20%;
+    cursor: pointer;
+    vertical-align: middle;
+
+    &::after {
+      position: absolute;
+      display: block;
+      border-radius: 100%;
+      bottom: -12px;
+      border: 5px solid currentColor;
+      width: 0%;
+      margin: auto;
+      height: 0%;
+      content: '';
+      z-index: 3;
+      @include borderRadius1();
+      @include animation3();
+
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+
+    &:hover::after {
+      @include occupyContainer();
+      bottom: -5%;
+      border: .5px solid $primary-text-color;
+      @include borderRadius100;
+    }
+
+    &:hover svg {
+      fill: $primary-text-color;
+    }
+
+    & svg {
+      // fill: $primary-color;
+      align-self: center;
+      display: inline;
+      @include occupyContainer();
+      margin-bottom: 20%;
+      max-height: 90%;
+
+      @include media-breakpoint-down(sm) {
+        width: 300%;
+      }
+
+    }
+  }
+
+  @include media-breakpoint-between(sm, lg) {
+    justify-content: space-evenly;
+
+    & a {
+      margin: $standard-margin*.5 auto;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+//#endregion social media links
+
+
+//#endregion nav bar
+
+//#region loading screen
+.loader {
+
+  @include media-breakpoint-down(sm) {
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    left: 0px;
+    position: fixed;
+    background: black;
+    z-index: 1100;
+    color: var(--clr-fourth);
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 40%;
+
+    #loader-bar {
+      position: relative;
+      top: -40rem;
+      font-size: 3em;
+      text-align: center;
+      color: var(--clr-fourth);
+      padding: .5%;
+      font-family: 'brown-light';
+      max-height: 50px;
+      width: 80%;
+      z-index: 1101;
+
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    position: fixed;
+    background: black;
+    z-index: 1100;
+    //font-size: 2rem;
+    text-align: center;
+    vertical-align: middle;
+    padding: 5% 20% 5% 20%;
+    color: var(--clr-fourth);
+
+
+
+    #loader-bar {
+      //filter: url(#turbulence);
+      //-webkit-filter: url(#turbulence);
+      //nofilterifmobile(performance):;
+      // display: inline;
+      position: relative;
+      top: 20%;
+      //font-size: 'brown';
+      text-align: center;
+      // border: 3px solid purple;
+      color: var(--clr-fourth);
+      padding: .5%;
+      margin: auto;
+      max-height: 50px;
+      width: 80%;
+      // background: var(--clr-primary);
+      z-index: 1101;
+    }
+  }
+
+  #loader-bar {
+    left: -.5rem;
+  }
+}
+
+//load end
+.finished {
+  animation-delay: .5s;
+  animation-name: finish-load;
+  animation-duration: 1.5s;
+  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.lds-ring {
+  // border: 3px solid red;
+  display: inline-block;
+  position: relative;
+  top: 15%;
+  text-align: center;
+  padding: 4rem;
+  width: 60%;
+  height: 40%;
+
+  #lds-ring__text {
+    position: absolute;
+    display: block;
+    top: 100%;
+    left: 10rem;
+
+    margin: auto;
+    width: 40%;
+    font-family: 'brown-bold';
+  }
+
+  #lds-ring__logo {
+    position: absolute;
+    display: inline-block;
+    top: 4rem;
+    left: 15rem;
+    margin: auto;
+    width: 5rem;
+    font-family: 'brown-bold';
+  }
+
+  @include media-breakpoint-down(sm) {
+    display: inline-block;
+    position: relative;
+    top: 10%;
+    left: 0%;
+    width: 100%;
+    font-size: 6rem;
+    height: 90%;
+    text-align: center;
+
+    #lds-ring__text {
+      position: relative;
+      display: inline-block;
+      margin: 60rem auto;
+      width: 100%;
+      left: 0rem;
+      top: 0px;
+      font-family: 'brown-bold';
+    }
+
+    #lds-ring__logo {
+      position: absolute;
+      top: 12%;
+      margin: auto;
+      left: 40rem;
+      width: 20rem;
+      font-family: 'brown-bold';
+      // border: 3px solid yellow;
+    }
+  }
+
+  & div {
+    @include media-breakpoint-up(lg) {
+      display: block;
+      position: absolute;
+      width: 13rem;
+      height: 13rem;
+      top: 0%;
+      right: 33%;
+      border: 8px solid var(--clr-primary);
+      border-radius: 50%;
+      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: var(--clr-primary) transparent transparent transparent;
+      -webkit-animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    }
+
+    @include media-breakpoint-down(sm) {
+      display: block;
+      position: absolute;
+      width: 50rem;
+      height: 50rem;
+      top: 0%;
+      right: 26%;
+      border: 8px solid var(--clr-primary);
+      border-radius: 50%;
+      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: var(--clr-primary) transparent transparent transparent;
+    }
+
+    & div:nth-child(1) {
+      animation-delay: -0.45s;
+    }
+
+    & div:nth-child(2) {
+      animation-delay: -0.3s;
+    }
+
+    & div:nth-child(3) {
+      animation-delay: -0.15s;
+    }
+  }
+}
+
+//#region loading screen animations
+@keyframes finish-load {
+  0% {
+    height: 100%;
+    width: 100%;
+    opacity: 100%;
+  }
+
+  100% {
+    opacity: 0%;
+    // height: 0%;
+    visibility: hidden;
+    display: none;
+    color: transparent;
+  }
+}
+
+//ring animation
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+
+  }
+}
+
+//#endregion loading screen animations
+
+//#endregion loading rings and content
+
+//#endregion navigation styling
+
+
+
+//#endregion layout styling
+
+//#region blog styling
 
 .button {
   padding: 9px 18px;
@@ -751,11 +1500,100 @@ a {
   }
 }
 
-//#endregion generic styles (used for all pages)
+.blog-main {
+  position: relative;
+  min-height: 100%;
 
-//#region main page styles
+  .blog-divider {}
+
+  section {
+    position: relative;
+    width: auto;
+    height: 70vh;
+    border: none;
+    background: $primary-color;
+    margin: 0px;
+    @include occupyContainer();
 
 
+    &::after {
+      content: '';
+      z-index: -1;
+      position: absolute;
+      height: 100%;
+      width: 35%;
+      top: 0px;
+      left: 0px;
+      @include multiplyColor();
+    }
+
+    .blog__header {
+      padding-top: $standard-margin * 2;
+      margin-left: $standard-margin * 1.5;
+      display: flex;
+      flex-direction: row;
+      row-gap: $standard-margin * 2;
+      position: relative;
+      fill: white;
+      color: white;
+      font-size: $h1;
+    }
+
+    .blog__wrapper {
+      display: flex;
+      width: auto;
+      // height: 100%;
+      padding: 12% 0 5% 0;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      box-sizing: content-box;
+      justify-content: space-between;
+      // flex-wrap: wrap; todo: enable by button
+      @include hideScrollbar();
+      @include animation1(transform);
+
+
+      .blog__post {
+        min-width: 20vw;
+        min-height: 10%;
+        max-height: 50%;
+        max-width: 50vw;
+        margin-left: $standard-margin * 2;
+        position: relative;
+        @include shadow1();
+        @include borderRadius1();
+
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          @include borderRadius1();
+
+          &::after {}
+        }
+
+        .post__title {
+          position: absolute;
+          bottom: -4vh;
+          color: white;
+        }
+
+        .post__meta {
+          // bottom: -$standard-margin;
+          display: none;
+          position: absolute;
+        }
+
+      }
+    }
+  }
+}
+
+
+
+//#endregion blog styling
+
+//#region content styling
 section {
   width: 100%; //this is modified inline in react
   border-top: $border;
@@ -782,7 +1620,7 @@ section {
   & .section__header {
     @include shadow1();
     z-index: -1;
-    padding: $standard-margin;
+    padding: 0 $standard-margin;
     width: 100%;
     display: flex;
     flex-basis: content;
@@ -1114,615 +1952,7 @@ section {
 
 }
 
-#canvas {
-  z-index: 0;
-  position: absolute;
-  @include occupyContainer();
-  overflow: hidden;
-
-  canvas {
-    @include occupyContainer();
-  }
-
-  // @include media-breakpoint-between() {}
-
-  @include media-breakpoint-down(sm) {
-    // position: fixed;
-    // opacity: .5;
-  }
-
-  // display: none;
-}
-
-
-
-
-.panel {
-  position: fixed;
-  height: 100%;
-  z-index: 1;
-  background: rgba($foreground-color, .6);
-  @include shadow1();
-
-  @include hoverFillBottom();
-
-  //where the nav bar resides
-  &.left {
-    width: $panel-offset;
-    border-right: $border;
-    @include animation1();
-    left: 0px;
-
-
-    & #line-indicator {
-      position: absolute;
-      pointer-events: none;
-      @include animationLinear();
-      border-right: 2px solid $primary-color;
-      height: 0%;
-      top: 0px;
-      width: 101%;
-      z-index: 1;
-    }
-
-    & .logo {
-      position: relative;
-      fill: $primary-color;
-      z-index: 4;
-      margin: -.1px auto;
-      margin-top: $standard-margin * 2.8;
-      margin-bottom: -$standard-margin * 5;
-      width: min-content;
-    }
-
-    & #progress-indicator {
-      position: relative;
-      display: block;
-      margin: 0 auto;
-      margin-top: $standard-margin * 2;
-      top: 0%;
-
-      // width: max-content
-      & circle {
-        stroke: $primary-color;
-        // transition: stroke-dashoffset 0.35s;
-        transform-origin: 50% 50%;
-        @include rotate-90();
-      }
-    }
-
-
-    // & #progress-indicator {
-    //   position: relative;
-    //   margin: auto;
-    //   top: -10%;
-    //   // display: bloc
-    //   width: 40%;
-
-    // }
-
-    //turn the left panel into a bottom panel (content within this panel have adjustments made indivial of this panel scss hierarchy)
-    @include media-breakpoint-down(sm) {
-      & svg {
-        width: 40%;
-      }
-
-      background: transparant;
-      width: 0px;
-      height:0px;
-
-      & #line-indicator {
-        display: none;
-        visibility: hidden;
-      }
-    }
-
-    //tablet left panel (slightly wider)
-
-    @include media-breakpoint-between(sm, lg) {
-      width: $panel-offset;
-    }
-  }
-
-
-  &.right {
-    width: $panel-offset;
-    // background: $foreground-color;
-    border-left: $border;
-    right: 0px;
-
-    @include media-breakpoint-down(sm) {
-      width: $panel-offset * .0;
-    }
-
-    @include media-breakpoint-between(sm, lg) {
-      width: $panel-offset * .0;
-    }
-  }
-
-
-}
-
-.hamburger {
-  z-index: 1001;
-  position: fixed;
-  top: 2%;
-  right: 0%;
-  display: none;
-
-  @include media-breakpoint-down(sm) {
-    display: block;
-    margin: auto;
-  }
-}
-
-
-.mobile__menu__overlay {
-  z-index: 1000;
-  position: fixed;
-  top: 0px;
-  background-size: cover;
-  @include occupyContainer();
-  padding: 30% 20px;
-  background-image: url('https://i.imgur.com/jNPlJI5.png');
-  background-color: $foreground-color;
-  display: none;
-
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-
-  & span {
-    font-size: 4em;
-    display: flex;
-    padding-left: 35%;
-
-    & a {
-      color: $primary-text-color;
-    }
-
-    margin-bottom: $mobile-standard-margin * 2;
-  }
-
-  opacity: 1;
-  display: block;
-}
-
-//#region main navbar (ellipse bar)
-//list to easily add items to
-$ellipses-spacing: 1.5rem;
-$ellipses-slider: (slides: 5,
-  transition-speed: 1.5s);
-
-//sas loops to handle carousel interaction
-//style active
-@for $i from 0 through map_get($ellipses-slider, slides) {
-  #ellipses-page__#{$i}:checked~#slider label[for="ellipses-page__#{$i}"] {
-
-    @include animation3();
-
-    & .slider-label {
-      color: $primary-text-color;
-    }
-
-    & .slider-number {
-      color: $primary-text-color;
-    }
-
-    & svg {
-      // background: $primary-text-color;
-      // color: $primary-text-color;
-      fill: $primary-text-color;
-    }
-  }
-}
-
-.ellipses-bar {
-  z-index: 5;
-  //desktop navigation bar
-  color: $secondary-text-color;
-  width: 100%;
-
-  & .ellipses__text {
-    position: relative;
-    text-align: center;
-    margin-top: 14vh;
-    width: 100%;
-    color: $third-text-color;
-  }
-
-  // hide input radio fields
-  & input[name="ellipses"] {
-    display: none;
-  }
-
-  #slider {
-    position: relative;
-    margin: auto;
-    padding: 10%;
-    align-self: center;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    width: 40%;
-    border: $border;
-    @include borderRadius1();
-
-    & label {
-      // margin: 0px auto;
-      width: 100%;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-
-      & .slider-label {
-        position: relative;
-        font-size: $small;
-        color: $third-text-color;
-        display: inline-block;
-        margin-bottom: 15px;
-        margin-top: -5px;
-        width: 100%;
-        height: 0px;
-        text-align: center;
-        order: 3;
-      }
-
-      & .slider-number {
-        // font-size: $small;
-        display: none;
-        // padding: 10%;
-      }
-
-      & svg {
-        position: relative;
-        margin: 0% auto;
-        width: 100%;
-        fill: $third-text-color;
-        order: 2;
-        color: $primary-color;
-        @include animation3();
-      }
-
-      &:hover {
-        & svg {
-          @include animation3();
-          fill: $primary-text-color;
-        }
-
-        & .slider-label {
-          color: $primary-text-color;
-        }
-      }
-    }
-
-
-  }
-
-
-  //tablet navigation bar
-  @include media-breakpoint-between(sm, lg) {
-
-    #slider {
-      font-size: 1.5em;
-      padding: 0%;
-      width: 60%;
-      margin: auto;
-    }
-  }
-
-  @include media-breakpoint-down(sm) {
-    visibility: hidden;
-  }
-
-}
-
-//#region social media links
-#social-media-bar {
-  position: sticky;
-  margin-top: $standard-margin * 2;
-  width: 100%;
-  padding: 0% 1vw;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  // @include testBounds();
-
-  & a {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    z-index: 51;
-    right: 0px;
-    height: 30%;
-    width: 20%;
-    cursor: pointer;
-    vertical-align: middle;
-
-    &::after {
-      position: absolute;
-      display: block;
-      border-radius: 100%;
-      bottom: -12px;
-      border: 5px solid $primary-color;
-      width: 0%;
-      margin: auto;
-      height: 0%;
-      content: '';
-      z-index: 3;
-      @include borderRadius1();
-      @include animation3();
-
-      @include media-breakpoint-down(sm) {
-        display: none;
-      }
-    }
-
-    &:hover::after {
-      @include occupyContainer();
-      bottom: -5%;
-      border: .5px solid $primary-text-color;
-      @include borderRadius100;
-    }
-
-    &:hover svg {
-      fill: $primary-text-color;
-    }
-
-    & svg {
-      fill: $primary-color;
-      align-self: center;
-      display: inline;
-      @include occupyContainer();
-      margin-bottom: 20%;
-      max-height: 100%;
-
-      @include media-breakpoint-down(sm) {
-        width: 300%;
-      }
-
-    }
-  }
-
-  @include media-breakpoint-between(sm, lg) {
-    justify-content: space-evenly;
-
-    & a {
-      margin: $standard-margin*.5 auto;
-    }
-  }
-
-  @include media-breakpoint-down(sm) {
-    display: none;
-  }
-}
-
-//#endregion social media links
-
-
-//#endregion nav bar
-
-//#region loading screen
-.loader {
-
-  @include media-breakpoint-down(sm) {
-    height: 100%;
-    width: 100%;
-    top: 0%;
-    left: 0px;
-    position: fixed;
-    background: black;
-    z-index: 1100;
-    color: var(--clr-fourth);
-    text-align: center;
-    vertical-align: middle;
-    padding-top: 40%;
-
-    #loader-bar {
-      position: relative;
-      top: -40rem;
-      font-size: 3em;
-      text-align: center;
-      color: var(--clr-fourth);
-      padding: .5%;
-      font-family: 'brown-light';
-      max-height: 50px;
-      width: 80%;
-      z-index: 1101;
-
-    }
-  }
-
-  @include media-breakpoint-up(lg) {
-    height: 100%;
-    width: 100%;
-    top: 0;
-    position: fixed;
-    background: black;
-    z-index: 1100;
-    //font-size: 2rem;
-    text-align: center;
-    vertical-align: middle;
-    padding: 5% 20% 5% 20%;
-    color: var(--clr-fourth);
-
-
-
-    #loader-bar {
-      //filter: url(#turbulence);
-      //-webkit-filter: url(#turbulence);
-      //nofilterifmobile(performance):;
-      // display: inline;
-      position: relative;
-      top: 20%;
-      //font-size: 'brown';
-      text-align: center;
-      // border: 3px solid purple;
-      color: var(--clr-fourth);
-      padding: .5%;
-      margin: auto;
-      max-height: 50px;
-      width: 80%;
-      // background: var(--clr-primary);
-      z-index: 1101;
-    }
-  }
-
-  #loader-bar {
-    left: -.5rem;
-  }
-}
-
-//load end
-.finished {
-  animation-delay: .5s;
-  animation-name: finish-load;
-  animation-duration: 1.5s;
-  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-.lds-ring {
-  // border: 3px solid red;
-  display: inline-block;
-  position: relative;
-  top: 15%;
-  text-align: center;
-  padding: 4rem;
-  width: 60%;
-  height: 40%;
-
-  #lds-ring__text {
-    position: absolute;
-    display: block;
-    top: 100%;
-    left: 10rem;
-
-    margin: auto;
-    width: 40%;
-    font-family: 'brown-bold';
-  }
-
-  #lds-ring__logo {
-    position: absolute;
-    display: inline-block;
-    top: 4rem;
-    left: 15rem;
-    margin: auto;
-    width: 5rem;
-    font-family: 'brown-bold';
-  }
-
-  @include media-breakpoint-down(sm) {
-    display: inline-block;
-    position: relative;
-    top: 10%;
-    left: 0%;
-    width: 100%;
-    font-size: 6rem;
-    height: 90%;
-    text-align: center;
-
-    #lds-ring__text {
-      position: relative;
-      display: inline-block;
-      margin: 60rem auto;
-      width: 100%;
-      left: 0rem;
-      top: 0px;
-      font-family: 'brown-bold';
-    }
-
-    #lds-ring__logo {
-      position: absolute;
-      top: 12%;
-      margin: auto;
-      left: 40rem;
-      width: 20rem;
-      font-family: 'brown-bold';
-      // border: 3px solid yellow;
-    }
-  }
-
-  & div {
-    @include media-breakpoint-up(lg) {
-      display: block;
-      position: absolute;
-      width: 13rem;
-      height: 13rem;
-      top: 0%;
-      right: 33%;
-      border: 8px solid var(--clr-primary);
-      border-radius: 50%;
-      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-      border-color: var(--clr-primary) transparent transparent transparent;
-      -webkit-animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    }
-
-    @include media-breakpoint-down(sm) {
-      display: block;
-      position: absolute;
-      width: 50rem;
-      height: 50rem;
-      top: 0%;
-      right: 26%;
-      border: 8px solid var(--clr-primary);
-      border-radius: 50%;
-      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-      border-color: var(--clr-primary) transparent transparent transparent;
-    }
-
-    & div:nth-child(1) {
-      animation-delay: -0.45s;
-    }
-
-    & div:nth-child(2) {
-      animation-delay: -0.3s;
-    }
-
-    & div:nth-child(3) {
-      animation-delay: -0.15s;
-    }
-  }
-}
-
-//#region loading screen animations
-@keyframes finish-load {
-  0% {
-    height: 100%;
-    width: 100%;
-    opacity: 100%;
-  }
-
-  100% {
-    opacity: 0%;
-    // height: 0%;
-    visibility: hidden;
-    display: none;
-    color: transparent;
-  }
-}
-
-//ring animation
-@keyframes lds-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-
-  }
-}
-
-//#endregion loading screen animations
-
-//#endregion loading rings and content
-
-//#endregion new styles
-
+//#endregion
 
 /* Portrait and Landscape */
 @media only screen and (min-width: 768px) {
