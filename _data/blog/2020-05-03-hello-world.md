@@ -8,6 +8,4 @@ metaDescription: uiux
 ---
 # Hello world!
 
-
-
-Welcome to my blog, this is a sample post. Future content will be uploaded soon!
+Welcome to my blog, this is a sample post. Future content will be uploaded soon! This will be a section dedicated to UI/UX design
