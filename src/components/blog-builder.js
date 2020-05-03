@@ -143,7 +143,13 @@ export default React.memo(() => {
 
         (() =>
           data.allMarkdownRemark.edges.map(edge => {
-            catagoryMappings[edge.node.frontmatter.path.split("/")[1]] = "";
+            const thisCatagory = edge.node.frontmatter.path.split("/")[1];
+            if (catagoryMappings[thisCatagory])
+              // push edge to array
+              catagoryMappings[thisCatagory].push(edge);
+            else catagoryMappings[thisCatagory] = []; // empty arrwy
+
+            console.log(catagoryMappings);
           }))();
 
         console.log(catagoryMappings);
@@ -159,7 +165,7 @@ export default React.memo(() => {
               style={sectionStyles[catagory]} // customize styling locally for each catagory oficially mapped out
             >
               <div className="blog__header">
-                <button
+                {/**    <button
                   onClick={() => ""}
                   key="left nav button"
                   dangerouslySetInnerHTML={{ __html: svgIcons.left }}
@@ -170,12 +176,12 @@ export default React.memo(() => {
                   key="right nav button"
                   dangerouslySetInnerHTML={{ __html: svgIcons.right }}
                   description="navigation icon, click me to navigate to a new section"
-                />
+                /> */}
                 {catagory.toUpperCase()}
               </div>
               <div className="blog__wrapper" id="blog__wrapper">
                 {/** You can filter your posts based on some criteria */}
-                {data.allMarkdownRemark.edges
+                {catagoryMappings[catagory]
                   .filter(edge => !!edge.node.frontmatter.date)
                   .map(edge => (
                     <CSSTransition
@@ -238,7 +244,7 @@ export const ThreeD = ({ post }) => (
 
 export const sectionStyles = {
   uiux: { fill: "white", color: "white", background: "#F28C8C" },
-  "3d": { fill: "#080515", color: "#080515", background: "#8CF2D9" },
+  "3d": { fill: "white", color: "white", background: "#8CF2D9" },
   workflow: { fill: "white", color: "white", background: "#A68CF2" },
   "data ": { fill: "white", color: "white", background: "#F2D08C" },
   "": {}

@@ -1342,6 +1342,7 @@ $ellipses-slider: (slides: 5,
 }
 
 .post {
+  margin-top: $standard-margin;
   padding: 0;
   margin-left: $panel-offset;
   background: $foreground-color;
