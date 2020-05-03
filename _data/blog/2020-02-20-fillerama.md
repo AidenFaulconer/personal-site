@@ -1,7 +1,7 @@
 ---
 template: BlogPost
 path: /uiux/Hello World
-date: 2020-02-20T14:59:36.571Z
+date: 2020-03-02T14:59:36.571Z
 title: Hello World!
 thumbnail: /assets/office-820390_960_720.jpg
 metaDescription: uiux
