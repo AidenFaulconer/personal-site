@@ -9,7 +9,7 @@ import "aos/dist/aos.css";
 // import { MainVR } from './js/mainVR'
 
 // threeComponent wrapper
-export default () => {
+export default React.memo(() => {
   const canvasRef = useRef(null);
   const [threeContext, setThreeContext] = useState(null);
 
@@ -57,7 +57,7 @@ export default () => {
   ]);
 
   return <div ref={canvasRef} id="canvas" />;
-};
+});
 
 // TODO: these are ideal expansions we can explore on this site or future sites
 // material click ripple https://github.com/samthor/rippleJS

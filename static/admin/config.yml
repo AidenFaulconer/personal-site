@@ -1,6 +1,12 @@
+#enable local cms development
+
+local_backend:
+  name: file-system
+
 backend:
   name: github
   repo: AidenFaulconer/personal-site
+
 media_folder: static/assets
 public_folder: /assets
 collections:
@@ -27,3 +33,5 @@ collections:
         name: metaDescription
         widget: text
         required: false
+# display_url:
+# logo_url:

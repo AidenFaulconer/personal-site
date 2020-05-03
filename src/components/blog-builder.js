@@ -23,7 +23,7 @@ export const postContainer = "blog__wrapper";
 
 // TODO: add a contentID that refs a blog article, or find a better workaround here
 // TODO: dont dangerously set inner html to avoid injeciton vunerabilities, write a script to pre-process it in nodejs rather than in react
-export default () => {
+export default React.memo(() => {
   const enableSidewayScrolling = useCallback(container => {
     const scrollHorizontally = e => {
       e = window.event || e;
@@ -85,7 +85,6 @@ export default () => {
         const x = e.pageX - elem.offsetLeft;
         const walk = (x - startX) * 3; // scroll-fast
         elem.scrollLeft = scrollLeft - walk;
-        console.log(walk);
       });
     });
   });
@@ -114,6 +113,7 @@ export default () => {
                   path
                   title
                   thumbnail
+                  metaDescription
                 }
               }
             }
@@ -138,12 +138,26 @@ export default () => {
           }
         }
       `}
-      render={data =>
-        // get posts
-        Object.keys(sections).map((sectionName, i) => {
-          const SectionComponent = sections[sectionName]; // get tangible reference for react to dynamically generate a component from
+      render={data => {
+        const catagoryMappings = {}; // holds all the catagories as per the PATH mappings in each blog post fetched
+
+        (() =>
+          data.allMarkdownRemark.edges.map(edge => {
+            catagoryMappings[edge.node.frontmatter.path.split("/")[1]] = "";
+          }))();
+
+        console.log(catagoryMappings);
+        // get catagories from path of blog, use those catagoreis to correspond to a component to handle it, iterate on all the posts of that catagory passing it to that component
+        return Object.keys(catagoryMappings).map((catagory, i) => {
+          // get posts
+          const SectionComponent = sections[catagory]; // get tangible reference for react to dynamically generate a component from
+          console.log(sections[catagory]);
           return (
-            <section id={sectionName} key={sectionName + i}>
+            <section
+              id={catagory}
+              key={catagory + i}
+              style={sectionStyles[catagory]} // customize styling locally for each catagory oficially mapped out
+            >
               <div className="blog__header">
                 <button
                   onClick={() => ""}
@@ -157,7 +171,7 @@ export default () => {
                   dangerouslySetInnerHTML={{ __html: svgIcons.right }}
                   description="navigation icon, click me to navigate to a new section"
                 />
-                {sectionName.toUpperCase()}
+                {catagory.toUpperCase()}
               </div>
               <div className="blog__wrapper" id="blog__wrapper">
                 {/** You can filter your posts based on some criteria */}
@@ -166,8 +180,8 @@ export default () => {
                   .map(edge => (
                     <CSSTransition
                       in={inProp}
-                      timeout={6000}
-                      classNames="canvas-transition"
+                      timeout={2000}
+                      classNames="home-transition"
                     >
                       <SectionComponent key={edge.node.id} post={edge.node} />
                     </CSSTransition>
@@ -175,11 +189,11 @@ export default () => {
               </div>
             </section>
           );
-        })
-      }
+        });
+      }}
     />
   );
-};
+});
 
 export const UXUI = ({ post }) => (
   <article className="blog__post">
@@ -201,11 +215,43 @@ export const UXUI = ({ post }) => (
     </header>
   </article>
 );
+export const ThreeD = ({ post }) => (
+  <article className="blog__post">
+    <Link to={post.frontmatter.path}>
+      {!!post.frontmatter.thumbnail && (
+        <img
+          loading="lazy"
+          src={post.frontmatter.thumbnail}
+          alt={`${post.frontmatter.title}- Featured Shot`}
+        />
+      )}
+    </Link>
+
+    <header>
+      <Link to={post.frontmatter.path} className="post__title">
+        {post.frontmatter.title}
+      </Link>
+      <div className="post__meta">{post.frontmatter.date}</div>
+    </header>
+  </article>
+);
+
+export const sectionStyles = {
+  uiux: { fill: "white", color: "white", background: "#F28C8C" },
+  "3d": { fill: "#080515", color: "#080515", background: "#8CF2D9" },
+  workflow: { fill: "white", color: "white", background: "#A68CF2" },
+  "data ": { fill: "white", color: "white", background: "#F2D08C" },
+  "": {}
+};
+// #080515
 
 // ref components
 export const sections = {
-  "UX/UI": UXUI,
-  "UX/UX": UXUI
+  uiux: UXUI,
+  "3d": ThreeD,
+  workflow: ThreeD, // no special changes required, use the same component solution for now
+  data: ThreeD, // no special changes required, use the same component solution for now
+  "": ""
   //   "Software Development": SoftwareDevelopment,
   // "Artificial Intelligence": AI,
   // "3D": ThreeD,

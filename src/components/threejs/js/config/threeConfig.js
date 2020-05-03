@@ -78,7 +78,7 @@ export default {
         interactive: true,
         path: "./models/lion.OBJ",
         scale: [2.1, 2.1, 2.1],
-        position: [2, -0.8, -1],
+        position: [2.7, -0.8, -1],
         material: [
           {
             type: "physical",
@@ -184,7 +184,7 @@ export default {
         interactive: true,
         path: "./models/backdrop.OBJ",
         scale: [3.8, 3.8, 3.8],
-        position: [-1.5, 1, -1.5],
+        position: [-2, 1, -1.5],
         material: [
           {
             type: "physical",

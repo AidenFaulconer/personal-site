@@ -32,7 +32,7 @@ export default ({
   return (
     <>
       {/** spawns in threejs canvas */}
-      <CSSTransition in={inProp} timeout={10000} classNames="canvas-transition">
+      <CSSTransition in={inProp} timeout={10000} classNames="blog-transition">
         <ThreeComponent />
       </CSSTransition>
 
