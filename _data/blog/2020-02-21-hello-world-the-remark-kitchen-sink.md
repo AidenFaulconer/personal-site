@@ -1,7 +1,7 @@
 ---
 template: BlogPost
 path: /3d/remark-kitchen-sink
-date: 2020-02-21T12:12:25.364Z
+date: 2020-05-03T13:12:25.364Z
 title: Hello world!!
 thumbnail: /assets/3d.jpg
 metaDescription: 3d
