@@ -3,7 +3,7 @@ import { Link, useStaticQuery, graphql } from "gatsby";
 import Navigation from "./navigation";
 import "prismjs/themes/prism-okaidia.css";
 import NavigationMenu from "./navigation-menu";
-import AnalyticsComponent from "./analytics/analytics-component"
+import AnalyticsComponent from "./analytics/analytics-component";
 
 // #region loading wrapper to handle screen loading
 // const LoadWrapper = ({}) => (
@@ -150,10 +150,10 @@ export default ({ Posts, children, pageState }) => {
 
   return (
     <>
-      <AnalyticsComponent/>
+      <AnalyticsComponent />
 
       {/** main page right interactive panel */}
-
+      {pageState !== "blog" && <div className="panel right" />}
 
       <div
         className="site-wrapper"

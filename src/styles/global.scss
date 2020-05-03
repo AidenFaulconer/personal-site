@@ -511,11 +511,11 @@ button {
   cursor: grabbing;
   cursor: -webkit-grabbing;
   @include animation1(transform);
-  transform: scale(1.2);
-  -webkit-transform: scale(1.2);
-  -moz-transform: scale(1.2);
-  -ms-transform: scale(1.2);
-  -o-transform: scale(1.2);
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
 
   & .blog__post {
     @include shadow1();
@@ -706,9 +706,9 @@ a {
   //where the nav bar resides
   &.left {
     @include hoverFillTop();
-    background: $gradient-color;
     width: $panel-offset;
     border-right: $border;
+    background: $gradient-color;
 
     fill: $third-text-color;
     color: $third-text-color;
@@ -768,7 +768,8 @@ a {
 
   &.right {
     width: $panel-offset;
-    // border-left: $border;
+    border-left: $border;
+    background: transparent;
     fill: $primary-color;
     color: $primary-color;
     right: 0px;
@@ -1560,11 +1561,11 @@ $ellipses-slider: (slides: 5,
       display: flex;
       width: auto;
       // height: 100%;
-      padding: 12% 0 5% 0;
+      padding: 12% 2.5% 5% 0;
       overflow-x: scroll;
       overflow-y: hidden;
       box-sizing: content-box;
-      justify-content: space-between;
+      // justify-content: space-between;
       // flex-wrap: wrap; todo: enable by button
       @include hideScrollbar();
       @include animation1(transform);
@@ -1574,7 +1575,7 @@ $ellipses-slider: (slides: 5,
         min-width: 20vw;
         min-height: 10%;
         max-height: 50%;
-        max-width: 50vw;
+        max-width: 20%;
         color: inherit;
         margin-left: $standard-margin * 2;
         position: relative;
@@ -1597,7 +1598,7 @@ $ellipses-slider: (slides: 5,
 
         .post__title {
           position: absolute;
-          bottom: -4vh;
+          top: -4vh;
           color: inherit;
         }
 
