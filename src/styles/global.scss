@@ -1,3 +1,7 @@
+//reset stupid differences in css from each browser
+@import '../../node_modules/reset-css/sass/_reset.scss';
+
+
 // #region custom page colors
 $secondary-color: #100A29;
 $foreground-color: #080515;
@@ -6,8 +10,9 @@ $primary-color-inverse: #7E1B25;
 $primary-text-color: #fff;
 $secondary-text-color: rgba(255, 255, 255, 0.6);
 $third-text-color: rgba(255, 255, 255, 0.1);
-$gradient-color: linear-gradient(-0deg, rgba($foreground-color, .9) 75%,
-  $secondary-color 75%);
+$gradient-color: $foreground-color;
+// $gradient-color: linear-gradient(-0deg, rgba($foreground-color, .9) 100%,
+//   $secondary-color 99%);
 
 @mixin reverseColor {
   /*ThisvalueistheOPPOSITEcolorofourbackground*/
@@ -531,8 +536,9 @@ body {
   color: $primary-text-color;
   margin: 0;
   padding: 0;
+  letter-spacing: 90%;
   scroll-behavior: smooth;
-  font-size: 1em;
+  font-size: 16px; //top level relative sizing
 
   //tablet
   @include media-breakpoint-between(sm, lg) {
@@ -601,7 +607,7 @@ a {
   flex-direction: row;
   font-size: $h3;
   row-gap: $standard-margin/2;
-  padding: 0 30%;
+  padding: 0 20%;
   // background: $foreground-color;
   font-weight: 300;
   text-transform: capitalize;
@@ -926,6 +932,7 @@ $ellipses-slider: (slides: 5,
         position: relative;
         margin: 0% auto;
         width: 100%;
+        max-width: 4em;
         fill: $third-text-color;
         order: 2;
         color: $primary-color;
@@ -972,8 +979,8 @@ $ellipses-slider: (slides: 5,
   width: 50%;
   left: 24%;
   height: 10vh;
-  bottom: 0px;
-  padding: 0% 1vw;
+  top: 0px;
+  padding: 0% .5vw;
   display: flex;
   fill: inherit;
   z-index: 1;
@@ -1040,12 +1047,7 @@ $ellipses-slider: (slides: 5,
   }
 
   @include media-breakpoint-between(sm, lg) {
-    justify-content: space-evenly;
-    flex-direction: column;
-
-    & a {
-      margin: $standard-margin*.5 auto;
-    }
+    display: none;
   }
 
   @include media-breakpoint-down(sm) {
@@ -1328,6 +1330,8 @@ $ellipses-slider: (slides: 5,
   }
 
   & .typewriter {
+    margin-bottom: $standard-margin;
+
     & span {
       border-right: .05em solid;
       animation: caret 1s steps(1) infinite;

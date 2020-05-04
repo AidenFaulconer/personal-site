@@ -1,5 +1,5 @@
 import * as AOS from "aos";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Suspense } from "react";
 import Main from "./js/main";
 import threeConfig from "./js/config/threeConfig";
 // ANIMATE ON SCROLL
@@ -56,7 +56,11 @@ export default React.memo(() => {
     threeContext
   ]);
 
-  return <div ref={canvasRef} id="canvas" />;
+  return (
+    <Suspense fallback={<div/>}>
+      <div ref={canvasRef} id="canvas" />
+    </Suspense>
+  );
 });
 
 // TODO: these are ideal expansions we can explore on this site or future sites

@@ -4,7 +4,7 @@ import TypeWriter from "./type-writer";
 
 export default ({ typewriterText }) => {
   // type one text in the typwriter
-  const [showText, setShowText] = useState("Let's boost your online presence!");
+  const [showText, setShowText] = useState("Let's boost your online presence");
   // keeps calling itself until the text is finished
   const typeWriter = (text, i, fnCallback) => {
     if (i < text.length) {

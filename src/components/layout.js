@@ -153,7 +153,11 @@ export default ({ Posts, children, pageState }) => {
       <AnalyticsComponent />
 
       {/** main page right interactive panel */}
-      {pageState !== "blog" && <div className="panel right" />}
+      {pageState !== "blog" && (
+        <div className="panel right">
+          <MediaLinks />
+        </div>
+      )}
 
       <div
         className="site-wrapper"
@@ -168,11 +172,15 @@ export default ({ Posts, children, pageState }) => {
 
         <footer className="site-footer">
           <p>
-            &copy; 2020 Aiden Faulconer &bull; Crafted with{" "}
+            &copy; 2020 Aiden Faulconer &bull; Crafted with
+{" "}
             <span role="img" aria-label="love">
               ❤️
-            </span>{" "}
-            by <a href="./">Aiden Faulconer</a>
+            </span>
+{" "}
+            by
+{' '}
+<a href="./">Aiden Faulconer</a>
           </p>
         </footer>
       </div>
@@ -187,7 +195,6 @@ export default ({ Posts, children, pageState }) => {
         </header>
         {/** page navigation panel */}
         <NavigationMenu />
-        <MediaLinks />
       </div>
     </>
   );

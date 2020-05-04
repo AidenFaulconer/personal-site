@@ -78,7 +78,7 @@ export default {
         interactive: true,
         path: "./models/lion.OBJ",
         scale: [2.1, 2.1, 2.1],
-        position: [2, -0.8, -1],
+        position: [2.3, -.9, -1],
         material: [
           {
             type: "physical",
