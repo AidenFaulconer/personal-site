@@ -607,10 +607,12 @@ a {
   flex-direction: row;
   font-size: $h3;
   row-gap: $standard-margin/2;
-  padding: 0 20%;
+  padding: $standard-margin 20%;
   // background: $foreground-color;
   font-weight: 300;
   text-transform: capitalize;
+  border-top: $border;
+  border-bottom: $border;
 
   a {
     color: $primary-text-color;

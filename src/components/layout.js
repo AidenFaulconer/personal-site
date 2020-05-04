@@ -4,7 +4,7 @@ import Navigation from "./navigation";
 import "prismjs/themes/prism-okaidia.css";
 import NavigationMenu from "./navigation-menu";
 import AnalyticsComponent from "./analytics/analytics-component";
-
+import LastListened from "./last-listened";
 // #region loading wrapper to handle screen loading
 // const LoadWrapper = ({}) => (
 //   <div className="loader" id="loader">
@@ -156,6 +156,8 @@ export default ({ Posts, children, pageState }) => {
       {pageState !== "blog" && (
         <div className="panel right">
           <MediaLinks />
+
+          {/** <LastListened /> */}
         </div>
       )}
 
