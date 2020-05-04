@@ -52,14 +52,16 @@ export default React.memo(() => {
     }
   }, []);
 
-  useEffect(() => console.error("warning, reinitalizing canvas"), [
-    threeContext
-  ]);
+  useEffect(() => console.log("warning, reinitalizing canvas"), [threeContext]);
 
+  // suspense makes this component asynchronous, since nothing mounts from the <suspense></suspense>
+  // tags wrapping everything this component outputs, hacky workaround used to get this to render server side properly
   return (
-    <Suspense fallback={<div/>}>
-      <div ref={canvasRef} id="canvas" />
-    </Suspense>
+    typeof window !== "undefined" && (
+      <Suspense fallback={<div />}>
+        <div ref={canvasRef} id="canvas" />
+      </Suspense>
+    )
   );
 });
 
