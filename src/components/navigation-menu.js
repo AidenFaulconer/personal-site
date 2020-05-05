@@ -148,8 +148,8 @@ export default () => {
     setPageProgress(thisPageProgress > 100 ? 100 : thisPageProgress);
 
     if (
-      thisPosition - prevPosition > 0 ||
-      Math.abs(prevPosition - thisPosition) > 0
+      thisPosition - prevPosition > 2 ||
+      Math.abs(prevPosition - thisPosition) > 2
     ) {
       // we only handle every 30pixels we scroll down OR up to reduce overhead
       let currentSection;

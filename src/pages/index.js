@@ -31,11 +31,6 @@ export default ({
 
   return (
     <>
-      {/** spawns in threejs canvas */}
-      <CSSTransition in={inProp} timeout={10000} classNames="blog-transition">
-        <ThreeComponent />
-      </CSSTransition>
-
       <Layout Posts={Posts}>
         <Helmet>
           <title>{site.siteMetadata.title}</title>
@@ -55,6 +50,11 @@ export default ({
           </div>
         </CSSTransition>
       </Layout>
+
+      {/** spawns in threejs canvas */}
+      <CSSTransition in={inProp} timeout={10000} classNames="blog-transition">
+        <ThreeComponent />
+      </CSSTransition>
     </>
   );
 };

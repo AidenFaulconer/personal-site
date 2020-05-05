@@ -1,5 +1,5 @@
 //reset stupid differences in css from each browser
-@import '../../node_modules/reset-css/sass/_reset.scss';
+// @import '../../node_modules/reset-css/sass/_reset.scss';
 
 
 // #region custom page colors
@@ -25,7 +25,7 @@ $gradient-color: $foreground-color;
 @mixin multiplyColor {
   /*ThisvalueistheOPPOSITEcolorofourbackground*/
   background: $primary-color;
-  mix-blend-mode: multiply;
+  mix-blend-mode: exclusion;
 
 }
 
@@ -368,6 +368,13 @@ $border2:1px solid rgba(0, 0, 0, .1);
   -o-border-radius: $corner;
 }
 
+@mixin borderRadius2 {
+  -webkit-border-radius: 0 0 $corner $corner;
+  -moz-border-radius: 0 0 $corner $corner;
+  -ms-border-radius: 0 0 $corner $corner;
+  -o-border-radius: 0 0 $corner $corner;
+}
+
 
 @mixin borderRadius100 {
   border-radius: 100%;
@@ -416,12 +423,12 @@ $border2:1px solid rgba(0, 0, 0, .1);
 
 // #region custom browser styling
 ::selection {
-  color: $primary-color;
+  color: coral;
   background: transparent;
 }
 
 ::-moz-selection {
-  color: $primary-color;
+  color: coral;
   background: transparent;
 }
 
@@ -515,12 +522,13 @@ button {
 .click-active {
   cursor: grabbing;
   cursor: -webkit-grabbing;
+  pointer-events: none;
   @include animation1(transform);
-  transform: scale(1.1);
-  -webkit-transform: scale(1.1);
-  -moz-transform: scale(1.1);
-  -ms-transform: scale(1.1);
-  -o-transform: scale(1.1);
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  -o-transform: scale(1.05);
 
   & .blog__post {
     @include shadow1();
@@ -575,16 +583,6 @@ a {
 
 .site-wrapper {
 
-  //when in mobile, site content positions on the left side (the left panel will dissapear)
-  @include media-breakpoint-down(sm) {
-    left: 0px;
-    width: auto; //was 80%
-    width: 100%;
-  }
-
-  @include media-breakpoint-between(sm, lg) {
-    width: $panel-offset * 5.7;
-  }
 
   overflow: hidden;
   font-size: $h3;
@@ -596,6 +594,18 @@ a {
 
   img {
     max-width: 100%;
+  }
+
+
+  @include media-breakpoint-between(sm, lg) {
+    width: $panel-offset * 5.7;
+  }
+
+  //when in mobile, site content positions on the left side (the left panel will dissapear)
+  @include media-breakpoint-down(sm) {
+    left: 0px;
+    width: auto; //was 80%
+    width: 100%;
   }
 }
 
@@ -685,7 +695,7 @@ a {
 
 //#region navigation styling
 #canvas {
-  z-index: 0;
+  z-index: -1;
   position: absolute;
   @include occupyContainer();
   overflow: hidden;
@@ -787,6 +797,7 @@ a {
 
     @include media-breakpoint-down(sm) {
       width: $panel-offset * .0;
+      position: absolute;
     }
 
     @include media-breakpoint-between(sm, lg) {
@@ -1349,9 +1360,7 @@ $ellipses-slider: (slides: 5,
 }
 
 .post {
-  margin-top: $standard-margin;
-  padding: 0;
-  margin-left: $panel-offset;
+  padding: $standard-margin;
   background: $foreground-color;
 
 
@@ -1531,33 +1540,21 @@ $ellipses-slider: (slides: 5,
   section {
     position: relative;
     width: auto;
-    height: 70vh;
+    width: 100%;
     border: none;
     background: $primary-color;
     margin: 0px;
     @include occupyContainer();
-
+    padding-top: $standard-margin;
     fill: inherit;
     color: inherit;
 
-    &::after {
-      content: '';
-      z-index: -1;
-      position: absolute;
-      height: 100%;
-      width: 35%;
-      top: 0px;
-      left: 0px;
-      @include multiplyColor();
-    }
-
     .blog__header {
-      padding-top: $standard-margin * 2;
       margin-left: $standard-margin * 1.5;
       display: flex;
       flex-direction: row;
-      row-gap: $standard-margin * 2;
-      position: relative;
+      row-gap: $standard-margin;
+      position: absolute;
       fill: inherit;
       color: inherit;
       font-size: $h1;
@@ -1566,11 +1563,13 @@ $ellipses-slider: (slides: 5,
     .blog__wrapper {
       display: flex;
       width: auto;
-      // height: 100%;
-      padding: 12% 2.5% 5% 0;
+      height: 100%;
+      min-height: 30vh;
+      margin-top: $standard-margin *4;
+      padding: $standard-margin 2.5% $standard-margin 0;
       overflow-x: scroll;
       overflow-y: hidden;
-      box-sizing: content-box;
+      box-sizing: border-box;
       // justify-content: space-between;
       // flex-wrap: wrap; todo: enable by button
       @include hideScrollbar();
@@ -1578,23 +1577,32 @@ $ellipses-slider: (slides: 5,
 
 
       .blog__post {
-        min-width: 20vw;
+        min-width: 25vw;
         min-height: 10%;
         max-height: 50%;
+        z-index: 2;
         max-width: 20%;
         color: inherit;
         margin-left: $standard-margin * 2;
         position: relative;
         // @include shadow1();
         @include borderRadius1();
+        @include animation1(margin);
+
+        &:hover {
+          margin: 0 $standard-margin * .5;
+          @include animation1(margin);
+          @include shadow1();
+        }
 
         img {
-          height: 100%;
-          width: 100%;
           object-fit: cover;
+          @include occupyContainer();
+          @include animation1();
           @include borderRadius1();
 
           &::after {}
+
 
           &:hover {
             @include animation1();
@@ -1604,15 +1612,22 @@ $ellipses-slider: (slides: 5,
 
         .post__title {
           position: absolute;
-          top: -4vh;
+          background: $foreground-color;
+          bottom: 0px;
+          width: 100%;
           color: inherit;
+          padding: $standard-margin * .5;
+          border: $border;
+          @include borderRadius2();
         }
 
         .post__meta {
           // bottom: -$standard-margin;
+          border-style: inset;
           display: none;
           position: absolute;
         }
+
 
       }
     }
@@ -1924,7 +1939,7 @@ section {
 
             & .catagory {
               opacity: 0%;
-              @include animation1();
+              @include animation1(opacity);
             }
 
             & .preview {

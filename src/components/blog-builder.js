@@ -148,16 +148,12 @@ export default React.memo(() => {
               // push edge to array
               catagoryMappings[thisCatagory].push(edge);
             else catagoryMappings[thisCatagory] = []; // empty arrwy
-
-            console.log(catagoryMappings);
           }))();
 
-        console.log(catagoryMappings);
         // get catagories from path of blog, use those catagoreis to correspond to a component to handle it, iterate on all the posts of that catagory passing it to that component
         return Object.keys(catagoryMappings).map((catagory, i) => {
           // get posts
           const SectionComponent = sections[catagory]; // get tangible reference for react to dynamically generate a component from
-          console.log(sections[catagory]);
           return (
             <section
               id={catagory}
