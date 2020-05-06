@@ -51,7 +51,7 @@ export default ({
         </CSSTransition>
       </Layout>
 
-      {/** spawns in threejs canvas */}
+      {/** spawns in threejs canvas (last item so content spawns in first) */}
       <CSSTransition in={inProp} timeout={10000} classNames="blog-transition">
         <ThreeComponent />
       </CSSTransition>

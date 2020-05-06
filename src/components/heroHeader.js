@@ -2,7 +2,7 @@ import React from "react";
 import { StaticQuery, graphql, Link } from "gatsby";
 import TypeWriter from "./type-writer";
 
-export default () => (
+export default React.memo(() => (
   <StaticQuery
     query={graphql`
       query HeadingQuery {
@@ -33,4 +33,4 @@ export default () => (
       </section>
     )}
   />
-);
+));

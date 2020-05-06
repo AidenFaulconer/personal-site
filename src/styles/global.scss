@@ -206,18 +206,19 @@ $gradient-color: $foreground-color;
   &::after {
     content: '';
     position: absolute;
-    width: 0%;
+    width: 100%;
     height: 100%;
+    opacity: 0;
     top: 0px;
     z-index: -1;
-    @include animation1(width.3s);
-    @include reverseColor();
+    @include animation1(opacity.3s);
+    background: $secondary-color;
   }
 
   &:hover {
     &::after {
-      @include animation1(width.3s);
-      width: 100%;
+      @include animation1(opacity.3s);
+      opacity: 1;
     }
   }
 }
@@ -272,8 +273,8 @@ $gradient-color: $foreground-color;
 }
 
 @mixin shadow2 {
-  box-shadow: 5px 5px 15px rgba($foreground-color, $alpha: .25),
-    -5px -5px 15px rgba($primary-text-color, $alpha: .25);
+  box-shadow: 5px 2px 15px rgba($primary-text-color, $alpha: .10),
+    -5px -2px 15px rgba($primary-color, $alpha: .10);
 }
 
 //#region sass imports
@@ -346,7 +347,7 @@ h1 {
 
 //#region desktop element dimension properties
 $panel-offset: 15%;
-$standard-margin: 25px;
+$standard-margin: 20px;
 $section-margin: 23vh;
 //#endregion desktop element dimension properties
 
@@ -648,12 +649,12 @@ a {
   opacity: .8;
   left: 0px;
   width: $panel-offset;
-  // @include testBounds();
   position: fixed;
+  // @include testBounds();
   // display: none;
   // visibility: hidden;
   margin-bottom: $standard-margin;
-  margin-top: $standard-margin * 6.5;
+  margin-top: $standard-margin * 8;
   top: 0px;
   align-items: center;
 
@@ -674,7 +675,7 @@ a {
 
 //TODO: move site header out of hero header
 .hero-header {
-  padding: 30vh $standard-margin*1.5;
+  padding: 30vh $standard-margin;
   max-width: 980px;
   border: none;
 
@@ -747,7 +748,7 @@ a {
       position: relative;
       display: block;
       margin: 0 auto;
-      margin-top: $standard-margin * 2;
+      margin-top: $standard-margin * 1.25;
       top: 0%;
 
       // width: max-content
@@ -918,6 +919,7 @@ $ellipses-slider: (slides: 5,
       // margin: 0px auto;
       width: 100%;
       position: relative;
+      text-align: center;
       display: flex;
       flex-direction: column;
       cursor: pointer;
@@ -945,6 +947,7 @@ $ellipses-slider: (slides: 5,
         position: relative;
         margin: 0% auto;
         width: 100%;
+        margin-top: $standard-margin * .2;
         max-width: 4em;
         fill: $third-text-color;
         order: 2;
@@ -1440,6 +1443,7 @@ $ellipses-slider: (slides: 5,
   display: grid;
   background: white;
   @include borderRadius1();
+  @include shadow2();
   border: $border;
   overflow: hidden;
 
@@ -1483,7 +1487,8 @@ $ellipses-slider: (slides: 5,
 
 .site-footer {
   text-align: center;
-  margin: 90px 0 16px;
+  // margin: 90px 0 16px;
+  padding: $standard-margin;
   color: #666;
 
   a {
@@ -1535,43 +1540,43 @@ $ellipses-slider: (slides: 5,
   position: relative;
   min-height: 100%;
 
-  .blog-divider {}
-
   section {
     position: relative;
     width: auto;
     width: 100%;
-    border: none;
+    border: $border2;
     background: $primary-color;
     margin: 0px;
     @include occupyContainer();
-    padding-top: $standard-margin;
+    padding: $standard-margin * 2 0;
     fill: inherit;
     color: inherit;
 
     .blog__header {
       margin-left: $standard-margin * 1.5;
+      margin-bottom: $standard-margin;
       display: flex;
       flex-direction: row;
       row-gap: $standard-margin;
-      position: absolute;
+      z-index: 0;
+      position: relative;
       fill: inherit;
       color: inherit;
       font-size: $h1;
+      pointer-events: none;
     }
 
     .blog__wrapper {
       display: flex;
-      width: auto;
+      // width: auto;
       height: 100%;
+      z-index: 1;
       min-height: 30vh;
-      margin-top: $standard-margin *4;
-      padding: $standard-margin 2.5% $standard-margin 0;
+      margin-bottom: $standard-margin * 2.5;
       overflow-x: scroll;
       overflow-y: hidden;
-      box-sizing: border-box;
-      // justify-content: space-between;
-      // flex-wrap: wrap; todo: enable by button
+      justify-content: start;
+      // flex-wrap: wrap; tosdo: enable by button
       @include hideScrollbar();
       @include animation1(transform);
 
@@ -1581,16 +1586,17 @@ $ellipses-slider: (slides: 5,
         min-height: 10%;
         max-height: 50%;
         z-index: 2;
+        border: $border2;
         max-width: 20%;
         color: inherit;
         margin-left: $standard-margin * 2;
         position: relative;
-        // @include shadow1();
+        @include shadow1();
         @include borderRadius1();
         @include animation1(margin);
 
         &:hover {
-          margin: 0 $standard-margin * .5;
+          margin: 0 $standard-margin;
           @include animation1(margin);
           @include shadow1();
         }
@@ -1852,7 +1858,6 @@ section {
       & .section__grid__card {
         position: relative;
         @include borderRadius1();
-        border: $border;
         display: grid;
         padding: $standard-margin;
 
@@ -1898,11 +1903,8 @@ section {
       }
 
       & .section__grid__projects {
-        // z-index: 3;
-        padding-left: $standard-margin * 2;
-        margin-bottom: $standard-margin * 3;
-        margin-right: $standard-margin * 3;
         z-index: 2;
+        padding: $standard-margin;
 
         //used on projects section (has hover effects)
         & .projects__card {
@@ -1915,7 +1917,8 @@ section {
           right: 0px;
           @include borderRadius1();
 
-          @include shadow1();
+          @include shadow2();
+
           @include animation1();
           @include occupyContainer();
 
@@ -1966,7 +1969,7 @@ section {
             background: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
             border: $border2;
             width: 10%;
-            right: -$standard-margin * .75;
+            right: -$standard-margin * .85;
             z-index: 3;
             @include verticalText();
             @include animation1();
