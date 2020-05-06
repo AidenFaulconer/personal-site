@@ -221,7 +221,7 @@ $gradient-color: $foreground-color;
     top: 0px;
     z-index: -1;
     @include animation1(opacity.3s);
-    background: $secondary-color;
+    background: rgba($primary-color, .1);
   }
 
   &:hover {
