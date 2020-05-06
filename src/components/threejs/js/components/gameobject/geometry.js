@@ -13,7 +13,7 @@ import {
   Object3D
 } from "three"; // when to use { } im imports depends on how each module is exported... https://stackoverflow.com/questions/48537180/difference-between-import-something-from-somelib-and-import-something-from
 // import { obj } from 'three/examples/jsm/loaders/OBJLoader2Parallel'
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import { OBJLoader2Parallel } from "three/examples/jsm/loaders/OBJLoader2Parallel";//parallel loader is faster
 import { basename } from "path";
 import Material from "./material";
 
@@ -37,7 +37,7 @@ export default class Geometry {
     this._objectpool = objectpool; // TODO: abstract and rearchitect
     this._scene = scene;
     this.object = null; // assigned to later through methods, default is null TODO: restructure this scheme
-    this.objLoader = new OBJLoader(); // refrence to an obj loader
+    this.objLoader = new OBJLoader2Parallel(); // refrence to an obj loader
     this.watchMouse.bind(this);
     this.data = [];
     // #endregion
@@ -45,7 +45,7 @@ export default class Geometry {
 
   // load objects from custom configuration (static)
   loadFromConfiguration(interactionHandler) {
-    for (const modelName in threeConfig.models) {
+    Object.keys(threeConfig.models).map(modelName => {
       // load obj via local objloader instance
       const geometryInstance = new Geometry(this._scene);
       geometryInstance.objLoader.load(
@@ -100,10 +100,8 @@ export default class Geometry {
               childMesh.position.set(
                 ...threeConfig.models[modelName][0].position
               );
-              // idenfity objects by their configured name (allow deletion and other useful methods in threejs)
               childMesh.name = modelName;
               // check for fx on object and append them to material
-              // console.log(childMesh.geometry)
             });
           }
           geometryInstance.object = geometry;
@@ -116,7 +114,8 @@ export default class Geometry {
           // console.log(geometryInstance)
           this._objectpool.addToPool(geometryInstance.object);
           geometryInstance._scene.add(geometryInstance.object);
-        },
+        }
+      ),
         // progress event
         () => {},
         // on error event
@@ -126,9 +125,8 @@ export default class Geometry {
               threeConfig.models[modelName][0].path
             } at directory ${basename(__dirname) + basename(__filename, ".js")}`
           );
-        }
-      );
-    }
+        };
+    });
   }
 
   // custom object loading handling

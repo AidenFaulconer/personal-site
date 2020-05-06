@@ -260,7 +260,7 @@ export default {
   fog: {
     isFog: true,
     color: "#201452", //was #100A29
-    density: 3,
+    density: 1,
     near: 0.10008,
     far: 90
   },

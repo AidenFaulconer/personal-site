@@ -16,7 +16,7 @@ export default () => {
   return (
     <Layout pageState="blog">
       <Helmet />
-      <CSSTransition in={inProp} timeout={1000} classNames="blog-transition">
+      <CSSTransition in={inProp} timeout={1000} classNames="right-transition">
         <div className="blog-main">
           {/** page content   */}
           <BlogBuilder />

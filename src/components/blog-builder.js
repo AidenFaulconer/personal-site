@@ -182,8 +182,8 @@ export default React.memo(() => {
                   .map(edge => (
                     <CSSTransition
                       in={inProp}
-                      timeout={2000}
-                      classNames="home-transition"
+                      timeout={1000}
+                      classNames="left-transition"
                     >
                       <SectionComponent key={edge.node.id} post={edge.node} />
                     </CSSTransition>

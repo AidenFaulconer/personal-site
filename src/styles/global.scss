@@ -141,6 +141,15 @@ $gradient-color: $foreground-color;
   -o-transition: linear;
 }
 
+@mixin transition1($property: all, $time: .5s, $type: ease-in) {
+  transition: $property $time $type;
+  -webkit-transition: $property $time $type;
+  -moz-transition: $property $time $type;
+  -ms-transition: $property $time $type;
+  -o-transition: $property $time $type;
+}
+
+
 @mixin lineAnimation {
   &:after {
     content: "";
@@ -460,62 +469,64 @@ button {
 //#region react-transition-group stylings
 
 //before (no active)
-.blog-transition-enter {
+.right-transition-enter {
   left: 100vw;
 }
 
 //after (active)
-.blog-transition-enter-active {
+.right-transition-enter-active {
   left: 0vw;
-  transition: left .6s;
-  -webkit-transition: left .6s;
-  -moz-transition: left .6s;
-  -ms-transition: left .6s;
-  -o-transition: left .6s;
+  @include transition1(left, .5s, ease); //persist final state
 }
 
-//persist final state
-.blog-transition-enter-done {
+.right-transition-enter-done {
   left: 0vw;
 }
 
 //before (no active)
-.home-transition-enter {
+.left-transition-enter {
   left: -100vw;
 }
 
 //after (active)
-.home-transition-enter-active {
+.left-transition-enter-active {
   left: 0vw;
-  transition: left .6s;
-  -webkit-transition: left .6s;
-  -moz-transition: left .6s;
-  -ms-transition: left .6s;
-  -o-transition: left .6s;
+  @include transition1(left, .5s, ease); //persist final state
 }
 
-//persist final state
-.home-transition-enter-done {
+.left-transition-enter-done {
   left: 0vw;
+}
+
+
+//before (no active)
+.bottom-transition-enter {
+  bottom: 100vw;
+}
+
+//after (active)
+.bottom-transition-enter-active {
+  bottom: 0vw;
+  @include transition1(bottom, .5s, ease); //persist final state
+}
+
+.bottom-transition-enter-done {
+  bottom: 0vw;
 }
 
 //before (no active)
-.canvas-transition-enter {
+.fade-transition-enter {
   opacity: 0;
 }
 
 //after (active)
-.canvas-transition-enter-active {
+.fade-transition-enter-active {
   opacity: 1;
-  transition: opacity 1.5s;
-  -webkit-transition: opacity 1.5s;
-  -moz-transition: opacity 1.5s;
-  -ms-transition: opacity 1.5s;
-  -o-transition: opacity 1.5s;
+  @include transition1(opacity, .5s, ease);
 }
 
 //persist final state
-.canvas-transition-enter-done {
+.fade-transition-enter-done {
   opacity: 1;
 }
 

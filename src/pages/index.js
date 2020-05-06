@@ -42,7 +42,7 @@ export default ({
             />
           )}
         </Helmet>
-        <CSSTransition in={inProp} timeout={10000} classNames="home-transition">
+        <CSSTransition in={inProp} timeout={10000} classNames="fade-transition">
           {/** page content */}
           <div style={{ position: "relative" }}>
             <HeroHeader />
@@ -52,7 +52,7 @@ export default ({
       </Layout>
 
       {/** spawns in threejs canvas (last item so content spawns in first) */}
-      <CSSTransition in={inProp} timeout={10000} classNames="blog-transition">
+      <CSSTransition in={inProp} timeout={10000} classNames="right-transition">
         <ThreeComponent />
       </CSSTransition>
     </>
