@@ -12,7 +12,7 @@ import {
 import { TweenMax } from "gsap";
 import ShatterEffect from "../components/Interaction/ShatterEffect";
 
-//environment paths
+// environment paths
 const modelPath = "../../../../../static/models/";
 const texturePath = "../../../../../static/img/";
 
@@ -24,7 +24,7 @@ export default {
   isMobile: false,
   background: {
     enabled: false, // toggle use of background
-    color: "#080515", //#95E5E1 to test
+    color: "#080515", // #95E5E1 to test
     sceneBg: {
       mobile: ["bg_mobile-01.png", "bg-blank-01.png"],
       pc: ["bg-01.png", "bg-blank-01.png"]
@@ -78,7 +78,7 @@ export default {
         interactive: true,
         path: "./models/lion.OBJ",
         scale: [2.1, 2.1, 2.1],
-        position: [2.3, -.9, -1],
+        position: [2.3, -0.9, -1],
         material: [
           {
             type: "physical",
@@ -259,7 +259,7 @@ export default {
   },
   fog: {
     isFog: true,
-    color: "#201452", //was #100A29
+    color: "#201452", // was #100A29
     density: 1,
     near: 0.10008,
     far: 90
@@ -434,7 +434,7 @@ export default {
   dpr: 1
 };
 
-//#region
+// #region
 // let time = {t: 0};
 
 // let r = new TWEEN.Tween(time, this.tweens)
@@ -445,4 +445,4 @@ export default {
 //     .easing(TWEEN.Easing.Quartic.InOut)
 //     .start();
 
-//#endregion
+// #endregion

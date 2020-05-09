@@ -4,7 +4,6 @@ import {
   Scene,
   Clock,
   OrthographicCamera,
-  Vector3
 } from "three";
 import threeConfig from "../../config/threeConfig";
 import { Controls } from "../controls/controls";

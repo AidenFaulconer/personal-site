@@ -4,7 +4,7 @@ import { StaticQuery, Link, graphql } from "gatsby";
 
 // TODO: add a contentID that refs a blog article, or find a better workaround here
 // TODO: dont dangerously set inner html to avoid injeciton vunerabilities, write a script to pre-process it in nodejs rather than in react
-export default () => {
+export default React.memo(() => {
   return (
     <StaticQuery
       query={graphql`
@@ -52,7 +52,12 @@ export default () => {
           const SectionComponent = sections[sectionName]; // get tangible reference for react to dynamically generate a component from
           return (
             <>
-              <section id={sectionName} key={sectionName + i} className="mainPage">
+              <section
+                id={sectionName}
+                key={sectionName + i}
+                className="mainPage"
+                styles={sectionStyles[sectionName]}
+              >
                 <div className="section__header">
                   <h1 data-aos="fade-up">{sectionName.toUpperCase()}</h1>
                   <h1 data-aos="fade-up">{++i}</h1>
@@ -71,7 +76,7 @@ export default () => {
       }
     />
   );
-};
+});
 
 export const Projects = ({ data }) => (
   <div className="section__grid">
@@ -147,25 +152,30 @@ export const About = ({ data }) => {
         const { title, description, mediaUrl } = card; // we are receiving an object not an array like the others, build two cards
         return (
           <article className="section__grid__card">
-            {(mediaUrl != "" && (
-              <img
-                alt="project preview "
-                src={
-                  mediaUrl // spawn card for image
-                }
-              />
-            )) || ( // spawn card for details
-              <div className="card">
-                <h2 className="title" attribute="title">
-                  {title}
-                </h2>
-                <h3
-                  className="description"
-                  attribute="description"
-                  dangerouslySetInnerHTML={{ __html: description }}
-                />
-              </div>
-            )}
+            <div className="card">
+              {(mediaUrl != "" && (
+                <>
+                  <img
+                    alt="project preview "
+                    src={
+                      mediaUrl // spawn card for image
+                    }
+                  />
+                </>
+              )) || (
+                // spawn card for details
+                <>
+                  <h2 className="title" attribute="title">
+                    {title}
+                  </h2>
+                  <h3
+                    className="description"
+                    attribute="description"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                  />
+                </>
+              )}
+            </div>
           </article>
         );
       })}
@@ -215,6 +225,14 @@ export const Contact = ({ data }) => (
     })}
   </div>
 );
+
+export const sectionStyles = {
+  skills: { borderTop: "5px solid #F28C8C" },
+  about: { borderTop: "5px solid #8CF2D9" },
+  projects: { borderTop: "5px solid #A68CF2" },
+  services: { borderTop: "5px solid #A68CF2" },
+  contact: { borderTop: "5px solid #F2D08C" }
+};
 
 // ref components
 export const sections = {

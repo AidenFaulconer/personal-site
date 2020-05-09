@@ -367,7 +367,7 @@ $mobile-section-margin: 12vh;
 //#endregion mobile element dimension properties
 
 // #region custom properties
-$corner:10px;
+$corner:5px;
 $border:1px solid rgba(255, 255, 255, .1);
 $border2:1px solid rgba(0, 0, 0, .1);
 
@@ -558,7 +558,7 @@ body {
   padding: 0;
   letter-spacing: 90%;
   scroll-behavior: smooth;
-  font-size: 16px; //top level relative sizing
+  font-size: 15px; //top level relative sizing
 
   //tablet
   @include media-breakpoint-between(sm, lg) {
@@ -611,12 +611,12 @@ a {
 
   @include media-breakpoint-between(sm, lg) {
     width: $panel-offset * 5.7;
+    // z-index: 100;
   }
 
   //when in mobile, site content positions on the left side (the left panel will dissapear)
   @include media-breakpoint-down(sm) {
     left: 0px;
-    width: auto; //was 80%
     width: 100%;
   }
 }
@@ -686,8 +686,7 @@ a {
 
 //TODO: move site header out of hero header
 .hero-header {
-  padding: 30vh $standard-margin;
-  max-width: 980px;
+  padding: 30vh $standard-margin*3;
   border: none;
 
 }
@@ -731,7 +730,6 @@ a {
   position: fixed;
   height: 100%;
   z-index: 1;
-  // @include shadow1();
 
   //where the nav bar resides
   &.left {
@@ -840,19 +838,19 @@ a {
   top: 0px;
   background-size: cover;
   @include occupyContainer();
-  padding: 30% 20px;
+  padding: 30% 0;
   background-image: url('https://i.imgur.com/jNPlJI5.png');
-  background-color: $foreground-color;
-  display: none;
-
+  background-color: rgba($foreground-color, .9);
   display: flex;
+  left: 0px;
   justify-content: space-evenly;
   flex-direction: column;
 
   & span {
-    font-size: 4em;
+    font-size: $h1;
     display: flex;
-    padding-left: 35%;
+    justify-content: center;
+
 
     & a {
       color: $primary-text-color;
@@ -900,10 +898,11 @@ $ellipses-slider: (slides: 5,
   color: $secondary-text-color;
   width: 100%;
 
+  //TODO: poor code, we no longer have the text so why do we base our position off it now?
   & .ellipses__text {
     position: relative;
     text-align: center;
-    margin-top: 14vh;
+    margin-top: 15vh;
     margin-bottom: 1vh;
     width: 100%;
     color: $third-text-color;
@@ -915,6 +914,8 @@ $ellipses-slider: (slides: 5,
   }
 
   #slider {
+    @include shadow2();
+
     position: relative;
     margin: auto;
     padding: 5%;
@@ -940,8 +941,8 @@ $ellipses-slider: (slides: 5,
         font-size: $small;
         color: $third-text-color;
         display: inline-block;
-        margin-bottom: 15px;
-        margin-top: -5px;
+        margin-bottom: 25px;
+        margin-top: -10px;
         width: 100%;
         height: 0px;
         text-align: center;
@@ -1559,9 +1560,9 @@ $ellipses-slider: (slides: 5,
     background: $primary-color;
     margin: 0px;
     @include occupyContainer();
-    padding: $standard-margin * 2 0;
     fill: inherit;
     color: inherit;
+
 
     .blog__header {
       margin-left: $standard-margin * 1.5;
@@ -1577,12 +1578,13 @@ $ellipses-slider: (slides: 5,
       pointer-events: none;
     }
 
+
     .blog__wrapper {
       display: flex;
       // width: auto;
       height: 100%;
       z-index: 1;
-      min-height: 30vh;
+      min-height: 40vh;
       margin-bottom: $standard-margin * 2.5;
       overflow-x: scroll;
       overflow-y: hidden;
@@ -1590,7 +1592,6 @@ $ellipses-slider: (slides: 5,
       // flex-wrap: wrap; tosdo: enable by button
       @include hideScrollbar();
       @include animation1(transform);
-
 
       .blog__post {
         min-width: 25vw;
@@ -1600,6 +1601,7 @@ $ellipses-slider: (slides: 5,
         border: $border2;
         max-width: 20%;
         color: inherit;
+        margin: $standard-margin 0;
         margin-left: $standard-margin * 2;
         position: relative;
         @include shadow1();
@@ -1628,6 +1630,7 @@ $ellipses-slider: (slides: 5,
         }
 
         .post__title {
+          left: 0px;
           position: absolute;
           background: $foreground-color;
           bottom: 0px;
@@ -1660,12 +1663,13 @@ section {
   width: 100%; //this is modified inline in react
   border-top: $border;
   margin-bottom: $standard-margin*4;
-  z-index: 0;
+  z-index: 10;
+  // @include shadow2();
 
   @include media-breakpoint-down(sm) {
     margin-bottom: $mobile-section-margin;
     width: 100%;
-    padding: $mobile-section-margin * .50;
+    padding: $mobile-section-margin * .50 0;
   }
 
 
@@ -1681,7 +1685,8 @@ section {
 
   & .section__header {
     z-index: -1;
-    padding: 0 $standard-margin;
+    padding: 0 5.5%;
+    text-transform: capitalize;
     width: 100%;
     display: flex;
     flex-basis: content;
@@ -1872,9 +1877,14 @@ section {
         display: grid;
         padding: $standard-margin;
 
+        @include media-breakpoint-down(sm) {
+          @include occupyContainer();
+        }
+
 
         & img {
           @include borderRadius1();
+          object-fit: fill;
 
           &:hover {
             @include grayscale();
@@ -1915,7 +1925,7 @@ section {
 
       & .section__grid__projects {
         z-index: 2;
-        padding: $standard-margin;
+        padding: $standard-margin * 2;
 
         //used on projects section (has hover effects)
         & .projects__card {

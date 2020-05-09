@@ -1,5 +1,13 @@
+// gzip production build
+
+// in gatsby-node.js
+// import fs from "fs"; // native
+// import zlib from "zlib"; // native
+// import glob from "glob";
+
 const path = require(`path`);
 
+// when gatsby creates routes inside app bundle
 exports.createPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions;
 
@@ -38,6 +46,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   });
 };
 
+// webpack configuration
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   if (stage === "build-html") {
     actions.setWebpackConfig({
@@ -61,4 +70,16 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
       }
     });
   }
-};
+}; // https://www.npmjs.com/package/glob
+
+// when a build is done in gatsby (netflify already compresses build though)
+// exports.postBuild(pages, callback) {
+//   const publicPath = path.join(__dirname, "public");
+//   const gzippable = glob.sync(`${publicPath}/**/?(*.html|*.js|*.css)`);
+//   gzippable.forEach(file => {
+//     const content = fs.readFileSync(file);
+//     const zipped = zlib.gzipSync(content);
+//     fs.writeFileSync(`${file}.gz`, zipped);
+//   });
+//   callback();
+// }

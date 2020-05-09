@@ -4,8 +4,7 @@
  * See: https://www.gatsbyjs.org/docs/gatsby-config/
  */
 
-// get environment variables from .env files, so we can set production and development specific links
-const ACTIVE_ENV =
+const ACTIVE_ENV = // get environment variables from .env files, so we can set production and development specific links
   process.env.GATSBY_ACTIVE_ENV || process.env.NODE_ENV || "development";
 require("dotenv").config({
   path: `.env.${ACTIVE_ENV}`
@@ -15,7 +14,7 @@ module.exports = {
   /* Your site config here */
   siteMetadata: {
     title: `Aiden Faulconer`,
-    description: `A starter blog demonstrating what Gatsby can do.`,
+    description: `Aiden Faulconer, software, design, and 3d development.`,
     siteUrl: `https://aidenfaulconer.com`, // placeholder is https://delog-w3layouts.netlify.com/
     home: {
       title: `AIDEN FAULCONER`,
@@ -62,8 +61,27 @@ module.exports = {
         head: true
       }
     },
+    {
+      resolve: `gatsby-plugin-sharp`, // optimize image loading / compression realtime and buildtime
+      options: {
+        useMozJpeg: false,
+        stripMetadata: true,
+        defaultQuality: 75,
+        pngCompressionLevel: 7, // default is 9
+        jpedQuality: 5 // deafult is 9
+      }
+    },
     `gatsby-plugin-sass`,
     `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-netlify-cms`
+    `gatsby-plugin-netlify-cms`,
+    {
+      resolve: `gatsby-plugin-offline`,
+      options: {
+        // what pages to pre-cache via serviceworker
+        precachePages: [`./`, `/blog`],
+        // appendScript: require.resolve() // allow custom service worker, TODO: add a cookie consent button popup after 15 seconds
+      }
+    },
+    `gatsby-plugin-netlify-headers` // make sure to put last in the array (enables http/2 in netlify cdn)
   ]
 };

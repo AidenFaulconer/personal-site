@@ -13,7 +13,7 @@ import {
   Object3D
 } from "three"; // when to use { } im imports depends on how each module is exported... https://stackoverflow.com/questions/48537180/difference-between-import-something-from-somelib-and-import-something-from
 // import { obj } from 'three/examples/jsm/loaders/OBJLoader2Parallel'
-import { OBJLoader2Parallel } from "three/examples/jsm/loaders/OBJLoader2Parallel";//parallel loader is faster
+import { OBJLoader2Parallel } from "three/examples/jsm/loaders/OBJLoader2Parallel"; // parallel loader is faster
 import { basename } from "path";
 import Material from "./material";
 
@@ -44,8 +44,11 @@ export default class Geometry {
   }
 
   // load objects from custom configuration (static)
-  loadFromConfiguration(interactionHandler) {
-    Object.keys(threeConfig.models).map(modelName => {
+  loadFromConfiguration(
+    interactionHandler,
+    models = Object.keys(threeConfig.models) /** config object keys, or allow the keys to be passed in manually */
+  ) {
+    models.map(modelName => {
       // load obj via local objloader instance
       const geometryInstance = new Geometry(this._scene);
       geometryInstance.objLoader.load(
@@ -53,13 +56,13 @@ export default class Geometry {
         geometry => {
           // configure materials //TODO: abstract material creation from threeconfig
           let material;
-          let fx;
-          if (threeConfig.models[modelName][0].material) {
-            const materialConfig = threeConfig.models[modelName][0].material;
-            const materialProps = materialConfig[0].props[0];
-            // fx = materialConfig[0]['props'][1].fx
+          const config = threeConfig.models[modelName][0]; // configuration options top level
+          if (config.material) {
+            const materialConfig = config.material[0];
+            const materialProps = materialConfig.props[0];
             if (materialProps.envMap) {
               materialProps.envMap = new CubeTextureLoader().load(
+                // load referenced URL's
                 [
                   materialProps.envMap,
                   materialProps.envMap,
@@ -71,7 +74,7 @@ export default class Geometry {
               );
               materialProps.envMap.minFilter = LinearFilter;
             }
-            switch (materialConfig[0].type) {
+            switch (materialConfig.type) {
               case "physical":
                 material = new MeshPhysicalMaterial(materialProps);
                 break;
@@ -96,22 +99,21 @@ export default class Geometry {
               material
                 ? (childMesh.material = material)
                 : console.log("using default material");
-              childMesh.scale.set(...threeConfig.models[modelName][0].scale);
-              childMesh.position.set(
-                ...threeConfig.models[modelName][0].position
-              );
+              childMesh.scale.set(...config.scale);
+              childMesh.position.set(...config.position);
               childMesh.name = modelName;
               // check for fx on object and append them to material
             });
           }
+
           geometryInstance.object = geometry;
           // bind the event handler to the instance while we pass it in (IMPORTANT OR WE WILL GET UNDEFINED BEHAVIOR IN OBJECT REFRENCE)
-          if (threeConfig.models[modelName][0].interactive)
+
+          if (config.interactive)
             interactionHandler.eventHandlers.push(
               geometryInstance.watchMouse.bind(geometryInstance)
             );
-          // add the geometrys events to a event pool
-          // console.log(geometryInstance)
+          // add the geometrys events to a event pool and scene
           this._objectpool.addToPool(geometryInstance.object);
           geometryInstance._scene.add(geometryInstance.object);
         }
@@ -122,7 +124,7 @@ export default class Geometry {
         err => {
           console.error(
             `obj loading failed: ${err} with path:${modelPath}${
-              threeConfig.models[modelName][0].path
+              config.path
             } at directory ${basename(__dirname) + basename(__filename, ".js")}`
           );
         };
@@ -186,7 +188,7 @@ export default class Geometry {
     }
   }
 
-  // static method to place objects
+  // static method to place objects or add a material
   place(position, rotation, material) {
     material
       ? console.log("using basic material")

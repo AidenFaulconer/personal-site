@@ -227,7 +227,10 @@ export default () => {
       <nav className="ellipses-bar" id="ellipses-bar">
         {(sections.length > 0 && (
           <>
-            <h3 className="ellipses__text">explore here</h3>
+          {/**
+
+           */}
+            <h3 className="ellipses__text"> </h3>
             {sections.map((sectionName, i) => (
               <input
                 onClick={() => checkEllipses(i)}
@@ -267,7 +270,7 @@ export default () => {
                 }}
                 description="navigation icon, click me to navigate to a new section"
               />
-              go back
+              {/**go back */}
             </h3>
           </Link>
         )}

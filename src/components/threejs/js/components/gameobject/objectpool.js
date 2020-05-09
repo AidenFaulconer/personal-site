@@ -1,5 +1,3 @@
-import { Object3D } from "three";
-
 // static object manager
 export default class {
   constructor() {
@@ -8,9 +6,11 @@ export default class {
     this.addToPool.bind(this);
     // TODO: implement efficient searching and sorting algorithms for handling large amounts of objects
   }
+
   getPool() {
     return this.pool; // return a refrence
   }
+
   addToPool(object) {
     this.pool.push(object);
   }
