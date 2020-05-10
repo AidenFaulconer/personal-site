@@ -734,15 +734,13 @@ a {
   position: fixed;
   height: 100%;
   z-index: 1;
-
+  background: rgba($gradient-color, .9);
 
   //where the nav bar resides
   &.left {
-    @include shadow2();
     @include hoverFillTop();
     width: $panel-offset;
     border-right: $border;
-    background: $gradient-color;
 
     fill: $third-text-color;
     color: $third-text-color;
@@ -807,7 +805,7 @@ a {
   &.right {
     width: $panel-offset * 1;
     border-left: $border;
-    background: transparent;
+    // background: transparent;
     fill: $primary-color;
     color: $primary-color;
     right: 0px;

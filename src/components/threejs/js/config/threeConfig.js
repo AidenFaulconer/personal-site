@@ -78,7 +78,7 @@ export default {
         interactive: true,
         path: "./models/lion.OBJ",
         scale: [2.3, 2.3, 2.3],
-        position: [2, -0.9, -1],
+        position: [2, -0.9, 0],
         material: [
           {
             type: "physical",
@@ -184,7 +184,7 @@ export default {
         interactive: true,
         path: "./models/backdrop.OBJ",
         scale: [-3.8, -3.8, -3.8],
-        position: [2, -7, -2.5],
+        position: [6, -9, -.5],
         material: [
           {
             type: "physical",
@@ -259,16 +259,16 @@ export default {
   },
   fog: {
     isFog: true,
-    color: "#201452", // was #100A29
+    color: "#080515", // was #100A29
     density: 1,
-    near: 0.10008,
-    far: 90
+    near: 0.20008,
+    far: 105
   },
   camera: {
     orthographic: false,
     fov: 50,
     near: 0.01,
-    far: 90,
+    far: 100,
     aspect: 1,
     // base position
     posX: -3,
@@ -304,8 +304,8 @@ export default {
     // damp controls
     dragEnabled: false,
     // mouse
-    mouseSpeed: 35, // higher is lower speed
-    mouseDepth: 2.5, // how far a ray from the mouse goes into worldspace
+    mouseSpeed: 45, // higher is lower speed
+    mouseDepth: 4.5, // how far a ray from the mouse goes into worldspace
 
     // orbit controls
     zoomEnabled: false,
