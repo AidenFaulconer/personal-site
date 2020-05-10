@@ -183,8 +183,8 @@ export default {
       {
         interactive: true,
         path: "./models/backdrop.OBJ",
-        scale: [-3.8, -3.8, -3.8],
-        position: [6, -9, -.5],
+        scale: [3.8, 3.8, 3.8],
+        position: [5, -2, -4],
         material: [
           {
             type: "physical",
