@@ -1,9 +1,23 @@
 // use arrays, the logic handling this uses .map which wont work on objects
 module.exports = {
+  visualizations: [
+    {
+      name: "corona-visualization",
+      about: "",
+      objectives: "",
+      results: ""
+    },
+    {
+      name: "corona-visualization",
+      about: "",
+      objectives: "",
+      results: ""
+    }
+  ],
   projects: [
     {
       model: false,
-      title: "Movement Recognition in VR",
+      title: "VR Movement Recognition",
       mediaUrl: "https://i.imgur.com/t55NQ7m.mp4",
       catagory: "VR Application",
       description:

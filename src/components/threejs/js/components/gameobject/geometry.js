@@ -10,7 +10,8 @@ import {
   BoxGeometry,
   LinearFilter,
   Vector3,
-  Object3D
+  Object3D,
+  BufferGeometryUtils
 } from "three"; // when to use { } im imports depends on how each module is exported... https://stackoverflow.com/questions/48537180/difference-between-import-something-from-somelib-and-import-something-from
 // import { obj } from 'three/examples/jsm/loaders/OBJLoader2Parallel'
 import { OBJLoader2Parallel } from "three/examples/jsm/loaders/OBJLoader2Parallel"; // parallel loader is faster
@@ -46,7 +47,9 @@ export default class Geometry {
   // load objects from custom configuration (static)
   loadFromConfiguration(
     interactionHandler,
-    models = Object.keys(threeConfig.models) /** config object keys, or allow the keys to be passed in manually */
+    models = Object.keys(
+      threeConfig.models
+    ) /** config object keys, or allow the keys to be passed in manually */
   ) {
     models.map(modelName => {
       // load obj via local objloader instance
@@ -107,15 +110,15 @@ export default class Geometry {
           }
 
           geometryInstance.object = geometry;
+          this._scene.add(geometryInstance.object);
           // bind the event handler to the instance while we pass it in (IMPORTANT OR WE WILL GET UNDEFINED BEHAVIOR IN OBJECT REFRENCE)
 
           if (config.interactive)
             interactionHandler.eventHandlers.push(
               geometryInstance.watchMouse.bind(geometryInstance)
             );
-          // add the geometrys events to a event pool and scene
+          // add the geometrys events to an object handler
           this._objectpool.addToPool(geometryInstance.object);
-          geometryInstance._scene.add(geometryInstance.object);
         }
       ),
         // progress event

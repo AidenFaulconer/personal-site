@@ -118,24 +118,6 @@ export default React.memo(() => {
               }
             }
           }
-          site {
-            siteMetadata {
-              mainPageContent {
-                projects {
-                  model
-                  title
-                  mediaUrl
-                  catagory
-                  description
-                  blog {
-                    about
-                    objectives
-                    results
-                  }
-                }
-              }
-            }
-          }
         }
       `}
       render={data => {
@@ -197,9 +179,6 @@ export default React.memo(() => {
   );
 });
 
-
-
-
 export const UXUI = ({ post }) => (
   <article className="blog__post">
     <Link to={post.frontmatter.path}>
@@ -240,9 +219,6 @@ export const ThreeD = ({ post }) => (
     </header>
   </article>
 );
-
-
-
 
 export const sectionStyles = {
   uiux: { fill: "white", color: "white", background: "#F28C8C" },

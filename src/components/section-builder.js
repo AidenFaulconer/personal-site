@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StaticQuery, Link, graphql } from "gatsby";
-// import ContentViewer from "./content-viewer";
+// import ProjectViewer from "./project-viewer";
 
 // TODO: add a contentID that refs a blog article, or find a better workaround here
 // TODO: dont dangerously set inner html to avoid injeciton vunerabilities, write a script to pre-process it in nodejs rather than in react
@@ -11,7 +11,7 @@ export default React.memo(() => {
         query ProjectsQuery {
           site {
             siteMetadata {
-              mainPageContent {
+              contentConfig {
                 projects {
                   model
                   title
@@ -65,7 +65,7 @@ export default React.memo(() => {
                 <div className="section__wrapper">
                   <SectionComponent
                     key={sectionName + i}
-                    data={data.site.siteMetadata.mainPageContent[sectionName]}
+                    data={data.site.siteMetadata.contentConfig[sectionName]}
                   />
                 </div>
                 {/** i === Object.keys(sections).length && console.error('sections loaded') */}
@@ -78,43 +78,50 @@ export default React.memo(() => {
   );
 });
 
-export const Projects = ({ data }) => (
-  <div className="section__grid">
-    {/** build cards from data */}
-    {data.map(card => {
-      const { title, description, model, catagory, mediaUrl, postPath } = card;
-      return (
-        <article className="section__grid__projects">
-          <div className="projects__card">
-            <h2 className="title" attribute="title">
-              {title}
-            </h2>
-            <h3 className="description" attribute="description">
-              {description}
-            </h3>
-            <h3 className="catagory">{catagory}</h3>
+export const Projects = ({ data }) => {
+  const [viewProject, toggleProjectViewer] = useState(false);
 
-            {/** TODO: add articles for each project with a page transition
-        <Link to={postPath}>
-          <div className="cta">
-            <p>see more</p>
-          </div>
-        </Link>
-    */}
+  return (
+    <div className="section__grid">
+      {/** build cards from data */}
+      {(viewProject && <></>) ||
+        /** <SectionBuilder data={projectData} toggleProjectViewer={toggleProjectViewer} */
+        data.map(card => {
+          const { title, description, model, catagory, mediaUrl, post } = card;
+          return (
+            <article className="section__grid__projects">
+              <div
+                className="projects__card"
+                onCLick={() => toggleProjectViewer(true)}
+              >
+                <h2 className="title" attribute="title">
+                  {title}
+                </h2>
+                <h3 className="description" attribute="description">
+                  {description}
+                </h3>
+                <h3 className="catagory">{catagory}</h3>
 
-            <div className="preview">
-              {(model && <></>) || (
-                <video className="video-fluid" autoPlay loop muted playsInline>
-                  <source loading="lazy" src={mediaUrl} type="video/mp4" />
-                </video>
-              )}
-            </div>
-          </div>
-        </article>
-      );
-    })}
-  </div>
-);
+                <div className="preview">
+                  {(model && <></>) || (
+                    <video
+                      className="video-fluid"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                    >
+                      <source loading="lazy" src={mediaUrl} type="video/mp4" />
+                    </video>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+    </div>
+  );
+};
 
 export const Skills = ({ data }) => (
   <div className="section__grid">

@@ -77,8 +77,8 @@ export default {
       {
         interactive: true,
         path: "./models/lion.OBJ",
-        scale: [2.1, 2.1, 2.1],
-        position: [2.3, -0.9, -1],
+        scale: [2.3, 2.3, 2.3],
+        position: [2, -0.9, -1],
         material: [
           {
             type: "physical",
@@ -90,7 +90,7 @@ export default {
                 metalness: 1,
                 clearcoat: 3.74,
                 roughness: 0.5,
-                flatShading: true,
+                // flatShading: true,
                 // opacity: 1,
                 side: FrontSide,
                 reflectivity: 2.19
@@ -183,8 +183,8 @@ export default {
       {
         interactive: true,
         path: "./models/backdrop.OBJ",
-        scale: [3.8, 3.8, 3.8],
-        position: [-2, 1, -1.5],
+        scale: [-3.8, -3.8, -3.8],
+        position: [2, -7, -2.5],
         material: [
           {
             type: "physical",
@@ -196,7 +196,7 @@ export default {
                 metalness: 0,
                 roughness: 0.5,
                 transparent: true,
-                opacity: 0.3,
+                opacity: 1,
                 side: DoubleSide
                 // envMapIntensity: 1,
                 // refractionRatio: 1,
@@ -271,9 +271,9 @@ export default {
     far: 90,
     aspect: 1,
     // base position
-    posX: 0,
-    posY: -1.6,
-    posZ: 22,
+    posX: -3,
+    posY: -1.5,
+    posZ: 30,
     // base orientation
     rotX: 0,
     rotY: 0,

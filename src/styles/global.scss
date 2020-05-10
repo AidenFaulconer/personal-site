@@ -34,7 +34,7 @@ $gradient-color: $foreground-color;
   -webkit-filter: grayscale(100%);
 }
 
-// #endregion custom page colors
+// #endregion custom page colorsf
 
 //#region TODO: get positioning mixins
 //#endregion positioning mixins
@@ -278,12 +278,12 @@ $gradient-color: $foreground-color;
 //#endregion animation mixins
 
 @mixin shadow1 {
-  box-shadow: 0px 5px 15px rgba($foreground-color, $alpha: .25);
+  box-shadow: 0px 0px 10px rgba($foreground-color, $alpha: .5);
 }
 
 @mixin shadow2 {
-  box-shadow: 5px 2px 15px rgba($primary-text-color, $alpha: .10),
-    -5px -2px 15px rgba($primary-color, $alpha: .10);
+  box-shadow: 2px 1px 10px rgba($primary-text-color, $alpha: .05),
+    -2px -1px 10px rgba($primary-color, $alpha: .05);
 }
 
 //#region sass imports
@@ -355,8 +355,8 @@ h1 {
 //#endregion text sizing (golden ratio)
 
 //#region desktop element dimension properties
-$panel-offset: 15%;
-$standard-margin: 20px;
+$panel-offset: 10%;
+$standard-margin: 25px;
 $section-margin: 23vh;
 //#endregion desktop element dimension properties
 
@@ -367,7 +367,7 @@ $mobile-section-margin: 12vh;
 //#endregion mobile element dimension properties
 
 // #region custom properties
-$corner:5px;
+$corner:12.5px;
 $border:1px solid rgba(255, 255, 255, .1);
 $border2:1px solid rgba(0, 0, 0, .1);
 
@@ -558,7 +558,9 @@ body {
   padding: 0;
   letter-spacing: 90%;
   scroll-behavior: smooth;
-  font-size: 15px; //top level relative sizing
+  //toplevelrelativesizing
+  font-size: 16px;
+  zoom: .9;
 
   //tablet
   @include media-breakpoint-between(sm, lg) {
@@ -601,7 +603,7 @@ a {
   position: absolute;
   background: transparent; // border: 2px solid red;
   left: $panel-offset;
-  width: 70%;
+  width: $panel-offset*8;
   margin: 0 auto;
 
   img {
@@ -610,7 +612,8 @@ a {
 
 
   @include media-breakpoint-between(sm, lg) {
-    width: $panel-offset * 5.7;
+    width: $panel-offset * 9;
+    // width: 100%;
     // z-index: 100;
   }
 
@@ -686,7 +689,7 @@ a {
 
 //TODO: move site header out of hero header
 .hero-header {
-  padding: 30vh $standard-margin*3;
+  padding: 27.5vh $standard-margin*3;
   border: none;
 
 }
@@ -707,6 +710,7 @@ a {
 //#region navigation styling
 #canvas {
   z-index: -1;
+  top: -$standard-margin;
   position: absolute;
   @include occupyContainer();
   overflow: hidden;
@@ -731,8 +735,10 @@ a {
   height: 100%;
   z-index: 1;
 
+
   //where the nav bar resides
   &.left {
+    @include shadow2();
     @include hoverFillTop();
     width: $panel-offset;
     border-right: $border;
@@ -757,8 +763,12 @@ a {
       position: relative;
       display: block;
       margin: 0 auto;
-      margin-top: $standard-margin * 1.25;
+      margin-top: $standard-margin * 1.9;
       top: 0%;
+
+      @include media-breakpoint-down(md) {
+        visibility: hidden;
+      }
 
       // width: max-content
       & circle {
@@ -795,7 +805,7 @@ a {
 
 
   &.right {
-    width: $panel-offset;
+    width: $panel-offset * 1;
     border-left: $border;
     background: transparent;
     fill: $primary-color;
@@ -885,8 +895,6 @@ $ellipses-slider: (slides: 5,
     }
 
     & svg {
-      // background: $primary-text-color;
-      // color: $primary-text-color;
       fill: $primary-text-color;
     }
   }
@@ -902,7 +910,7 @@ $ellipses-slider: (slides: 5,
   & .ellipses__text {
     position: relative;
     text-align: center;
-    margin-top: 15vh;
+    margin-top: $standard-margin * 10;
     margin-bottom: 1vh;
     width: 100%;
     color: $third-text-color;
@@ -914,8 +922,6 @@ $ellipses-slider: (slides: 5,
   }
 
   #slider {
-    @include shadow2();
-
     position: relative;
     margin: auto;
     padding: 5%;
@@ -923,9 +929,15 @@ $ellipses-slider: (slides: 5,
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
-    width: 35%;
+    width: 60%;
     border: $border;
+    @include shadow2();
     @include borderRadius1();
+
+    @include media-breakpoint-down(md) {
+      @include shadow1();
+      border: none;
+    }
 
     & label {
       // margin: 0px auto;
@@ -933,6 +945,7 @@ $ellipses-slider: (slides: 5,
       position: relative;
       text-align: center;
       display: flex;
+      font-weight: bolder;
       flex-direction: column;
       cursor: pointer;
 
@@ -1002,10 +1015,11 @@ $ellipses-slider: (slides: 5,
 
 //#region social media links
 #social-media-bar {
-  position: absolute;
+  position: relative;
+  margin: auto;
   margin-top: $standard-margin * 2.5;
-  width: 50%;
-  left: 24%;
+  width: 70%;
+  left: 0%;
   height: 10vh;
   top: 0px;
   padding: 0% .5vw;
@@ -1551,11 +1565,14 @@ $ellipses-slider: (slides: 5,
 .blog-main {
   position: relative;
   min-height: 100%;
+  width: 95%;
 
   section {
+
     position: relative;
     width: auto;
     width: 100%;
+    min-height: 40vh; //ensures sections are large enough to be calculated by navigation menu
     border: $border2;
     background: $primary-color;
     margin: 0px;
@@ -1660,10 +1677,12 @@ $ellipses-slider: (slides: 5,
 
 //#region content styling
 section {
+
   width: 100%; //this is modified inline in react
   border-top: $border;
   margin-bottom: $standard-margin*4;
   z-index: 10;
+  min-height: 30vh; //ensures sections are large enough to be calculated by navigation menu
   // @include shadow2();
 
   @include media-breakpoint-down(sm) {
@@ -1714,12 +1733,17 @@ section {
     & .section__grid {
       color: $secondary-color;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 32px;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: $standard-margin * .1;
       height: 5%;
-      padding: 4%;
+      padding: $standard-margin * 2.5;
 
       //mobile
+
+      @include media-breakpoint-between(sm, lg) {
+        grid-template-columns: 1fr 1fr;
+      }
+
       @include media-breakpoint-down(sm) {
         padding: 2%;
         grid-gap: 10px;
@@ -1733,7 +1757,7 @@ section {
 
         & .title {
           width: 80%;
-          margin-bottom: $standard-margin;
+          margin-bottom: $standard-margin * 2;
           line-height: 1em;
 
           //drop margin size on mobile
@@ -1745,7 +1769,6 @@ section {
 
       @mixin description {
         & .description {
-          width: 70%;
           margin-bottom: $standard-margin;
 
           //drop margin size on mobile
@@ -1799,7 +1822,7 @@ section {
             position: absolute;
             z-index: -2;
             width: 105%;
-            left: -2.5%;
+            left: -7%;
             top: -2.5%;
             height: 105%;
             opacity: .1;
@@ -1924,8 +1947,9 @@ section {
       }
 
       & .section__grid__projects {
+
         z-index: 2;
-        padding: $standard-margin * 2;
+        padding: $standard-margin;
 
         //used on projects section (has hover effects)
         & .projects__card {
@@ -1933,8 +1957,9 @@ section {
           background-color: $primary-text-color;
           position: relative;
           padding: $standard-margin;
+          padding-right: 10%;
+          min-width: 100%;
 
-          padding-bottom: $standard-margin * 3;
           right: 0px;
           @include borderRadius1();
 
@@ -1983,14 +2008,18 @@ section {
           & .catagory {
             top: 0px;
             height: 100%;
+            // display: none;
             position: absolute;
+            font-size: $h3;
             text-align: left;
+            font-family: 'brown-light';
             padding: 3%;
             color: $primary-text-color;
-            background: linear-gradient(100deg, #180F3E 0%, #100A29 100%);
-            border: $border2;
+            @include shadow2();
+            background: $foreground-color;
+            border: $border;
             width: 10%;
-            right: -$standard-margin * .85;
+            right: -$standard-margin * 1.5;
             z-index: 3;
             @include verticalText();
             @include animation1();

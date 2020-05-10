@@ -1,6 +1,5 @@
 import * as AOS from "aos";
 import React, { useEffect, useRef, useState, Suspense } from "react";
-import Main from "./js/main";
 import threeConfig from "./js/config/threeConfig";
 // ANIMATE ON SCROLL
 import "aos/dist/aos.css";
@@ -9,7 +8,7 @@ import "aos/dist/aos.css";
 // import { MainVR } from './js/mainVR'
 
 // threeComponent wrapper
-export default React.memo(() => {
+export default React.memo(({threeJsCanvas}) => {//we pass in which threejs canvas we want to load in
   const canvasRef = useRef(null);
   const [threeContext, setThreeContext] = useState(null);
 
@@ -35,7 +34,7 @@ export default React.memo(() => {
       })())
         ? (threeConfig.isMobile = true)
         : console.log("configuring for desktop usage");
-      setThreeContext(new Main(canvasRef.current)); // this is the deafult and reccomended entry for the experience, which is with vr off at default
+      setThreeContext(new threeJsCanvas(canvasRef.current)); // this is the deafult and reccomended entry for the experience, which is with vr off at default
       // #endregion
 
       // initialize AOS

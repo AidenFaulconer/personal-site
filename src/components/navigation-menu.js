@@ -57,50 +57,14 @@ export const navSvgs = {
 `
 };
 
-export const logoSvg = [
-  `<svg width="60" height="52" viewBox="0 0 60 52"  xmlns="http://www.w3.org/2000/svg">
-<path d="M50.2896 35.8431L43.2766 50.7547L34.7098 50.7944L43.1343 33.909" />
-<path d="M37.8534 26.7798L25.6809 50.836L17.2677 50.875L34.159 17.8729" />
-<path d="M31.6542 3.96509L9.32031 51.4757L0.964272 51.45L24.7164 0.311716L31.6542 3.96509Z" />
-<path d="M30.9019 0.308364L39.313 15.1308C41.9265 19.1783 39.8338 23.1939 37.8349 26.7799L24.7168 0.336975L30.9019 0.308364Z" />
-<path d="M43.0727 21.8555C41.0928 25.3878 38.8665 29.5829 40.8627 33.1146L51.0552 50.7365L59.4876 50.6975" />
-</svg>
-`
-];
 // #endregion hardcoded SVGS (will be replaced by a proper inline svg loader when i find one)
-
-// #region circular progress indicator
-export const PageProgressIndicator = ({ progress, stroke, radius }) => {
-  const normalizedRadius = radius - stroke * 2;
-  const circumference = normalizedRadius * 2 * Math.PI;
-  const strokeDashoffset = circumference - (progress / 100) * circumference;
-
-  return (
-    <>
-      <div className="logo" dangerouslySetInnerHTML={{ __html: logoSvg[0] }} />
-      <svg height={radius * 2} width={radius * 2} id="progress-indicator">
-        <circle
-          fill="transparent"
-          strokeWidth={stroke}
-          strokeDasharray={`${circumference} ${circumference}`}
-          style={{ strokeDashoffset }}
-          r={normalizedRadius}
-          cx={radius}
-          cy={radius}
-        />
-      </svg>
-    </>
-  );
-};
-// #endregion circular progress indicator
 
 // #region the primary Navigation bar
 
 // navigation menu
-export default () => {
+export default ({ setPageProgress }) => {
   // state & accompanying setter
   const [sections, setSections] = useState([]); // the initial state used in jsx
-  const [pageProgress, setPageProgress] = useState(0); // the initial state used in jsx
 
   // #region local function state (not for use in jsx!!!)
   const offset = 0;
@@ -211,23 +175,13 @@ export default () => {
     };
   }, []);
 
-  // onScroll
-  useEffect(() => {
-    // console.error(pageProgress)
-  }, [pageProgress]);
-
   // react jsx
   return (
     <>
-      <PageProgressIndicator
-        radius={50} // in px
-        progress={pageProgress}
-        stroke={1} // thickness
-      />
       <nav className="ellipses-bar" id="ellipses-bar">
         {(sections.length > 0 && (
           <>
-          {/**
+            {/**
 
            */}
             <h3 className="ellipses__text"> </h3>
@@ -270,7 +224,7 @@ export default () => {
                 }}
                 description="navigation icon, click me to navigate to a new section"
               />
-              {/**go back */}
+              {/** go back */}
             </h3>
           </Link>
         )}

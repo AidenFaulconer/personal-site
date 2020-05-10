@@ -21,7 +21,7 @@ module.exports = {
       description: `null` // deffered to array in mainpagecontent
     },
     /* injected configuration for the main pages content */
-    mainPageContent: require("./static/admin/contentConfig.js"),
+    contentConfig: require("./static/admin/contentConfig.js"),
     /* W3Layouts domain verification key for contact forms https://my.w3layouts.com/Forms/ */
     w3l_dom_key: `5e609f7a2d23fCF_Domain_verify`
   },

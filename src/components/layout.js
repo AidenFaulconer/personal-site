@@ -93,32 +93,32 @@ export const MobileMenu = () => {
       {menu && (
         <div className="mobile__menu__overlay" id="mobile__menu__overlay">
           <span>
-            <a onClick={() => toggleMenu(!menu)} href="#main">
+            <a onClick={() => toggleMenu(!menu)} href="./#main">
               Main
             </a>
           </span>
           <span>
-            <a onClick={() => toggleMenu(!menu)} href="#projects">
+            <a onClick={() => toggleMenu(!menu)} href="./#projects">
               Projects
             </a>
           </span>
           <span>
-            <a onClick={() => toggleMenu(!menu)} href="#skills">
+            <a onClick={() => toggleMenu(!menu)} href="./#skills">
               Skills
             </a>
           </span>
           <span>
-            <a onClick={() => toggleMenu(!menu)} href="#about">
+            <a onClick={() => toggleMenu(!menu)} href="./#about">
               About
             </a>
           </span>
           <span>
-            <a onClick={() => toggleMenu(!menu)} href="#services">
+            <a onClick={() => toggleMenu(!menu)} href="./#services">
               Servies
             </a>
           </span>
           <span>
-            <a onClick={() => toggleMenu(!menu)} href="#contact">
+            <a onClick={() => toggleMenu(!menu)} href="./#contact">
               Contact
             </a>
           </span>
@@ -128,6 +128,41 @@ export const MobileMenu = () => {
   );
 };
 // #endregion mobile menu
+
+export const logoSvg = [
+  `<svg width="60" height="52" viewBox="0 0 60 52"  xmlns="http://www.w3.org/2000/svg">
+<path d="M50.2896 35.8431L43.2766 50.7547L34.7098 50.7944L43.1343 33.909" />
+<path d="M37.8534 26.7798L25.6809 50.836L17.2677 50.875L34.159 17.8729" />
+<path d="M31.6542 3.96509L9.32031 51.4757L0.964272 51.45L24.7164 0.311716L31.6542 3.96509Z" />
+<path d="M30.9019 0.308364L39.313 15.1308C41.9265 19.1783 39.8338 23.1939 37.8349 26.7799L24.7168 0.336975L30.9019 0.308364Z" />
+<path d="M43.0727 21.8555C41.0928 25.3878 38.8665 29.5829 40.8627 33.1146L51.0552 50.7365L59.4876 50.6975" />
+</svg>
+`
+];
+
+// #region circular progress indicator
+export const PageProgressIndicator = ({ progress, stroke, radius }) => {
+  const normalizedRadius = radius - stroke * 2;
+  const circumference = normalizedRadius * 2 * Math.PI;
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+  return (
+    <>
+      <svg height={radius * 2} width={radius * 2} id="progress-indicator">
+        <circle
+          fill="transparent"
+          strokeWidth={stroke}
+          strokeDasharray={`${circumference} ${circumference}`}
+          style={{ strokeDashoffset }}
+          r={normalizedRadius}
+          cx={radius}
+          cy={radius}
+        />
+      </svg>
+    </>
+  );
+};
+// #endregion circular progress indicator
 
 export default ({ Posts, children, pageState }) => {
   const data = useStaticQuery(
@@ -143,6 +178,7 @@ export default ({ Posts, children, pageState }) => {
   );
 
   const [navMenu, toggleNavMenu] = useState(true);
+  const [pageProgress, setPageProgress] = useState(0); // the initial state used in jsx
 
   useEffect(() => {
     toggleNavMenu(false);
@@ -153,7 +189,7 @@ export default ({ Posts, children, pageState }) => {
       <AnalyticsComponent />
 
       {/** main page right interactive panel */}
-      {pageState !== "blog" && (
+      {pageState !== ".blog" && (
         <div className="panel right">
           <MediaLinks />
 
@@ -189,6 +225,18 @@ export default ({ Posts, children, pageState }) => {
 
       {/** main page left interactive panel */}
       <div className="panel left">
+        <div
+          className="logo"
+          dangerouslySetInnerHTML={{ __html: logoSvg[0] }}
+        />
+
+        <PageProgressIndicator
+          radius={50} // in px
+          progress={pageProgress}
+          stroke={1} // thickness
+        />
+        <NavigationMenu setPageProgress={setPageProgress} />
+
         <header className="site-header">
           <div className="site-title">
             <Link to="/">{data.site.siteMetadata.title}</Link>
@@ -196,7 +244,6 @@ export default ({ Posts, children, pageState }) => {
           <Navigation />
         </header>
         {/** page navigation panel */}
-        <NavigationMenu />
       </div>
     </>
   );

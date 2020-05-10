@@ -12,7 +12,7 @@ export default React.memo(() => (
               title
               description
             }
-            mainPageContent {
+            contentConfig {
               description
             }
           }
@@ -24,7 +24,7 @@ export default React.memo(() => (
         <div className="headline">{data.site.siteMetadata.home.title}</div>
         <div className="primary-content">
           <TypeWriter
-            typewriterText={data.site.siteMetadata.mainPageContent.description}
+            typewriterText={data.site.siteMetadata.contentConfig.description}
           />
         </div>
         <Link to="#contact" className="button -primary">

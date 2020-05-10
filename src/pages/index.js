@@ -7,6 +7,7 @@ import PostLink from "../components/post-link";
 import HeroHeader from "../components/heroHeader";
 import SectionBuilder from "../components/section-builder";
 import ThreeComponent from "../components/threejs/three-component";
+import MainThreeJs from "../components/threejs/main-page";
 // when ssr, wrap components using window with this to avoid undefined windowerrors
 // TODO: add google analytics
 
@@ -53,7 +54,7 @@ export default ({
 
       {/** spawns in threejs canvas (last item so content spawns in first) */}
       <CSSTransition in={inProp} timeout={10000} classNames="right-transition">
-        <ThreeComponent />
+        <ThreeComponent threeJsCanvas={MainThreeJs} />
       </CSSTransition>
     </>
   );
