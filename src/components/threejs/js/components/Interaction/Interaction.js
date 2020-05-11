@@ -44,13 +44,14 @@ export default class {
     );
     if (threeConfig.interaction.showRaycast) this.debugRaycast = true;
 
+
     // #endregion
 
     // event listeners
     // #region
-    document.addEventListener("mousedown", this.onMouseDown.bind(this), false);
     if (threeConfig.isMobile) {
     } else {
+    // document.addEventListener("mousedown", this.onMouseDown.bind(this), false);
       window.addEventListener("mousemove", this.onMouseMove.bind(this), false);
     }
     // #endregion

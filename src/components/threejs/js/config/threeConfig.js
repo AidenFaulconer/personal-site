@@ -78,7 +78,7 @@ export default {
         interactive: true,
         path: "./models/lion.OBJ",
         scale: [2.3, 2.3, 2.3],
-        position: [2, -0.9, 0],
+        position: [2, -0.8, 0],
         material: [
           {
             type: "physical",
@@ -192,9 +192,9 @@ export default {
               {
                 color: "#8CF2D9",
                 wireframe: true,
-                reflectivity: 0.5,
+                // reflectivity: 0.5,
                 metalness: 0,
-                roughness: 0.5,
+                // roughness: 0.5,
                 transparent: true,
                 opacity: 1,
                 side: DoubleSide
@@ -304,8 +304,8 @@ export default {
     // damp controls
     dragEnabled: false,
     // mouse
-    mouseSpeed: 45, // higher is lower speed
-    mouseDepth: 4.5, // how far a ray from the mouse goes into worldspace
+    mouseSpeed: 55, // higher is lower speed
+    mouseDepth: 5, // how far a ray from the mouse goes into worldspace
 
     // orbit controls
     zoomEnabled: false,
@@ -333,8 +333,8 @@ export default {
     mobile: {
       deviceOrentationEnabled: true,
       // mouse
-      mouseSpeed: 30, // higher is lower speed
-      mouseDepth: 2, // how far a ray from the mouse goes into worldspace
+      mouseSpeed: 50, // higher is lower speed
+      mouseDepth: 4.5, // how far a ray from the mouse goes into worldspace
       // orbit controls
       orbitControlsEnabled: false,
       dragEnabled: false,
@@ -402,16 +402,16 @@ export default {
       enabled: true,
       color: "#95E5E1",
       intensity: 2,
-      x: 0,
-      y: 10,
-      z: 0
+      x:-20,
+      y: 40,
+      z: 15
     },
     pointLight: {
       enabled: false,
       color: "#95E5E1",
       intensity: 4,
       distance: -2,
-      x: 10,
+      x: 1,
       y: 0,
       z: -15
     },
@@ -421,7 +421,7 @@ export default {
       intensity: 2,
       x: 0,
       y: 0,
-      z: 0
+      z: 10
       // groundColor: '#95E5E1',
     }
   },

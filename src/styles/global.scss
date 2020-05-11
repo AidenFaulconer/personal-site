@@ -560,7 +560,7 @@ body {
   scroll-behavior: smooth;
   //toplevelrelativesizing
   font-size: 16px;
-  zoom: .9;
+  zoom: .85;
 
   //tablet
   @include media-breakpoint-between(sm, lg) {
@@ -710,6 +710,7 @@ a {
 //#region navigation styling
 #canvas {
   z-index: -1;
+  border: $border;
   top: -$standard-margin;
   position: absolute;
   @include occupyContainer();
@@ -1679,8 +1680,9 @@ section {
   width: 100%; //this is modified inline in react
   border-top: $border;
   margin-bottom: $standard-margin*4;
+  box-sizing: content-box;
   z-index: 10;
-  min-height: 30vh; //ensures sections are large enough to be calculated by navigation menu
+  min-height: 45vh; //ensures sections are large enough to be calculated by navigation menu
   // @include shadow2();
 
   @include media-breakpoint-down(sm) {
@@ -1708,7 +1710,6 @@ section {
     display: flex;
     flex-basis: content;
     justify-content: space-between;
-    background: $foreground-color;
 
     @include media-breakpoint-down(sm) {
       background: transparent;
