@@ -17,8 +17,8 @@ $gradient-color: $foreground-color;
 @mixin reverseColor {
   /*ThisvalueistheOPPOSITEcolorofourbackground*/
   background: $foreground-color;
+  mix-blend-mode: difference;
   color: $primary-color;
-  mix-blend-mode: hard-light;
 
 }
 
@@ -174,6 +174,36 @@ $gradient-color: $foreground-color;
   }
 }
 
+@mixin hoverDots {
+  &::after {
+    position: absolute;
+    display: block;
+    border-radius: 100%;
+    top: -12px;
+    border: 5px solid currentColor;
+    width: 0%;
+    margin: auto;
+    height: 0%;
+    content: '';
+    visibility: hidden;
+    z-index: 3;
+    @include borderRadius1();
+    @include animation3();
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  &:hover::after {
+    @include occupyContainer();
+    bottom: -25%;
+    width: 150%;
+    border: .5px solid $primary-text-color;
+    @include borderRadius100;
+  }
+}
+
 @mixin logoAnimaiton {
 
   //TODO make a logo animation
@@ -278,12 +308,12 @@ $gradient-color: $foreground-color;
 //#endregion animation mixins
 
 @mixin shadow1 {
-  box-shadow: 0px 0px 10px rgba($foreground-color, $alpha: .5);
+  // box-shadow: 10px 10px 20px rgba($foreground-color, $alpha: .25);
 }
 
 @mixin shadow2 {
-  box-shadow: 2px 1px 10px rgba($primary-text-color, $alpha: .05),
-    -2px -1px 10px rgba($primary-color, $alpha: .05);
+  box-shadow: 2px 1px 10px rgba($primary-text-color, $alpha: .06),
+    -2px -1px 10px rgba($primary-color, $alpha: .06);
 }
 
 //#region sass imports
@@ -560,7 +590,7 @@ body {
   scroll-behavior: smooth;
   //toplevelrelativesizing
   font-size: 16px;
-  zoom: .85;
+  // zoom: .85;
 
   //tablet
   @include media-breakpoint-between(sm, lg) {
@@ -602,20 +632,16 @@ a {
   font-size: $h3;
   position: absolute;
   background: transparent; // border: 2px solid red;
-  left: $panel-offset;
-  width: $panel-offset*8;
-  margin: 0 auto;
+  // left: $panel-offset;
+  left: 0px;
+  width: 100%;
+  // width: $panel-offset*8;
+  // margin: 0 auto;
 
   img {
     max-width: 100%;
   }
 
-
-  @include media-breakpoint-between(sm, lg) {
-    width: $panel-offset * 9;
-    // width: 100%;
-    // z-index: 100;
-  }
 
   //when in mobile, site content positions on the left side (the left panel will dissapear)
   @include media-breakpoint-down(sm) {
@@ -630,14 +656,18 @@ a {
   -webkit-flex-wrap: wrap;
   justify-content: space-around;
   flex-direction: row;
+  background: $foreground-color;
   font-size: $h3;
+  position: relative;
   row-gap: $standard-margin/2;
   padding: $standard-margin 20%;
-  // background: $foreground-color;
   font-weight: 300;
   text-transform: capitalize;
+  top: 0px;
   border-top: $border;
   border-bottom: $border;
+  @include borderRadius1();
+  @include shadow2();
 
   a {
     color: $primary-text-color;
@@ -657,20 +687,22 @@ a {
 
 }
 
+$hero-header: 10vh;
+
 .site-header {
   z-index: 3;
   text-align: center;
-  opacity: .8;
   left: 0px;
-  width: $panel-offset;
-  position: fixed;
+  width: 60%;
+  margin: auto;
+  position: relative;
+  margin-bottom: $standard-margin;
+  margin-top: $standard-margin * .7;
+  top: 0px;
+  align-items: center;
   // @include testBounds();
   // display: none;
   // visibility: hidden;
-  margin-bottom: $standard-margin;
-  margin-top: $standard-margin * 8;
-  top: 0px;
-  align-items: center;
 
 
   @include media-breakpoint-down(sm) {
@@ -679,19 +711,42 @@ a {
   }
 }
 
-.site-title a {
-  color: $primary-color;
-  text-decoration: none;
-  font-weight: 900;
-  display: none;
-  text-transform: uppercase;
-}
 
 //TODO: move site header out of hero header
 .hero-header {
-  padding: 27.5vh $standard-margin*3;
+  padding: 30vh 0;
+  padding-left: $standard-margin;
+  height: $hero-header;
   border: none;
 
+  & .primary-content {
+    font-size: $small;
+    color: $primary-color;
+    width: 70%;
+
+    font-weight: 300;
+
+    @include media-breakpoint-down(sm) {
+
+      font-size: $small;
+    }
+
+    & .typewriter {
+      margin-bottom: $standard-margin;
+
+      & span {
+        border-right: .05em solid;
+        animation: caret 1s steps(1) infinite;
+        -webkit-animation: caret 1s steps(1) infinite;
+      }
+
+      @keyframes caret {
+        50% {
+          border-color: transparent;
+        }
+      }
+    }
+  }
 }
 
 .headline {
@@ -709,11 +764,14 @@ a {
 
 //#region navigation styling
 #canvas {
+  //same size as hero header
+  height: $hero-header;
   z-index: -1;
   border: $border;
   top: -$standard-margin;
   position: absolute;
   @include occupyContainer();
+  @include shadow2();
   overflow: hidden;
 
   canvas {
@@ -735,39 +793,36 @@ a {
   position: fixed;
   height: 100%;
   z-index: 1;
-  background: rgba($gradient-color, .9);
+  // background: rgba($gradient-color, .9);
+  @include hoverFillTop();
+  @include animation1();
+  width: $panel-offset;
+  color: $third-text-color;
+  z-index: 4;
+  fill: $primary-color;
 
   //where the nav bar resides
   &.left {
-    @include hoverFillTop();
-    width: $panel-offset;
-    border-right: $border;
-
-    fill: $third-text-color;
-    color: $third-text-color;
-    @include animation1();
     left: 0px;
 
     & .logo {
-      position: relative;
-      fill: $primary-color;
-      z-index: 4;
       margin: -.1px auto;
-      margin-top: $standard-margin * 2.8;
+      margin-top: $standard-margin * 2;
       margin-bottom: -$standard-margin * 5;
       width: min-content;
+      fill: $primary-color;
+      z-index: 100;
     }
 
     & #progress-indicator {
+      background: rgba($foreground-color, .9);
+      @include borderRadius100();
       position: relative;
       display: block;
       margin: 0 auto;
+      z-index: -1;
       margin-top: $standard-margin * 1.9;
       top: 0%;
-
-      @include media-breakpoint-down(md) {
-        visibility: hidden;
-      }
 
       // width: max-content
       & circle {
@@ -777,17 +832,11 @@ a {
         transform-origin: 50% 50%;
         @include rotate-90();
       }
+
+      @include media-breakpoint-down(md) {
+        visibility: hidden;
+      }
     }
-
-
-    // & #progress-indicator {
-    //   position: relative;
-    //   margin: auto;
-    //   top: -10%;
-    //   // display: bloc
-    //   width: 40%;
-
-    // }
 
     //turn the left panel into a bottom panel (content within this panel have adjustments made indivial of this panel scss hierarchy)
     @include media-breakpoint-down(sm) {
@@ -799,33 +848,54 @@ a {
 
     @include media-breakpoint-between(sm, lg) {
       width: $panel-offset;
+      height: auto;
+      max-height: 25%;
     }
   }
 
-
+  //moves to left side on breakpoint
   &.right {
     width: $panel-offset * 1;
-    border-left: $border;
-    // background: transparent;
     fill: $primary-color;
     color: $primary-color;
     right: 0px;
-    // background: rgba($foreground-color, .9);
-
-    // z-index: 0;
 
     @include media-breakpoint-down(sm) {
-      width: $panel-offset * .0;
-      position: absolute;
+      visibility: hidden;
+      display: none;
     }
 
     @include media-breakpoint-between(sm, lg) {
-      width: $panel-offset * .0;
+      // width: $panel-offset * .0;
+      left: 0px;
+      top: 0px;
+      height: 90%;
+      padding-top: $standard-margin;
+      margin-top: $section-margin * 1.19;
     }
   }
-
-
 }
+
+.site-title a {
+  color: $primary-color;
+  text-decoration: none;
+  font-weight: 900;
+  // display: none;
+  text-transform: uppercase;
+  text-align: center;
+  position: absolute;
+  margin: auto;
+  bottom: 4.6%;
+  left: 8%;
+  padding: 0% .25vw;
+  display: flex;
+  fill: inherit;
+  z-index: 1;
+  color: inherit;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
 
 .hamburger {
   z-index: 1001;
@@ -905,16 +975,6 @@ $ellipses-slider: (slides: 5,
   color: $secondary-text-color;
   width: 100%;
 
-  //TODO: poor code, we no longer have the text so why do we base our position off it now?
-  & .ellipses__text {
-    position: relative;
-    text-align: center;
-    margin-top: $standard-margin * 10;
-    margin-bottom: 1vh;
-    width: 100%;
-    color: $third-text-color;
-  }
-
   // hide input radio fields
   & input[name="ellipses"] {
     display: none;
@@ -926,10 +986,13 @@ $ellipses-slider: (slides: 5,
     padding: 5%;
     align-self: center;
     display: flex;
+    z-index: 101;
     justify-content: space-evenly;
     flex-direction: column;
+    margin-top: $standard-margin * 6.5;
     width: 60%;
     border: $border;
+    background: $foreground-color;
     @include shadow2();
     @include borderRadius1();
 
@@ -1014,14 +1077,14 @@ $ellipses-slider: (slides: 5,
 
 //#region social media links
 #social-media-bar {
+  @include borderRadius1();
   position: relative;
   margin: auto;
   margin-top: $standard-margin * 2.5;
   width: 70%;
   left: 0%;
-  height: 10vh;
-  top: 0px;
-  padding: 0% .5vw;
+  top: 0%;
+  padding: 0% .25vw;
   display: flex;
   fill: inherit;
   z-index: 1;
@@ -1033,40 +1096,14 @@ $ellipses-slider: (slides: 5,
     position: relative;
     display: flex;
     justify-content: center;
-    z-index: 51;
     right: 0px;
     height: 30%;
     fill: inherit;
-    color: inherit;
+    color: $primary-color;
     width: 20%;
     cursor: pointer;
     vertical-align: middle;
 
-    &::after {
-      position: absolute;
-      display: block;
-      border-radius: 100%;
-      bottom: -12px;
-      border: 5px solid currentColor;
-      width: 0%;
-      margin: auto;
-      height: 0%;
-      content: '';
-      z-index: 3;
-      @include borderRadius1();
-      @include animation3();
-
-      @include media-breakpoint-down(sm) {
-        display: none;
-      }
-    }
-
-    &:hover::after {
-      @include occupyContainer();
-      bottom: -5%;
-      border: .5px solid $primary-text-color;
-      @include borderRadius100;
-    }
 
     &:hover svg {
       fill: $primary-text-color;
@@ -1111,7 +1148,7 @@ $ellipses-slider: (slides: 5,
     left: 0px;
     position: fixed;
     background: black;
-    z-index: 1100;
+    z-index: 1001;
     color: var(--clr-fourth);
     text-align: center;
     vertical-align: middle;
@@ -1127,7 +1164,7 @@ $ellipses-slider: (slides: 5,
       font-family: 'brown-light';
       max-height: 50px;
       width: 80%;
-      z-index: 1101;
+      z-index: 1001;
 
     }
   }
@@ -1138,7 +1175,7 @@ $ellipses-slider: (slides: 5,
     top: 0;
     position: fixed;
     background: black;
-    z-index: 1100;
+    z-index: 1001;
     //font-size: 2rem;
     text-align: center;
     vertical-align: middle;
@@ -1358,34 +1395,6 @@ $ellipses-slider: (slides: 5,
   }
 }
 
-.primary-content {
-  font-size: $small;
-  color: $primary-color;
-  width: 70%;
-
-  font-weight: 300;
-
-  @include media-breakpoint-down(sm) {
-
-    font-size: $small;
-  }
-
-  & .typewriter {
-    margin-bottom: $standard-margin;
-
-    & span {
-      border-right: .05em solid;
-      animation: caret 1s steps(1) infinite;
-      -webkit-animation: caret 1s steps(1) infinite;
-    }
-
-    @keyframes caret {
-      50% {
-        border-color: transparent;
-      }
-    }
-  }
-}
 
 .post {
   padding: $standard-margin;
@@ -1513,7 +1522,7 @@ $ellipses-slider: (slides: 5,
 .site-footer {
   text-align: center;
   // margin: 90px 0 16px;
-  padding: $standard-margin;
+  padding: $standard-margin * 2;
   color: #666;
 
   a {
@@ -1564,10 +1573,9 @@ $ellipses-slider: (slides: 5,
 .blog-main {
   position: relative;
   min-height: 100%;
-  width: 95%;
+  width: 100%;
 
   section {
-
     position: relative;
     width: auto;
     width: 100%;
@@ -1578,15 +1586,15 @@ $ellipses-slider: (slides: 5,
     @include occupyContainer();
     fill: inherit;
     color: inherit;
+    z-index: 0;
+    padding-left: $panel-offset;
 
 
     .blog__header {
-      margin-left: $standard-margin * 1.5;
       margin-bottom: $standard-margin;
       display: flex;
       flex-direction: row;
       row-gap: $standard-margin;
-      z-index: 0;
       position: relative;
       fill: inherit;
       color: inherit;
@@ -1600,32 +1608,32 @@ $ellipses-slider: (slides: 5,
       // width: auto;
       height: 100%;
       z-index: 1;
-      min-height: 40vh;
-      margin-bottom: $standard-margin * 2.5;
+      min-height: 50vh;
+      margin-bottom: $standard-margin * 5;
       overflow-x: scroll;
-      overflow-y: hidden;
+      // overflow-y: hidden;
       justify-content: start;
       // flex-wrap: wrap; tosdo: enable by button
       @include hideScrollbar();
       @include animation1(transform);
 
       .blog__post {
-        min-width: 25vw;
-        min-height: 10%;
-        max-height: 50%;
+        min-width: 35%;
+        min-height: 2.5%;
+        max-height: 10%;
+        max-width: 50%;
         z-index: 2;
         border: $border2;
-        max-width: 20%;
         color: inherit;
         margin: $standard-margin 0;
-        margin-left: $standard-margin * 2;
+        margin-right: $standard-margin * 2;
         position: relative;
         @include shadow1();
         @include borderRadius1();
         @include animation1(margin);
 
         &:hover {
-          margin: 0 $standard-margin;
+          margin: 0 $standard-margin * 2;
           @include animation1(margin);
           @include shadow1();
         }
@@ -1651,6 +1659,7 @@ $ellipses-slider: (slides: 5,
           background: $foreground-color;
           bottom: 0px;
           width: 100%;
+          font-size: $p;
           color: inherit;
           padding: $standard-margin * .5;
           border: $border;
@@ -1671,24 +1680,38 @@ $ellipses-slider: (slides: 5,
 }
 
 
+.go-back {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  z-index: 101;
+}
 
 //#endregion blog styling
 
 //#region content styling
 section {
-
-  width: 100%; //this is modified inline in react
-  border-top: $border;
+  width: $panel-offset*8; //this is modified inline in react
+  margin: auto;
   margin-bottom: $standard-margin*4;
   box-sizing: content-box;
   z-index: 10;
   min-height: 45vh; //ensures sections are large enough to be calculated by navigation menu
   // @include shadow2();
 
+  @include media-breakpoint-between(sm, md) {
+    width: $panel-offset * 9;
+    position: relative;
+    margin: none;
+    left: $panel-offset;
+  }
+
   @include media-breakpoint-down(sm) {
     margin-bottom: $mobile-section-margin;
     width: 100%;
-    padding: $mobile-section-margin * .50 0;
+    left: 0px;
+    padding: $mobile-section-margin * .25;
+    margin-bottom: $mobile-section-margin * .25;
   }
 
 
@@ -1710,6 +1733,8 @@ section {
     display: flex;
     flex-basis: content;
     justify-content: space-between;
+    border-bottom: $border;
+
 
     @include media-breakpoint-down(sm) {
       background: transparent;

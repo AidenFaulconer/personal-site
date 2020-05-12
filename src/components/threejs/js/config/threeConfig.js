@@ -272,7 +272,7 @@ export default {
     aspect: 1,
     // base position
     posX: -3,
-    posY: -1.5,
+    posY: -1,
     posZ: 30,
     // base orientation
     rotX: 0,

@@ -188,18 +188,9 @@ export default ({ Posts, children, pageState }) => {
     <>
       <AnalyticsComponent />
 
-      {/** main page right interactive panel */}
-      {pageState !== ".blog" && (
-        <div className="panel right">
-          <MediaLinks />
-
-          {/** <LastListened /> */}
-        </div>
-      )}
-
       <div
         className="site-wrapper"
-        style={pageState === "blog" ? { width: "85%" } : {}}
+        // style={pageState === "blog" ? { width: "85%" } : {}}
       >
         {/** burger icon in <MobileMenu/> its availiblity is controlled by scss breakpoints */}
         <MobileMenu />
@@ -230,19 +221,32 @@ export default ({ Posts, children, pageState }) => {
           dangerouslySetInnerHTML={{ __html: logoSvg[0] }}
         />
 
+        {/** main page right interactive panel */}
+        {pageState !== ".blog" && (
+          <div className="panel right">
+        <MediaLinks />
+
+            {/** <LastListened /> */}
+
+            <div className="site-title">
+              <Link to="/">{data.site.siteMetadata.title}</Link>
+            </div>
+          </div>
+        )}
+
         <PageProgressIndicator
           radius={50} // in px
           progress={pageProgress}
           stroke={1} // thickness
         />
-        <NavigationMenu setPageProgress={setPageProgress} />
 
         <header className="site-header">
-          <div className="site-title">
-            <Link to="/">{data.site.siteMetadata.title}</Link>
-          </div>
           <Navigation />
         </header>
+
+        <NavigationMenu setPageProgress={setPageProgress} />
+
+
         {/** page navigation panel */}
       </div>
     </>
