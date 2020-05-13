@@ -802,6 +802,8 @@ $hero-header: 90vh;
           position: relative;
           display: block;
           @include borderRadius100();
+                      border: $border;
+                      @include shadow2();
 
           // width: max-content
           & circle {
@@ -828,11 +830,11 @@ $hero-header: 90vh;
         margin-top: 30%;
         max-width: 95%;
         background: rgba($foreground-color, .9);
-        padding: $standard-margin $standard-margin*.5;
+        padding: $standard-margin $standard-margin*.25;
+        border: $border;
         flex-grow: 3;
 
         @include borderRadius1();
-        @include shadow2();
 
         .navigation {
           display: flex;
@@ -848,8 +850,13 @@ $hero-header: 90vh;
             color: $primary-text-color;
             text-decoration: none;
             margin: 0 8px 0;
+            padding: $standard-margin * .25 0;
+            border: $border;
+            @include shadow2();
+            @include borderRadius1();
 
             &[aria-current] {
+              background: rgba($third-text-color, .25);
               color: $primary-color;
               font-weight: 700;
             }
@@ -958,6 +965,8 @@ $ellipses-slider: (slides: 5,
 
     @include animation3();
 
+    background: rgba($third-text-color, .25);
+
     & .slider-label {
       color: $primary-text-color;
     }
@@ -998,7 +1007,6 @@ $ellipses-slider: (slides: 5,
     // width: 60%;
     border: $border;
     background: $foreground-color;
-    @include shadow2();
     @include borderRadius1();
     @include occupyContainer();
 
@@ -1007,8 +1015,15 @@ $ellipses-slider: (slides: 5,
       border: none;
     }
 
+    padding: $standard-margin * .5;
+
     & label {
       width: 100%;
+      background: rgba($third-text-color, .025);
+      border: $border;
+      padding: $standard-margin * .25;
+      @include shadow2();
+      @include borderRadius1();
       text-align: center;
       display: flex;
       margin: 5px 0;
@@ -1047,8 +1062,11 @@ $ellipses-slider: (slides: 5,
           fill: $primary-text-color;
         }
 
+        background: rgba($primary-color, .25);
+
         & .slider-label {
           color: $primary-text-color;
+
         }
       }
     }
