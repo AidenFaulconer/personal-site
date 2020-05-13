@@ -55,7 +55,6 @@ export default React.memo(() => {
               <section
                 id={sectionName}
                 key={sectionName + i}
-                className="mainPage"
                 styles={sectionStyles[sectionName]}
               >
                 <div className="section__header">

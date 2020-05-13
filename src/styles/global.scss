@@ -245,10 +245,10 @@ $gradient-color: $foreground-color;
   &::after {
     content: '';
     position: absolute;
-    width: 100%;
-    height: 100%;
+    @include occupyContainer();
     opacity: 0;
     top: 0px;
+    left: 0px;
     z-index: -1;
     @include animation1(opacity.3s);
     background: rgba($primary-color, .1);
@@ -354,38 +354,25 @@ $container-max-widths: (sm: 540px,
   @return #{$pixels/$context}em;
 }
 
+@function em2px($target, $context: $base-font-size-em) {
+  @if $target==0 {
+    @return 0
+  }
+
+  @return ($target / 1em) * ($context / 1em) * 16+0px;
+}
+
 //#endregion Remy function to convert pixels to rems
 
-//#region text sizing (golden ratio)
-//offset to fit screen better
-$small:calc(0.618em);
-$h3:calc(1.0em);
-$p:calc(1.618em);
-$h2:calc(2.618em);
-$h1:calc(4.236em);
-$title:calc(6.854em);
 
-p {
-  font-size: $p;
-}
-
-h3 {
-  font-size: $h3;
-  font-weight: normal;
-}
-
-h2 {
-  font-size: $h2;
-}
-
-h1 {
-  font-size: $h1;
-}
-
-//#endregion text sizing (golden ratio)
+//#region golden ratio font calculator https://www.modularscale.com/?1&em&1.2
+// @mixin font-size($scale: 1, $font-size-base: 16) {
+//   font-size: round(($font-size-base * ((exp(1.618, $scale) - exp(-0.618, $scale)) / 2.236)) + ($font-size-minor * ((exp(1.618, ($scale - 1)) - exp(-0.618, ($scale - 1))) / 2.236)));
+// }
+//#endregion golden ratio font calculator
 
 //#region desktop element dimension properties
-$panel-offset: 10%;
+$panel-offset: 150px;
 $standard-margin: 25px;
 $section-margin: 23vh;
 //#endregion desktop element dimension properties
@@ -396,10 +383,21 @@ $mobile-standard-margin: 10px;
 $mobile-section-margin: 12vh;
 //#endregion mobile element dimension properties
 
+//offset to fit screen better
+$baseFontSize: 100%;
+$small: 0.618em;
+$h3: 1.0em;
+$p: 1.618em;
+$h2: 2.618em;
+$h1: 4.236em;
+$title: 6.854em;
+
+
 // #region custom properties
 $corner:12.5px;
 $border:1px solid rgba(255, 255, 255, .1);
 $border2:1px solid rgba(0, 0, 0, .1);
+
 
 @mixin borderRadius1 {
   -webkit-border-radius: $corner;
@@ -425,7 +423,7 @@ $border2:1px solid rgba(0, 0, 0, .1);
 }
 
 @mixin testBounds {
-  border: 4px solid red;
+  border: .5px solid rgba(red, .3);
 }
 
 @mixin verticalText {
@@ -564,7 +562,6 @@ button {
 .click-active {
   cursor: grabbing;
   cursor: -webkit-grabbing;
-  pointer-events: none;
   @include animation1(transform);
   transform: scale(1.05);
   -webkit-transform: scale(1.05);
@@ -588,9 +585,11 @@ body {
   padding: 0;
   letter-spacing: 90%;
   scroll-behavior: smooth;
-  //toplevelrelativesizing
-  font-size: 16px;
-  // zoom: .85;
+  font-size: $baseFontSize;
+
+  font-family: brown-regular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  background: $foreground-color;
+  overflow-x: hidden;
 
   //tablet
   @include media-breakpoint-between(sm, lg) {
@@ -609,12 +608,26 @@ body {
   box-sizing: border-box;
 }
 
-/* System Fonts as used by Medium and WordPress */
-body {
-  font-family: brown-regular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  background: $foreground-color;
-  overflow-x: hidden;
+p {
+  font-size: $p;
 }
+
+h3 {
+  font-size: $h3;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: $h2;
+}
+
+h1 {
+  font-size: $h1;
+}
+
+//#endregion text sizing (golden ratio)
+
+
 
 a {
   color: $primary-color;
@@ -650,72 +663,15 @@ a {
   }
 }
 
-.navigation {
-  display: flex;
-  flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  justify-content: space-around;
-  flex-direction: row;
-  background: $foreground-color;
-  font-size: $h3;
-  position: relative;
-  row-gap: $standard-margin/2;
-  padding: $standard-margin 20%;
-  font-weight: 300;
-  text-transform: capitalize;
-  top: 0px;
-  border-top: $border;
-  border-bottom: $border;
-  @include borderRadius1();
-  @include shadow2();
 
-  a {
-    color: $primary-text-color;
-    text-decoration: none;
-    margin: 0 8px 0;
+$hero-header: 90vh;
 
-    &[aria-current] {
-      color: $primary-color;
-      font-weight: 700;
-    }
-
-    &:hover {
-      color: $primary-color;
-    }
-
-  }
-
-}
-
-$hero-header: 10vh;
-
-.site-header {
-  z-index: 3;
-  text-align: center;
-  left: 0px;
-  width: 60%;
-  margin: auto;
-  position: relative;
-  margin-bottom: $standard-margin;
-  margin-top: $standard-margin * .7;
-  top: 0px;
-  align-items: center;
-  // @include testBounds();
-  // display: none;
-  // visibility: hidden;
-
-
-  @include media-breakpoint-down(sm) {
-    display: none;
-    visibility: hidden;
-  }
-}
 
 
 //TODO: move site header out of hero header
 .hero-header {
-  padding: 30vh 0;
-  padding-left: $standard-margin;
+  padding: 14%;
+  padding-left: $panel-offset + $standard-margin;
   height: $hero-header;
   border: none;
 
@@ -771,7 +727,6 @@ $hero-header: 10vh;
   top: -$standard-margin;
   position: absolute;
   @include occupyContainer();
-  @include shadow2();
   overflow: hidden;
 
   canvas {
@@ -791,51 +746,127 @@ $hero-header: 10vh;
 
 .panel {
   position: fixed;
-  height: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-between;
   z-index: 1;
-  // background: rgba($gradient-color, .9);
-  @include hoverFillTop();
-  @include animation1();
+  top: 0px;
+
+
+  padding: $standard-margin 1.3%;
   width: $panel-offset;
   color: $third-text-color;
-  z-index: 4;
   fill: $primary-color;
+  z-index: 4;
+
 
   //where the nav bar resides
   &.left {
     left: 0px;
+    @include hoverFillTop();
+    @include animation1();
 
-    & .logo {
-      margin: -.1px auto;
-      margin-top: $standard-margin * 2;
-      margin-bottom: -$standard-margin * 5;
-      width: min-content;
+    & .branding {
       fill: $primary-color;
+      // max-height: 13%;
+      max-width: 100%;
       z-index: 100;
-    }
-
-    & #progress-indicator {
-      background: rgba($foreground-color, .9);
-      @include borderRadius100();
       position: relative;
-      display: block;
-      margin: 0 auto;
-      z-index: -1;
-      margin-top: $standard-margin * 1.9;
-      top: 0%;
 
-      // width: max-content
-      & circle {
-        stroke: $primary-color;
-        stroke-width: 2px;
-        // transition: stroke-dashoffset 0.35s;
-        transform-origin: 50% 50%;
-        @include rotate-90();
+      & .logo {
+        position: absolute;
+        top: 0px;
+        max-height: 42%;
+        margin-top: -5%;
+        @include occupyContainer();
+        padding: 20%;
+
+        & svg {
+          @include occupyContainer();
+        }
       }
 
-      @include media-breakpoint-down(md) {
-        visibility: hidden;
+      & #progress-indicator {
+        overflow: visible;
+        background: rgba($foreground-color, .9);
+        position: relative;
+        display: block;
+        margin: 0 auto;
+        z-index: -1;
+        // margin-top: $standard-margin * 1.9;
+        top: 0px;
+        left: 0px;
+        @include borderRadius100();
+
+        // width: max-content
+        & circle {
+          stroke: $primary-color;
+          stroke-width: 2px;
+          transform-origin: 50% 50%;
+          // transition: stroke-dashoffset 0.35s;
+          @include rotate-90();
+        }
+
       }
+
+
+      .site-header {
+        z-index: 3;
+        text-align: center;
+        left: 0px;
+        position: relative;
+        bottom: 0px;
+        align-items: center;
+        @include occupyContainer();
+        margin-top: 30%;
+        height: auto;
+        background: rgba($foreground-color, .9);
+        padding: $standard-margin $standard-margin*.5;
+        // @include testBounds();
+        // display: none;
+        // visibility: hidden;
+
+        @include borderRadius1();
+        @include shadow2();
+
+        .navigation {
+          display: flex;
+          flex-wrap: wrap;
+          -webkit-flex-wrap: wrap;
+          justify-content: space-around;
+          flex-direction: row;
+          font-size: $h3;
+          row-gap: $standard-margin/2;
+          font-weight: 300;
+          text-transform: capitalize;
+          @include occupyContainer();
+
+          a {
+            color: $primary-text-color;
+            text-decoration: none;
+            margin: 0 8px 0;
+
+            &[aria-current] {
+              color: $primary-color;
+              font-weight: 700;
+            }
+
+            &:hover {
+              color: $primary-color;
+            }
+
+          }
+
+        }
+
+        @include media-breakpoint-down(sm) {
+          display: none;
+          visibility: hidden;
+        }
+      }
+
     }
 
     //turn the left panel into a bottom panel (content within this panel have adjustments made indivial of this panel scss hierarchy)
@@ -843,57 +874,23 @@ $hero-header: 10vh;
       visibility: hidden;
       display: none;
     }
-
-    //tablet left panel (slightly wider)
-
-    @include media-breakpoint-between(sm, lg) {
-      width: $panel-offset;
-      height: auto;
-      max-height: 25%;
-    }
   }
 
   //moves to left side on breakpoint
-  &.right {
-    width: $panel-offset * 1;
-    fill: $primary-color;
-    color: $primary-color;
+  & .right {
     right: 0px;
+    pointer-events: none;
 
-    @include media-breakpoint-down(sm) {
-      visibility: hidden;
-      display: none;
+
+    & * {
+      pointer-events: visible;
     }
 
-    @include media-breakpoint-between(sm, lg) {
-      // width: $panel-offset * .0;
-      left: 0px;
-      top: 0px;
-      height: 90%;
-      padding-top: $standard-margin;
-      margin-top: $section-margin * 1.19;
+    @include media-breakpoint-down(md) {
+      display: none;
+      visibility: hidden;
     }
   }
-}
-
-.site-title a {
-  color: $primary-color;
-  text-decoration: none;
-  font-weight: 900;
-  // display: none;
-  text-transform: uppercase;
-  text-align: center;
-  position: absolute;
-  margin: auto;
-  bottom: 4.6%;
-  left: 8%;
-  padding: 0% .25vw;
-  display: flex;
-  fill: inherit;
-  z-index: 1;
-  color: inherit;
-  justify-content: space-between;
-  flex-direction: row;
 }
 
 
@@ -971,9 +968,13 @@ $ellipses-slider: (slides: 5,
 
 .ellipses-bar {
   z-index: 5;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 0%;
+
   //desktop navigation bar
   color: $secondary-text-color;
-  width: 100%;
 
   // hide input radio fields
   & input[name="ellipses"] {
@@ -981,20 +982,18 @@ $ellipses-slider: (slides: 5,
   }
 
   #slider {
-    position: relative;
-    margin: auto;
-    padding: 5%;
-    align-self: center;
+    // position: relative;
     display: flex;
     z-index: 101;
     justify-content: space-evenly;
     flex-direction: column;
-    margin-top: $standard-margin * 6.5;
-    width: 60%;
+    margin-bottom: 20%;
+    // width: 60%;
     border: $border;
     background: $foreground-color;
     @include shadow2();
     @include borderRadius1();
+    @include occupyContainer();
 
     @include media-breakpoint-down(md) {
       @include shadow1();
@@ -1002,40 +1001,33 @@ $ellipses-slider: (slides: 5,
     }
 
     & label {
-      // margin: 0px auto;
       width: 100%;
-      position: relative;
       text-align: center;
       display: flex;
+      margin: 5px 0;
       font-weight: bolder;
       flex-direction: column;
       cursor: pointer;
 
       & .slider-label {
-        position: relative;
         font-size: $small;
         color: $third-text-color;
         display: inline-block;
-        margin-bottom: 25px;
         margin-top: -10px;
         width: 100%;
-        height: 0px;
         text-align: center;
         order: 3;
       }
 
       & .slider-number {
-        // font-size: $small;
         display: none;
-        // padding: 10%;
       }
 
       & svg {
+        display: inline-flex;
         position: relative;
         margin: 0% auto;
         width: 100%;
-        margin-top: $standard-margin * .2;
-        max-width: 4em;
         fill: $third-text-color;
         order: 2;
         color: $primary-color;
@@ -1078,49 +1070,23 @@ $ellipses-slider: (slides: 5,
 //#region social media links
 #social-media-bar {
   @include borderRadius1();
-  position: relative;
-  margin: auto;
-  margin-top: $standard-margin * 2.5;
-  width: 70%;
-  left: 0%;
-  top: 0%;
-  padding: 0% .25vw;
+  width: 100%;
   display: flex;
   fill: inherit;
   z-index: 1;
   color: inherit;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-direction: row;
 
   & a {
     position: relative;
-    display: flex;
     justify-content: center;
-    right: 0px;
-    height: 30%;
     fill: inherit;
     color: $primary-color;
-    width: 20%;
     cursor: pointer;
-    vertical-align: middle;
-
 
     &:hover svg {
       fill: $primary-text-color;
-    }
-
-    & svg {
-      // fill: $primary-color;
-      align-self: center;
-      display: inline;
-      @include occupyContainer();
-      margin-bottom: 20%;
-      max-height: 90%;
-
-      @include media-breakpoint-down(sm) {
-        width: 300%;
-      }
-
     }
   }
 
@@ -1134,6 +1100,16 @@ $ellipses-slider: (slides: 5,
 }
 
 //#endregion social media links
+
+.site-title a {
+  display: flex;
+  text-decoration: none;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: right;
+  fill: inherit;
+  z-index: 1;
+}
 
 
 //#endregion nav bar
@@ -1576,6 +1552,7 @@ $ellipses-slider: (slides: 5,
   width: 100%;
 
   section {
+
     position: relative;
     width: auto;
     width: 100%;
@@ -1592,10 +1569,11 @@ $ellipses-slider: (slides: 5,
 
     .blog__header {
       margin-bottom: $standard-margin;
+      margin-top: $standard-margin;
       display: flex;
       flex-direction: row;
       row-gap: $standard-margin;
-      position: relative;
+      position: absolute;
       fill: inherit;
       color: inherit;
       font-size: $h1;
@@ -1604,36 +1582,40 @@ $ellipses-slider: (slides: 5,
 
 
     .blog__wrapper {
+
       display: flex;
       // width: auto;
       height: 100%;
       z-index: 1;
-      min-height: 50vh;
-      margin-bottom: $standard-margin * 5;
+      min-height: 70vh;
+      margin-bottom: $standard-margin;
       overflow-x: scroll;
       // overflow-y: hidden;
       justify-content: start;
       // flex-wrap: wrap; tosdo: enable by button
       @include hideScrollbar();
       @include animation1(transform);
+      @include occupyContainer();
 
       .blog__post {
-        min-width: 35%;
-        min-height: 2.5%;
-        max-height: 10%;
-        max-width: 50%;
-        z-index: 2;
+        min-width: 35vw;
+        min-height: 45vh;
+        max-height: 25vh;
+        max-width: 25vw;
+        z-index: 5;
         border: $border2;
         color: inherit;
         margin: $standard-margin 0;
-        margin-right: $standard-margin * 2;
+        margin-right: $standard-margin * 4;
+        margin-top: $standard-margin * 6.2;
         position: relative;
+        // pointer-events: visible;
         @include shadow1();
         @include borderRadius1();
         @include animation1(margin);
 
         &:hover {
-          margin: 0 $standard-margin * 2;
+          margin: $standard-margin * 4.5 $standard-margin * .5;
           @include animation1(margin);
           @include shadow1();
         }
@@ -1683,15 +1665,18 @@ $ellipses-slider: (slides: 5,
 .go-back {
   position: relative;
   display: flex;
+  margin-bottom: 1150%;
+  opacity: 1;
+  fill: white;
   justify-content: center;
-  z-index: 101;
+  z-index: 0;
 }
 
 //#endregion blog styling
 
 //#region content styling
 section {
-  width: $panel-offset*8; //this is modified inline in react
+  width: 80%; //this is modified inline in react
   margin: auto;
   margin-bottom: $standard-margin*4;
   box-sizing: content-box;
@@ -1699,11 +1684,10 @@ section {
   min-height: 45vh; //ensures sections are large enough to be calculated by navigation menu
   // @include shadow2();
 
-  @include media-breakpoint-between(sm, md) {
-    width: $panel-offset * 9;
+  @include media-breakpoint-between(sm, lg) {
+    width: 80%;
+    padding-left: $panel-offset;
     position: relative;
-    margin: none;
-    left: $panel-offset;
   }
 
   @include media-breakpoint-down(sm) {
@@ -1760,7 +1744,7 @@ section {
       grid-template-columns: 1fr 1fr 1fr;
       grid-gap: $standard-margin * .1;
       height: 5%;
-      padding: $standard-margin * 2.5;
+      // padding: $standard-margin * 2.5;
 
       //mobile
 

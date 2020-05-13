@@ -216,36 +216,33 @@ export default ({ Posts, children, pageState }) => {
 
       {/** main page left interactive panel */}
       <div className="panel left">
-        <div
-          className="logo"
-          dangerouslySetInnerHTML={{ __html: logoSvg[0] }}
-        />
+        <div className="branding">
+          <div
+            className="logo"
+            dangerouslySetInnerHTML={{ __html: logoSvg[0] }}
+          />
+          <PageProgressIndicator
+            radius={50} // in px
+            progress={pageProgress}
+            stroke={1}
+          />
 
+          <header className="site-header">
+            <Navigation />
+          </header>
+        </div>
+
+        <NavigationMenu setPageProgress={setPageProgress} />
         {/** main page right interactive panel */}
         {pageState !== ".blog" && (
           <div className="panel right">
-        <MediaLinks />
-
-            {/** <LastListened /> */}
-
+            <MediaLinks />
             <div className="site-title">
               <Link to="/">{data.site.siteMetadata.title}</Link>
             </div>
+            {/** <LastListened /> */}
           </div>
         )}
-
-        <PageProgressIndicator
-          radius={50} // in px
-          progress={pageProgress}
-          stroke={1} // thickness
-        />
-
-        <header className="site-header">
-          <Navigation />
-        </header>
-
-        <NavigationMenu setPageProgress={setPageProgress} />
-
 
         {/** page navigation panel */}
       </div>

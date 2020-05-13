@@ -81,7 +81,8 @@ export default React.memo(() => {
       });
       elem.addEventListener("mousemove", e => {
         if (!isDown) return;
-        e.preventDefault();
+        // e.preventDefault()
+        e.stopPropagation();
         const x = e.pageX - elem.offsetLeft;
         const walk = (x - startX) * 3; // scroll-fast
         elem.scrollLeft = scrollLeft - walk;

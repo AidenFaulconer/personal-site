@@ -112,9 +112,9 @@ export default ({ setPageProgress }) => {
   const handleCurrentPosition = useCallback(() => {
     let thisPosition;
     if (typeof window !== "undefined") {
-      thisPosition = window.scrollY;
+      thisPosition = window.scrollY + window.innerHeight/2;//add half the view size to offset the scroll y distance
     } else {
-      thisPosition = document.body.scrollTop;
+      thisPosition = document.body.scrollTop + document.body.clientHeight/2;
     }
     const thisPageProgress =
       (thisPosition / sectionBreakpoints[sectionBreakpoints.length - 1]) * 100;
