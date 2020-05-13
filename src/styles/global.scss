@@ -802,8 +802,8 @@ $hero-header: 90vh;
           position: relative;
           display: block;
           @include borderRadius100();
-                      border: $border;
-                      @include shadow2();
+          border: $border;
+          @include shadow2();
 
           // width: max-content
           & circle {
@@ -862,6 +862,7 @@ $hero-header: 90vh;
             }
 
             &:hover {
+              background: rgba($primary-color, .25);
               color: $primary-color;
             }
 
