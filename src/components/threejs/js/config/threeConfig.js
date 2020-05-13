@@ -304,8 +304,8 @@ export default {
     // damp controls
     dragEnabled: false,
     // mouse
-    mouseSpeed: 55, // higher is lower speed
-    mouseDepth: 5, // how far a ray from the mouse goes into worldspace
+    mouseSpeed: 25, // higher is lower speed
+    mouseDepth: 4.5, // how far a ray from the mouse goes into worldspace
 
     // orbit controls
     zoomEnabled: false,

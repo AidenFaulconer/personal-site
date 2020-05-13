@@ -671,9 +671,10 @@ $hero-header: 90vh;
 //TODO: move site header out of hero header
 .hero-header {
   padding: 14%;
-  padding-top: $standard-margin * 12;
-  padding-left: $panel-offset + $standard-margin;
-  height: $hero-header;
+  padding-top: $standard-margin * 11.5;
+  padding-left: 20%;
+  // calc($panel-offset + $standard-margin);
+  // height: $hero-header;
   border: none;
 
   & .primary-content {
@@ -829,9 +830,6 @@ $hero-header: 90vh;
         background: rgba($foreground-color, .9);
         padding: $standard-margin $standard-margin*.5;
         flex-grow: 3;
-        // @include testBounds();
-        // display: none;
-        // visibility: hidden;
 
         @include borderRadius1();
         @include shadow2();
@@ -1703,7 +1701,6 @@ $ellipses-slider: (slides: 5,
   flex-grow: 5;
   top: 0px;
   fill: white;
-  @include testBounds();
 
   & svg {
     justify-content: flex-start;
