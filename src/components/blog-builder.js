@@ -222,10 +222,10 @@ export const ThreeD = ({ post }) => (
 );
 
 export const sectionStyles = {
-  uiux: { fill: "white", color: "white", background: "#F28C8C" },
-  "3d": { fill: "white", color: "white", background: "#8CF2D9" },
-  workflow: { fill: "white", color: "white", background: "#A68CF2" },
-  "data ": { fill: "white", color: "white", background: "#F2D08C" },
+  uiux: { fill: "white", color: "#F28C8C", background: "#F28C8C" },
+  "3d": { fill: "white", color: "#8CF2D9", background: "#8CF2D9" },
+  workflow: { fill: "white", color: "#A68CF2", background: "#A68CF2" },
+  "data ": { fill: "white", color: "#F2D08C", background: "#F2D08C" },
   "": {}
 };
 // #080515

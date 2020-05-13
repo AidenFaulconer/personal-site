@@ -217,15 +217,17 @@ export default ({ Posts, children, pageState }) => {
       {/** main page left interactive panel */}
       <div className="panel left">
         <div className="branding">
-          <div
-            className="logo"
-            dangerouslySetInnerHTML={{ __html: logoSvg[0] }}
-          />
-          <PageProgressIndicator
-            radius={50} // in px
-            progress={pageProgress}
-            stroke={1}
-          />
+          <div className="logo-container">
+            <div
+              className="logo"
+              dangerouslySetInnerHTML={{ __html: logoSvg[0] }}
+            />
+            <PageProgressIndicator
+              radius={50} // in px
+              progress={pageProgress}
+              stroke={1}
+            />
+          </div>
 
           <header className="site-header">
             <Navigation />

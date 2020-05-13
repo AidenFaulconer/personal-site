@@ -671,6 +671,7 @@ $hero-header: 90vh;
 //TODO: move site header out of hero header
 .hero-header {
   padding: 14%;
+  padding-top: $standard-margin * 12;
   padding-left: $panel-offset + $standard-margin;
   height: $hero-header;
   border: none;
@@ -703,6 +704,10 @@ $hero-header: 90vh;
       }
     }
   }
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $mobile-standard-margin *3;
+  }
 }
 
 .headline {
@@ -723,7 +728,7 @@ $hero-header: 90vh;
   //same size as hero header
   height: $hero-header;
   z-index: -1;
-  border: $border;
+  border-bottom: $border;
   top: -$standard-margin;
   position: absolute;
   @include occupyContainer();
@@ -751,15 +756,12 @@ $hero-header: 90vh;
   flex-direction: column;
   align-content: stretch;
   justify-content: space-between;
-  z-index: 1;
   top: 0px;
-
-
   padding: $standard-margin 1.3%;
   width: $panel-offset;
   color: $third-text-color;
   fill: $primary-color;
-  z-index: 4;
+  z-index: 10;
 
 
   //where the nav bar resides
@@ -770,43 +772,45 @@ $hero-header: 90vh;
 
     & .branding {
       fill: $primary-color;
-      // max-height: 13%;
       max-width: 100%;
       z-index: 100;
       position: relative;
+      flex-grow: 2;
 
-      & .logo {
-        position: absolute;
-        top: 0px;
-        max-height: 42%;
-        margin-top: -5%;
-        @include occupyContainer();
-        padding: 20%;
-
-        & svg {
-          @include occupyContainer();
-        }
-      }
-
-      & #progress-indicator {
-        overflow: visible;
-        background: rgba($foreground-color, .9);
+      & .logo-container {
         position: relative;
-        display: block;
-        margin: 0 auto;
-        z-index: -1;
-        // margin-top: $standard-margin * 1.9;
-        top: 0px;
-        left: 0px;
-        @include borderRadius100();
+        width: auto;
+        height: auto;
+        margin-bottom: $standard-margin * 2;
 
-        // width: max-content
-        & circle {
-          stroke: $primary-color;
-          stroke-width: 2px;
-          transform-origin: 50% 50%;
-          // transition: stroke-dashoffset 0.35s;
-          @include rotate-90();
+        & .logo {
+          position: absolute;
+          padding: 20%;
+          @include occupyContainer();
+
+          & svg {
+            @include occupyContainer();
+          }
+        }
+
+        & #progress-indicator {
+          overflow: visible;
+          background: rgba($foreground-color, .9);
+          margin: 0 auto;
+          z-index: -1;
+          position: relative;
+          display: block;
+          @include borderRadius100();
+
+          // width: max-content
+          & circle {
+            stroke: $primary-color;
+            stroke-width: 2px;
+            transform-origin: 50% 50%;
+            // transition: stroke-dashoffset 0.35s;
+            @include rotate-90();
+          }
+
         }
 
       }
@@ -819,11 +823,12 @@ $hero-header: 90vh;
         position: relative;
         bottom: 0px;
         align-items: center;
-        @include occupyContainer();
+        margin: 0 auto;
         margin-top: 30%;
-        height: auto;
+        max-width: 95%;
         background: rgba($foreground-color, .9);
         padding: $standard-margin $standard-margin*.5;
+        flex-grow: 3;
         // @include testBounds();
         // display: none;
         // visibility: hidden;
@@ -833,10 +838,8 @@ $hero-header: 90vh;
 
         .navigation {
           display: flex;
-          flex-wrap: wrap;
-          -webkit-flex-wrap: wrap;
           justify-content: space-around;
-          flex-direction: row;
+          flex-direction: column;
           font-size: $h3;
           row-gap: $standard-margin/2;
           font-weight: 300;
@@ -861,6 +864,10 @@ $hero-header: 90vh;
 
         }
 
+        @include media-breakpoint-between(sm, md) {
+          width: 60%;
+        }
+
         @include media-breakpoint-down(sm) {
           display: none;
           visibility: hidden;
@@ -879,6 +886,7 @@ $hero-header: 90vh;
   //moves to left side on breakpoint
   & .right {
     right: 0px;
+    z-index: -1;
     pointer-events: none;
 
 
@@ -971,7 +979,8 @@ $ellipses-slider: (slides: 5,
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-bottom: 0%;
+  margin-bottom: 70%;
+  flex-grow: 1;
 
   //desktop navigation bar
   color: $secondary-text-color;
@@ -1102,9 +1111,12 @@ $ellipses-slider: (slides: 5,
 //#endregion social media links
 
 .site-title a {
-  display: flex;
+  display: block;
+  position: relative;
   text-decoration: none;
   font-weight: 500;
+  left: -50%;
+  width: 150%;
   text-transform: uppercase;
   text-align: right;
   fill: inherit;
@@ -1402,6 +1414,10 @@ $ellipses-slider: (slides: 5,
     text-align: center;
   }
 
+  @include media-breakpoint-between(sm, md) {
+    padding-left: $panel-offset;
+  }
+
 }
 
 .post-thumbnail {
@@ -1557,38 +1573,57 @@ $ellipses-slider: (slides: 5,
     width: auto;
     width: 100%;
     min-height: 40vh; //ensures sections are large enough to be calculated by navigation menu
-    border: $border2;
     background: $primary-color;
     margin: 0px;
-    @include occupyContainer();
     fill: inherit;
     color: inherit;
     z-index: 0;
     padding-left: $panel-offset;
+    @include occupyContainer();
+
+    @include media-breakpoint-down(sm) {
+      padding-left: $mobile-standard-margin * 3;
+    }
+
+    &::before {
+      content: '';
+      pointer-events: none;
+      position: absolute;
+      left: 0px;
+      color: inherit;
+      z-index: 5;
+      width: $panel-offset * 3.25;
+      background: linear-gradient(90deg, currentColor 25%, transparent);
+      height: 100%;
+
+      @include media-breakpoint-down(sm) {
+        width: $mobile-standard-margin * 15;
+      }
+
+    }
 
 
     .blog__header {
+      z-index: 6;
       margin-bottom: $standard-margin;
       margin-top: $standard-margin;
       display: flex;
       flex-direction: row;
       row-gap: $standard-margin;
       position: absolute;
-      fill: inherit;
-      color: inherit;
+      color: $foreground-color;
       font-size: $h1;
       pointer-events: none;
     }
 
 
     .blog__wrapper {
-
       display: flex;
       // width: auto;
       height: 100%;
       z-index: 1;
       min-height: 70vh;
-      margin-bottom: $standard-margin;
+      // margin-bottom: $standard-margin;
       overflow-x: scroll;
       // overflow-y: hidden;
       justify-content: start;
@@ -1602,11 +1637,12 @@ $ellipses-slider: (slides: 5,
         min-height: 45vh;
         max-height: 25vh;
         max-width: 25vw;
-        z-index: 5;
+        z-index: 4;
         border: $border2;
         color: inherit;
         margin: $standard-margin 0;
-        margin-right: $standard-margin * 4;
+        margin-right: $standard-margin * 2;
+        margin-left: $standard-margin * 2;
         margin-top: $standard-margin * 6.2;
         position: relative;
         // pointer-events: visible;
@@ -1663,12 +1699,16 @@ $ellipses-slider: (slides: 5,
 
 
 .go-back {
-  position: relative;
-  display: flex;
-  margin-bottom: 1150%;
   opacity: 1;
+  flex-grow: 5;
+  top: 0px;
   fill: white;
-  justify-content: center;
+  @include testBounds();
+
+  & svg {
+    justify-content: flex-start;
+  }
+
   z-index: 0;
 }
 
