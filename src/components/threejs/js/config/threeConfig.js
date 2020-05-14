@@ -186,7 +186,7 @@ export default {
         scale: [1, 1, 1],
         // position: [5, -2, -4],
         position: [0,-3,6],
-        rotation: [.20,-4.08,.049],
+        rotation: [.20,-4.08,.05],
         material: [
           {
             type: "physical",

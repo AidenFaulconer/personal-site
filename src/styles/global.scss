@@ -374,6 +374,7 @@ $container-max-widths: (sm: 540px,
 //#region desktop element dimension properties
 $panel-offset: 150px;
 $standard-margin: 25px;
+$standard-margin: 3vh;
 $section-margin: 23vh;
 //#endregion desktop element dimension properties
 
@@ -741,9 +742,8 @@ $hero-header: 90vh;
 
   // @include media-breakpoint-between() {}
 
-  @include media-breakpoint-down(sm) {
-    // position: fixed;
-    // opacity: .5;
+  @include media-breakpoint-between(sm, md) {
+    height: 90%;
   }
 
   // display: none;
@@ -782,11 +782,13 @@ $hero-header: 90vh;
         position: relative;
         width: auto;
         height: auto;
-        margin-bottom: $standard-margin * 2;
+        margin-bottom: $standard-margin;
 
         & .logo {
           position: absolute;
-          padding: 20%;
+          padding: 25%;
+          left: 1%;
+          bottom: 5%;
           @include occupyContainer();
 
           & svg {
@@ -828,7 +830,7 @@ $hero-header: 90vh;
         align-items: center;
         margin: 0 auto;
         margin-top: 30%;
-        max-width: 95%;
+        max-width: 85%;
         background: rgba($foreground-color, .9);
         padding: $standard-margin $standard-margin*.25;
         border: $border;
@@ -999,7 +1001,10 @@ $ellipses-slider: (slides: 5,
     display: none;
   }
 
+
   #slider {
+    padding: $standard-margin * .5;
+    background: $foreground-color;
     // position: relative;
     display: flex;
     z-index: 101;
@@ -1007,16 +1012,16 @@ $ellipses-slider: (slides: 5,
     flex-direction: column;
     // width: 60%;
     border: $border;
-    background: $foreground-color;
     @include borderRadius1();
-    @include occupyContainer();
+    height: 100%;
+    width: 85%;
 
     @include media-breakpoint-down(md) {
       @include shadow1();
       border: none;
+      background: transparent;
     }
 
-    padding: $standard-margin * .5;
 
     & label {
       width: 100%;
@@ -1050,7 +1055,8 @@ $ellipses-slider: (slides: 5,
         display: inline-flex;
         position: relative;
         margin: 0% auto;
-        width: 100%;
+        @include occupyContainer();
+        max-width: 45px;
         fill: $third-text-color;
         order: 2;
         color: $primary-color;
@@ -1070,6 +1076,11 @@ $ellipses-slider: (slides: 5,
 
         }
       }
+
+      @include media-breakpoint-down(md) {
+        background: rgba($foreground-color, 1);
+      }
+
     }
 
 
