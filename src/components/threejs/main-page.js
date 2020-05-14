@@ -10,7 +10,8 @@ import {
   DoubleSide,
   IcosahedronGeometry,
   MeshLambertMaterial,
-  SpotLight
+  SpotLight,
+  Vector3
 } from "three";
 
 // boiler plate setup
@@ -44,25 +45,27 @@ export const makeRoughGround = (mesh, distortionFr) => {
 };
 
 export const makeRoughBall = (mesh, bassFr, treFr, r) => {
-  mesh.geometry.vertices.forEach(function(vertex, i) {
-    const offset = mesh.geometry.parameters.radius;
-    const amp = 9;
-    const time = window.performance.now();
-    vertex.normalize();
-    const rf = 0.00001;
-    const distance =
-      offset +
-      bassFr +
-      noise.noise4D(
-        vertex.x + time * rf * 7,
-        vertex.y + time * rf * 8,
-        vertex.z + time * rf * 9,
-        r
-      ) *
-        amp *
-        treFr;
-    vertex.multiplyScalar(distance);
-  });
+  if (typeof window !== "undefined")
+    mesh.geometry.vertices.forEach(function(vertex, i) {
+      const offset = mesh.geometry.parameters.radius;
+      const amp = 9;
+      const time = window.performance.now();
+      vertex.normalize();
+      const rf = 0.00001;
+      const distance =
+        offset +
+        bassFr +
+        noise.noise4D(
+          vertex.x + time * rf * 7,
+          vertex.y + time * rf * 8,
+          vertex.z + time * rf * 9,
+          r
+        ) *
+          amp *
+          treFr;
+      vertex.multiplyScalar(distance);
+    });
+
   mesh.geometry.verticesNeedUpdate = true;
   mesh.geometry.normalsNeedUpdate = true;
   mesh.geometry.computeVertexNormals();
@@ -115,44 +118,45 @@ export const onchange = audio => {
 export default class extends View {
   constructor(canvas) {
     super(canvas);
+    if (typeof window !== "undefined") {
+      window.AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext ||
+        window.mozAudioContext ||
+        window.msAudioContext ||
+        window.oAudioContext;
+      // #region window
+      this.audio = document.getElementById("audio");
+      this.context = new AudioContext();
+      this.analyser = this.context.createAnalyser();
 
-    window.AudioContext =
-      window.AudioContext ||
-      window.webkitAudioContext ||
-      window.mozAudioContext ||
-      window.msAudioContext ||
-      window.oAudioContext;
-    // #region window
-    this.audio = document.getElementById("audio");
-    this.context = new AudioContext();
-    this.analyser = this.context.createAnalyser();
+      if (AudioContext) {
+        // this.audio.crossOrigin = "anonymous";
+        this.audio.loop = true;
+        this.audio.muted = true; // must be enabled first
+        // this.audio.autoplay = true;
+        this.audio.src = `/sounds/Whippin.mp3`;
+        this.audio.load();
+        this.audio.play();
 
-    if (AudioContext) {
-      // this.audio.crossOrigin = "anonymous";
-      this.audio.loop = true;
-      this.audio.muted = true; // must be enabled first
-      // this.audio.autoplay = true;
-      this.audio.src = `/sounds/Whippin.mp3`;
-      this.audio.load();
-      this.audio.play();
+        console.log(this.analyser);
+        this.analyser.connect(this.context.destination);
+        this.analyser.fftSize = 512;
+        const dataLength = this.analyser.frequencyBinCount;
+        this.dataArray = new Uint8Array(dataLength);
+        // this.audio = new Audio();
 
-      console.log(this.analyser);
-      this.analyser.connect(this.context.destination);
-      this.analyser.fftSize = 512;
-      const dataLength = this.analyser.frequencyBinCount;
-      this.dataArray = new Uint8Array(dataLength);
-      // this.audio = new Audio();
+        this.src = this.context.createMediaElementSource(this.audio);
+        this.src.connect(this.analyser);
 
-      this.src = this.context.createMediaElementSource(this.audio);
-      this.src.connect(this.analyser);
+        this.camera.position.set(0, 0, 100);
+        this.camera.lookAt(this.scene.position);
 
-      this.camera.position.set(0, 0, 100);
-      this.camera.lookAt(this.scene.position);
-
-      this.audio.addEventListener("canplay", () => {
-        this.audioEnabled = true;
-      });
-      // document.getElementById("out").appendChild(this.renderer.domElement);
+        this.audio.addEventListener("canplay", () => {
+          this.audioEnabled = true;
+        });
+        // document.getElementById("out").appendChild(this.renderer.domElement);
+      }
     }
     // #endregion window
 
@@ -204,7 +208,7 @@ export default class extends View {
         threeConfig.fog.far
       );
 
-      this.scene.background = new Color(threeConfig.background.color);
+    this.scene.background = new Color(threeConfig.background.color);
     // #endregion scene
 
     this.update();
@@ -260,4 +264,3 @@ export default class extends View {
     requestAnimationFrame(this.update.bind(this));
   }
 }
-// initialise simplex noise instance
