@@ -23,7 +23,7 @@ export default {
   isVR: false,
   isMobile: false,
   background: {
-    enabled: false, // toggle use of background
+    enabled: true, // toggle use of background
     color: "#080515", // #95E5E1 to test
     sceneBg: {
       mobile: ["bg_mobile-01.png", "bg-blank-01.png"],
@@ -117,71 +117,9 @@ export default {
     //     ]
     //   }
     // ],
-    // aidenobj: [{
-    //   path: 'aiden.OBJ',
-    //   scale: [5.2, 5.2, 5.2],
-    //   position: [0, 0, 0],
-    //   material: [{
-    //     type: 'physical',
-    //     props: [
-    //       {
-    //         wireframe: false,
-    //         color: '#95E5E1',
-    //         transparent: true,
-    //         metalness: 1,
-    //         // roughness: 0.5,
-    //         opacity: 0,
-    //         side: FrontSide,
-    //         reflectivity: 2.19,
-    //         refractionRatio: 0.95
-    //         // envMapIntensity: 1,
-    //         // envMap: 'textures/bg-01.ng')()'textures/bg-01.png',
-    //         // premultipliedAlpha: true
-    //         // shininess: 900,
-    //         // specular: 0x111111,
-    //         // opacity: 1,
-    //         // blending: THREE.GreaterDepth,
-    //         // metalness: 0.0,
-    //         // depth: THREE.GreaterDepth,
-    //         // ide: THREE.Backside
-    //       }
-    //     ]
-    //   }]
-    // }],
-    // kangarooobj: [{
-    //   path: 'kangaroo.OBJ', // be weary... these are relative to the class using them! (geometry)
-    //   scale: [1, 1, 1],
-    //   position: [5.2, 0, -2.4],
-    //   material: [{
-    //     type: 'physical',
-    //     props: [
-    //       {
-    //         wireframe: false,
-    //         color: '#95E5E1',
-    //         transparent: true,
-    //         metalness: 1,
-    //         // roughness: 0.5,
-    //         opacity: 0,
-    //         side: FrontSide,
-    //         // reflectivity: 2.19,
-    //         refractionRatio: 0.95
-    //         // envMapIntensity: 1,
-    //         // envMap: 'textures/bg-01.ng')()'textures/bg-01.png',
-    //         // premultipliedAlpha: true,
-    //         // shininess: 900,
-    //         // specular: 0x111111,
-    //         // // opacity: 1,
-    //         // blending: THREE.GreaterDepth,
-    //         // metalness: 0.0,
-    //         // depth: THREE.GreaterDepth,
-    //         // ide: THREE.Backside
-    //       }
-    //     ]
-    //   }]
-    // }],
     backdropobj: [
       {
-        interactive: true,
+        interactive: false,
         path: "./models/backdrop.OBJ",
         scale: [1, 1, 1],
         // position: [5, -2, -4],
@@ -203,7 +141,7 @@ export default {
                 // envMapIntensity: 1,
                 // refractionRatio: 1,
                 // envMap: 'https://i.imgur.com/IaVPGpn.png',
-                specular: 0x111111,
+                // specular: 0x111111,
                 // // opacity: 1,
                 // blending: THREE.GreaterDepth,
                 // depth: THREE.GreaterDepth,
@@ -261,16 +199,16 @@ export default {
   },
   fog: {
     isFog: true,
-    color: "#080515", // was #100A29
-    density: 1,
+    color: "#080515", // was #100A29 and 080515
+    density: .75,
     near: 0.20008,
-    far: 75
+    far: 220
   },
   camera: {
     orthographic: false,
     fov: 50,
     near: 0.01,
-    far: 100,
+    far: 300,
     aspect: 1,
     // base position
     posX: -14,

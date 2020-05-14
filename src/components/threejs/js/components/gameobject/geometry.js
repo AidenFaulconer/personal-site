@@ -105,11 +105,10 @@ export default class Geometry {
               childMesh.scale.set(...config.scale);
               childMesh.position.set(...config.position);
               childMesh.rotation.set(...config.rotation);
-              childMesh.name = modelName;
+              console.log(childMesh.name)
               // check for fx on object and append them to material
             });
           }
-
           geometryInstance.object = geometry;
           this._scene.add(geometryInstance.object);
           // bind the event handler to the instance while we pass it in (IMPORTANT OR WE WILL GET UNDEFINED BEHAVIOR IN OBJECT REFRENCE)

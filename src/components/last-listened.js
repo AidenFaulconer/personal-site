@@ -1,12 +1,6 @@
 import React, { useEffect, useRef, useState, Suspense } from "react";
 import * as axios from "axios";
 
-// ANIMATE ON SCROLL
-import "aos/dist/aos.css";
-// dont use {main}
-// import ExperienceManger from './js/components/experiencemanager/experiencemanager'
-// import { MainVR } from './js/mainVR'
-
 export const CorsHack = "https://cors-anywhere.herokuapp.com/"; // TODO: find a more reliable server to proxy from
 
 export const reqToken = {
@@ -74,5 +68,10 @@ export default React.memo(() => {
 
   // suspense makes this component asynchronous, since nothing mounts from the <suspense></suspense>
   // tags wrapping everything this component outputs, hacky workaround used to get this to render server side properly
-  return spotifyData && <div ref={lastListenedRef} id="canvas" />;
+  return (
+    <>
+      {/** spotifyData && <div ref={lastListenedRef} id="canvas" /> */}
+      <audio id="audio" controls />
+    </>
+  );
 });

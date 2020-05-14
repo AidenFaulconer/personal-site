@@ -164,7 +164,13 @@ export const PageProgressIndicator = ({ progress, stroke, radius }) => {
 };
 // #endregion circular progress indicator
 
-export default ({ Posts, children, pageState }) => {
+export default ({
+  Posts,
+  children,
+  pageState,
+  LeftPanelContent,
+  RightPanelContent
+}) => {
   const data = useStaticQuery(
     graphql`
       query {
@@ -183,6 +189,9 @@ export default ({ Posts, children, pageState }) => {
   useEffect(() => {
     toggleNavMenu(false);
   }, []);
+
+  const LeftPanelComponent = LeftPanelContent;
+  const RightPanelComponent = RightPanelContent;
 
   return (
     <>
@@ -235,18 +244,18 @@ export default ({ Posts, children, pageState }) => {
         </div>
 
         <NavigationMenu setPageProgress={setPageProgress} />
-        {/** main page right interactive panel */}
+
         {pageState !== ".blog" && (
           <div className="panel right">
             <MediaLinks />
+            <RightPanelComponent />
+            {/**
             <div className="site-title">
               <Link to="/">{data.site.siteMetadata.title}</Link>
             </div>
-            {/** <LastListened /> */}
+             */}
           </div>
         )}
-
-        {/** page navigation panel */}
       </div>
     </>
   );

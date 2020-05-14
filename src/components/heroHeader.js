@@ -27,9 +27,11 @@ export default React.memo(() => (
             typewriterText={data.site.siteMetadata.contentConfig.description}
           />
         </div>
+        {/**
         <Link to="#contact" className="button -primary">
           Get in touch &rarr;
         </Link>
+         */}
       </section>
     )}
   />

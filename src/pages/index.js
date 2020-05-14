@@ -8,6 +8,7 @@ import HeroHeader from "../components/heroHeader";
 import SectionBuilder from "../components/section-builder";
 import ThreeComponent from "../components/threejs/three-component";
 import MainThreeJs from "../components/threejs/main-page";
+import LastListened from "../components/last-listened";
 // when ssr, wrap components using window with this to avoid undefined windowerrors
 // TODO: add google analytics
 
@@ -26,13 +27,16 @@ export default ({
   const [inProp, setInProp] = useState(false);
   useEffect(() => {
     setInProp(true);
-
     return () => setInProp(false); // called on component unmount
   }, []); // transition on component load
 
   return (
     <>
-      <Layout Posts={Posts}>
+      <Layout
+        Posts={Posts}
+        LeftPanelContent={<></>}
+        RightPanelContent={LastListened}
+      >
         <Helmet>
           <title>{site.siteMetadata.title}</title>
           <meta name="description" content={site.siteMetadata.description} />

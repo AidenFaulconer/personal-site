@@ -671,27 +671,56 @@ $hero-header: 90vh;
 
 //TODO: move site header out of hero header
 .hero-header {
-  padding: 14%;
-  padding-top: $standard-margin * 11.5;
-  padding-left: 20%;
+  padding: 0 14%;
+  padding-top: $standard-margin * .7;
+  padding-bottom: $standard-margin * 6;
+  padding-left: 10%;
   // calc($panel-offset + $standard-margin);
   // height: $hero-header;
   border: none;
 
-  & .primary-content {
-    font-size: $small;
-    color: $primary-color;
-    width: 70%;
-
-    font-weight: 300;
+  .headline {
+    font-size: $h1;
+    width: 100%;
+    text-align: center;
+    font-family: 'brown-bold';
+    line-height: 100%;
+    margin-bottom: 0.5rem;
 
     @include media-breakpoint-down(sm) {
+      font-size: $h1;
+      top: 0px;
+      text-align: left;
+    }
+  }
 
+  & .primary-content {
+    font-size: $small;
+    display: flex;
+    justify-content: center;
+    color: $primary-color;
+    width: 100%;
+    position: relative;
+    margin: auto;
+    font-weight: 300;
+    bottom: 0px;
+    height: 100%;
+
+    @include media-breakpoint-down(sm) {
       font-size: $small;
+      text-align: left;
     }
 
     & .typewriter {
+      position: relative;
+      text-align: center;
       margin-bottom: $standard-margin;
+
+      @include media-breakpoint-down(sm) {
+        text-align: left;
+        left: 0px;
+        display: none;
+      }
 
       & span {
         border-right: .05em solid;
@@ -709,19 +738,6 @@ $hero-header: 90vh;
 
   @include media-breakpoint-down(sm) {
     padding-left: $mobile-standard-margin *3;
-  }
-}
-
-.headline {
-  font-size: $title;
-  font-family: 'brown-bold';
-  line-height: 100%;
-  width: 25%;
-  margin-bottom: 0.5rem;
-
-  @include media-breakpoint-down(sm) {
-    font-size: $h1;
-    top: 0px;
   }
 }
 
@@ -1741,6 +1757,13 @@ $ellipses-slider: (slides: 5,
 
 //#endregion blog styling
 
+
+audio {
+  @include borderRadius1();
+  @include shadow2();
+  border: $border;
+}
+
 //#region content styling
 section {
   width: 80%; //this is modified inline in react
@@ -1765,7 +1788,6 @@ section {
     margin-bottom: $mobile-section-margin * .25;
   }
 
-
   //when user screen fit mobile screen
   & a {
     color: $primary-color;
@@ -1778,7 +1800,7 @@ section {
 
   & .section__header {
     z-index: -1;
-    padding: 0 5.5%;
+    // padding: 0 5.5%;
     text-transform: capitalize;
     width: 100%;
     display: flex;

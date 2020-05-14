@@ -57,11 +57,18 @@ export default React.memo(() => {
                 key={sectionName + i}
                 styles={sectionStyles[sectionName]}
               >
-                <div className="section__header">
-                  <h1 data-aos="fade-up">{sectionName.toUpperCase()}</h1>
-                  <h1 data-aos="fade-up">{++i}</h1>
+                <div className="section__header" key={`${sectionName}-header`}>
+                  <h1 data-aos="fade-up" key={`${sectionName}-h1`}>
+                    {sectionName.toUpperCase()}
+                  </h1>
+                  <h1 data-aos="fade-up" key={`${sectionName}-h1-no`}>
+                    {++i}
+                  </h1>
                 </div>
-                <div className="section__wrapper">
+                <div
+                  className="section__wrapper"
+                  key={`${sectionName}-wrapper`}
+                >
                   <SectionComponent
                     key={sectionName + i}
                     data={data.site.siteMetadata.contentConfig[sectionName]}
@@ -88,20 +95,27 @@ export const Projects = ({ data }) => {
         data.map(card => {
           const { title, description, model, catagory, mediaUrl, post } = card;
           return (
-            <article className="section__grid__projects">
+            <article className="section__grid__projects" key={`${title}-grid`}>
               <div
                 className="projects__card"
-                onCLick={() => toggleProjectViewer(true)}
+                key={`${title}-card`}
+                onClick={() => toggleProjectViewer(true)}
               >
-                <h2 className="title" attribute="title">
+                <h2 className="title" attribute="title" key={`${title}-title`}>
                   {title}
                 </h2>
-                <h3 className="description" attribute="description">
+                <h3
+                  className="description"
+                  attribute="description"
+                  key={`${title}-description`}
+                >
                   {description}
                 </h3>
-                <h3 className="catagory">{catagory}</h3>
+                <h3 className="catagory" key={`${title}-catabory`}>
+                  {catagory}
+                </h3>
 
-                <div className="preview">
+                <div className="preview" key={`${title}-preview`}>
                   {(model && <></>) || (
                     <video
                       className="video-fluid"
@@ -109,6 +123,7 @@ export const Projects = ({ data }) => {
                       loop
                       muted
                       playsInline
+                      key={`${title}-video`}
                     >
                       <source loading="lazy" src={mediaUrl} type="video/mp4" />
                     </video>
@@ -139,8 +154,10 @@ export const Skills = ({ data }) => (
               dangerouslySetInnerHTML={{ __html: description }}
             />
             <ul>
-              {summaryPoints.map(point => (
-                <li className="summary__point">{point}</li>
+              {summaryPoints.map((point, i) => (
+                <li className="summary__point" key={i}>
+                  {point}
+                </li>
               ))}
             </ul>
           </div>

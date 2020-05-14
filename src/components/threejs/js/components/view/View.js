@@ -3,8 +3,9 @@ import {
   WebGLRenderer,
   Scene,
   Clock,
-  OrthographicCamera,
+  OrthographicCamera
 } from "three";
+import * as dat from "dat.gui";
 import threeConfig from "../../config/threeConfig";
 import { Controls } from "../controls/controls";
 
@@ -12,51 +13,68 @@ import { Controls } from "../controls/controls";
 // import Composer from '@superguigui/wagner/src/Composer'
 import ObjectPool from "../gameobject/objectpool";
 
+export const datGUIConfigure = () => {
+  const gui = new dat.GUI();
+
+  const cam = gui.addFolder("Camera");
+  cam.add(options.camera, "speed", 0, 0.001).listen();
+  cam.add(camera.position, "y", 0, 100).listen();
+  cam.open();
+
+  const velocity = gui.addFolder("Velocity");
+  velocity
+    .add(options, "velx", -0.2, 0.2)
+    .name("X")
+    .listen();
+  velocity
+    .add(options, "vely", -0.2, 0.2)
+    .name("Y")
+    .listen();
+  velocity.open();
+
+  const box = gui.addFolder("Cube");
+  box
+    .add(cube.scale, "x", 0, 3)
+    .name("Width")
+    .listen();
+  box
+    .add(cube.scale, "y", 0, 3)
+    .name("Height")
+    .listen();
+  box
+    .add(cube.scale, "z", 0, 3)
+    .name("Length")
+    .listen();
+  box.add(cube.material, "wireframe").listen();
+  box.open();
+
+  gui.add(options, "stop");
+  gui.add(options, "reset");
+};
+
 export default class {
   constructor(canvas) {
-    // private
-    // #region
     this._canvas = canvas; // passed in from start of program if its decided we want a custom container
-
-    // object pool
-    this._objectPool = new ObjectPool();
-
-    // stats
-    // if (threeConfig.isDev) this._stats = new Stats();
-
-    // width and height of canvas container
     this._winWidth = this._canvas.clientWidth;
     this._winHeight = this._canvas.clientHeight;
-
-    // update callbacks, looped through every update, allowing individual classes to implement own custom update methods
     this._updateCallbacks = [];
+    // this._objectPool = new ObjectPool();
 
     // scene
-    this._scene = new Scene();
-
-    // renderer (the render pipeline)
-    this._renderer = new WebGLRenderer({
+    this.scene = new Scene();
+    this.renderer = new WebGLRenderer({
       antialias: true,
       preserveDrawingBuffer: false
     });
-    // #endregion
 
-    // public
-    // #region
-    // deltatime
-    this._clock = new Clock(true);
-    this.deltaTime = this._clock.getDelta();
-    // #endregion
-
-    // configuration
-    // #region
+    // #region configuration
     // renderer configuration (no special mobile configuration yet)
     // #region
-    this._renderer.setPixelRatio(window.devicePixelRatio);
-    this._renderer.setSize(this._winWidth, this._winHeight, false);
-    this._renderer.shadowMap.enabled = threeConfig.renderer.shadow.enabled;
-    this._renderer.shadowMap.type = threeConfig.renderer.shadow.type;
-    this._canvas.appendChild(this._renderer.domElement); // append threejs canvas to the canvas on the document
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(this._winWidth, this._winHeight, false);
+    this.renderer.shadowMap.enabled = threeConfig.renderer.shadow.enabled;
+    this.renderer.shadowMap.type = threeConfig.renderer.shadow.type;
+    this._canvas.appendChild(this.renderer.domElement); // append threejs canvas to the canvas on the document
     // #endregion
 
     // camera
@@ -64,21 +82,21 @@ export default class {
 
     // orthographic or perspective?
     if (threeConfig.isMobile && threeConfig.camera.mobile.orthographic) {
-      this._camera = new OrthographicCamera(
+      this.camera = new OrthographicCamera(
         70,
         this._winWidth / this._winHeight,
         1,
         1000
       );
     } else if (threeConfig.camera.orthographic) {
-      this._camera = new OrthographicCamera(
+      this.camera = new OrthographicCamera(
         70,
         this._winWidth / this._winHeight,
         1,
         1000
       );
     } else {
-      this._camera = new PerspectiveCamera(
+      this.camera = new PerspectiveCamera(
         threeConfig.camera.fov,
         this._winWidth / this._winHeight,
         threeConfig.isMobile
@@ -92,21 +110,21 @@ export default class {
 
     // camera config
     if (threeConfig.isMobile) {
-      this._camera.aspect = threeConfig.camera.mobile.aspect;
-      this._camera.position.x = threeConfig.camera.mobile.posX;
-      this._camera.position.y = threeConfig.camera.mobile.posY;
-      this._camera.position.z = threeConfig.camera.mobile.posZ;
-      this._camera.rotateX(threeConfig.camera.mobile.rotX);
-      this._camera.rotateY(threeConfig.camera.mobile.rotY);
-      this._camera.rotateZ(threeConfig.camera.mobile.rotZ);
+      this.camera.aspect = threeConfig.camera.mobile.aspect;
+      this.camera.position.x = threeConfig.camera.mobile.posX;
+      this.camera.position.y = threeConfig.camera.mobile.posY;
+      this.camera.position.z = threeConfig.camera.mobile.posZ;
+      this.camera.rotateX(threeConfig.camera.mobile.rotX);
+      this.camera.rotateY(threeConfig.camera.mobile.rotY);
+      this.camera.rotateZ(threeConfig.camera.mobile.rotZ);
     } else {
-      this._camera.aspect = threeConfig.camera.aspect;
-      this._camera.position.x = threeConfig.camera.posX;
-      this._camera.position.y = threeConfig.camera.posY;
-      this._camera.position.z = threeConfig.camera.posZ;
-      this._camera.rotateX(threeConfig.camera.rotX);
-      this._camera.rotateY(threeConfig.camera.rotY);
-      this._camera.rotateZ(threeConfig.camera.rotZ);
+      this.camera.aspect = threeConfig.camera.aspect;
+      this.camera.position.x = threeConfig.camera.posX;
+      this.camera.position.y = threeConfig.camera.posY;
+      this.camera.position.z = threeConfig.camera.posZ;
+      this.camera.rotateX(threeConfig.camera.rotX);
+      this.camera.rotateY(threeConfig.camera.rotY);
+      this.camera.rotateZ(threeConfig.camera.rotZ);
     }
 
     // #endregion
@@ -116,8 +134,8 @@ export default class {
 
     // camera controls (camera configuration happens in here)
     this._controls = new Controls(
-      this._camera,
-      this._renderer.domElement,
+      this.camera,
+      this.renderer.domElement,
       [],
       this.scene
     );
@@ -126,22 +144,18 @@ export default class {
 
     // #endregion
 
-    // post processing
-    // #region
-    this._pixelRatio = this._renderer.getPixelRatio(); // used in postprocessing uniform values in shader
+    // #region post processing
+    this._pixelRatio = this.renderer.getPixelRatio(); // used in postprocessing uniform values in shader
     this._passes = [];
-    // this._composer = new Composer(this._renderer)// manager allowing piping in new passes to render pipeline
-    threeConfig.PostProcessing.enabled
-      ? this.enablePostProcessing()
-      : console.log("disabled postprocessing");
+    // this._composer = new Composer(this.renderer)// manager allowing piping in new passes to render pipeline
+    // if (threeConfig.PostProcessing.enabled) this.enablePostProcessing();
+    // else this.disablePostProcessing();
     // #endregion
 
-    // event listeners
-    // #region
+    // #region event listeners
     window.addEventListener("resize", this.onWindowResize.bind(this), false);
     // #endregion
   }
-  // private
 
   // public
   enablePostProcessing() {
@@ -152,62 +166,235 @@ export default class {
     this.onWindowResize(); // ensure resolution is set when we enable this shader
   }
 
-  disablePostProcessing() {
-    for (i = 0; i < this._passes.length; ++i) {
-      delete this._pass[i]; // delete allocated memory from refrence
-    }
-    this.onWindowResize(); // update frame to be without post processing passes
+  // disablePostProcessing() {
+  //   for (i = 0; i < this._passes.length; ++i) {
+  //     delete this._pass[i]; // delete allocated memory from refrence
+  //   }
+  //   this.onWindowResize(); // update frame to be without post processing passes
+  // }
+
+  onWindowResize() {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  get renderer() {
-    return this._renderer;
-  }
-
-  get camera() {
-    return this._camera;
-  }
-
-  get scene() {
-    return this._scene;
-  }
-
-  onWindowResize(e) {
-    // camera
-    // const canvas = this._renderer.domElement.parentNode
-    const width = this._canvas.clientWidth;
-    const height = this._canvas.clientHeight;
-    // adjust displayBuffer size to match
-    if (width !== this._winWidth || height !== this._winHeight) {
-      this._winHeight = height;
-      this._winWidth = width;
-      // you must pass false here or three.js fights the browser
-      this._camera.aspect = width / height;
-      this._camera.fov =
-        (360 / Math.PI) * Math.atan(this._tanFov * (height / this._winHeight));
-      this._camera.updateProjectionMatrix();
-      // update render pipeline
-      this._renderer.setSize(width, height, false);
-      this._renderer.render(this._scene, this._camera);
-      // this._composer.setSize(width, height)
-      // update any render passes here
-      // for(let i=0;i<this._passes.length;++i){
-      //   this._passes[i]
-      // }
-    }
-    this.update();
-  }
-
-  update(timestamp) {
-    // call all update methods/routine dependencies from other objects
-    let thisUpdate = this._updateCallbacks.length;
-    while (thisUpdate > 0) {
-      this._updateCallbacks[thisUpdate - 1]();
-      thisUpdate -= 1;
-    }
-
-    // if (this._stats !== 'undefined') this._stats.begin()
-    requestAnimationFrame(this.update.bind(this));
-    this._renderer.render(this._scene, this._camera);
-    // if (this._stats !== 'undefined') this._stats.end()
-  }
+  // onWindowResize(e) {
+  //   // camera
+  //   // const canvas = this.renderer.domElement.parentNode
+  //   const width = this._canvas.clientWidth;
+  //   const height = this._canvas.clientHeight;
+  //   // adjust displayBuffer size to match
+  //   if (width !== this._winWidth || height !== this._winHeight) {
+  //     this._winHeight = height;
+  //     this._winWidth = width;
+  //     this.camera.aspect = width / height;// you must pass false here or three.js fights the browser
+  //     this.camera.fov =
+  //       (360 / Math.PI) * Math.atan(this._tanFov * (height / this._winHeight));
+  //     this.camera.updateProjectionMatrix();
+  //     // update render pipeline
+  //     this.renderer.setSize(width, height, false);
+  //     this.renderer.render(this.scene, this.camera);
+  //     // this._composer.setSize(width, height)
+  //     // update any render passes here
+  //     // for(let i=0;i<this._passes.length;++i){
+  //     //   this._passes[i]
+  //     // }
+  //   }
+  //   this.update();
+  // }
 }
+
+// import {
+//   DefaultLoadingManager,
+//   Fog,
+//   Color,
+//   Mesh,
+//   Group,
+//   AmbientLight,
+//   MeshBasicMaterial,
+//   PlaneGeometry,
+//   DoubleSide,
+//   IcosahedronGeometry,
+//   MeshLambertMaterial,
+//   SpotLight
+// } from "three";
+
+// // boiler plate setup
+// import * as SimplexNoise from "simplex-noise";
+// import View from "./js/components/view/View";
+// // other
+// // import Geometry from "./js/components/gameobject/geometry";
+// // import threeConfig from "./js/config/threeConfig.js";
+// // import Lighting from "./js/components/lighting/lighting";
+// // the view class contains the camera, render pipeline, and scene... TODO: abstract scene seperatly
+
+// // #region experience functions
+// export const noise = new SimplexNoise();
+
+// export const makeRoughGround = (mesh, distortionFr) => {
+//   mesh.geometry.vertices.forEach((vertex, i) => {
+//     // replace
+//     const amp = 2;
+//     const time = Date.now();
+//     const distance =
+//       (noise.noise2D(vertex.x + time * 0.0003, vertex.y + time * 0.0001) + 0) *
+//       distortionFr *
+//       amp;
+//     vertex.z = distance;
+//   });
+//   mesh.geometry.verticesNeedUpdate = true;
+//   mesh.geometry.normalsNeedUpdate = true;
+//   mesh.geometry.computeVertexNormals();
+//   mesh.geometry.computeFaceNormals();
+// };
+
+// export const makeRoughBall = (mesh, bassFr, treFr, r) => {
+//   mesh.geometry.vertices.forEach(function(vertex, i) {
+//     const offset = mesh.geometry.parameters.radius;
+//     const amp = 9;
+//     const time = window.performance.now();
+//     vertex.normalize();
+//     const rf = 0.00001;
+//     const distance =
+//       offset +
+//       bassFr +
+//       noise.noise4D(
+//         vertex.x + time * rf * 7,
+//         vertex.y + time * rf * 8,
+//         vertex.z + time * rf * 9,
+//         r
+//       ) *
+//         amp *
+//         treFr;
+
+//     vertex.multiplyScalar(distance);
+//   });
+//   mesh.geometry.verticesNeedUpdate = true;
+//   mesh.geometry.normalsNeedUpdate = true;
+//   mesh.geometry.computeVertexNormals();
+//   mesh.geometry.computeFaceNormals();
+// };
+
+// // some helper functions here
+// export const fractionate = (val, minVal, maxVal) =>
+//   (val - minVal) / (maxVal - minVal);
+
+// export const modulate = (val, minVal, maxVal, outMin, outMax) => {
+//   const fr = fractionate(val, minVal, maxVal);
+//   const delta = outMax - outMin;
+//   return outMin + fr * delta;
+// };
+
+// export const avg = arr => {
+//   const total = arr.reduce((sum, b) => sum + b);
+//   return total / arr.length;
+// };
+
+// export const max = arr => arr.reduce((a, b) => Math.max(a, b));
+// // TODO: Go through code and add naming convention __property for private object refrences
+// // #endregion experience functions
+
+// // create a threejs experience
+// export default class extends View {
+//   constructor(canvas) {
+//     super(canvas);
+//     // #region window
+
+// document.body.addEventListener("touchend", function(ev) {
+//   context.resume();
+// });
+
+//     // #endregion scene
+//     this.dataArray;
+
+//     // #region scene
+//     this.group = new Group();
+//     this.planeGeometry = new PlaneGeometry(800, 800, 20, 20);
+//     this.planeMaterial = new MeshLambertMaterial({
+//       color: 0x6904ce,
+//       side: DoubleSide,
+//       wireframe: false
+//     });
+
+//     this.plane = new Mesh(this.planeGeometry, this.planeMaterial);
+//     this.plane.rotation.x = -0.5 * Math.PI;
+//     this.plane.position.set(0, 30, 0);
+//     this.group.add(this.plane);
+
+//     this.plane2 = new Mesh(this.planeGeometry, this.planeMaterial);
+//     this.plane2.rotation.x = -0.5 * Math.PI;
+//     this.plane2.position.set(0, -30, 0);
+//     this.group.add(this.plane2);
+
+//     this.icosahedronGeometry = new IcosahedronGeometry(10, 4);
+//     this.lambertMaterial = new MeshLambertMaterial({
+//       color: 0xff00ee,
+//       wireframe: true
+//     });
+
+//     this.ball = new Mesh(this.icosahedronGeometry, this.lambertMaterial);
+//     this.ball.position.set(0, 0, 0);
+//     this.group.add(this.ball);
+
+//     this.ambientLight = new AmbientLight(0xaaaaaa);
+//     this.scene.add(this.ambientLight);
+
+//     this.spotLight = new SpotLight(0xffffff);
+//     this.spotLight.intensity = 0.9;
+//     this.spotLight.position.set(-10, 40, 20);
+//     this.spotLight.lookAt(this.ball);
+//     this.spotLight.castShadow = true;
+//     this.scene.add(this.spotLight);
+
+//     this.scene.add(this.group);
+//     // #endregion scene
+
+//     // #region base loading manager
+//     this.update();
+//   }
+
+//   update() {
+//     analyser.getByteFrequencyData(this.dataArray);
+
+//     const lowerHalfArray = this.dataArray.slice(0, this.dataArray.length / 2 - 1);
+//     const upperHalfArray = this.dataArray.slice(
+//       this.dataArray.length / 2 - 1,
+//       this.dataArray.length - 1
+//     );
+
+//     const overallAvg = avg(this.dataArray);
+//     const lowerMax = max(lowerHalfArray);
+//     const lowerAvg = avg(lowerHalfArray);
+//     const upperMax = max(upperHalfArray);
+//     const upperAvg = avg(upperHalfArray);
+
+//     const lowerMaxFr = lowerMax / lowerHalfArray.length / 2;
+//     const lowerAvgFr = lowerAvg / lowerHalfArray.length;
+//     const upperMaxFr = upperMax / upperHalfArray.length;
+//     const upperAvgFr = upperAvg / upperHalfArray.length;
+
+//     makeRoughGround(this.plane, modulate(upperAvgFr, 0, 1, 0.5, 4));
+//     makeRoughGround(this.plane2, modulate(lowerMaxFr, 0, 1, 0.5, 4));
+//     const r = Date.now() * 0.0005;
+//     makeRoughBall(
+//       this.ball,
+//       modulate(Math.pow(lowerMaxFr, 0.8), 0, 1, 0, 8),
+//       modulate(upperAvgFr, 0, 1, 0, 3),
+//       r / 2
+//     );
+
+//     this.group.rotation.y += 0.0005;
+
+//     this.group.position.x = 5 * Math.cos(r);
+//     this.group.position.z = 5 * Math.sin(r);
+//     this.group.position.y = 5 * Math.sin(r);
+
+//     this.group.children[0].position.x = 70 * Math.cos(2 * r);
+//     this.group.children[0].position.z = 70 * Math.sin(r);
+
+//     this.renderer.render(this.scene, this.camera);
+//     requestAnimationFrame(this.update.bind(this));
+//   }
+// }
+// // initialise simplex noise instance
