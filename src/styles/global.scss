@@ -969,7 +969,7 @@ $ellipses-slider: (slides: 5,
     background: rgba($third-text-color, .25);
 
     & .slider-label {
-      color: $primary-text-color;
+      color: $primary-color;
     }
 
     & .slider-number {
@@ -977,7 +977,7 @@ $ellipses-slider: (slides: 5,
     }
 
     & svg {
-      fill: $primary-text-color;
+      fill: $primary-color;
     }
   }
 }
