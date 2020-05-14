@@ -5,7 +5,7 @@ import {
   Clock,
   OrthographicCamera
 } from "three";
-import * as dat from "dat.gui";
+// import * as dat from "dat.gui";
 import threeConfig from "../../config/threeConfig";
 import { Controls } from "../controls/controls";
 
@@ -13,44 +13,45 @@ import { Controls } from "../controls/controls";
 // import Composer from '@superguigui/wagner/src/Composer'
 import ObjectPool from "../gameobject/objectpool";
 
-export const datGUIConfigure = () => {
-  const gui = new dat.GUI();
+// export const datGUIConfigure = () => {
+//   const gui = new dat.GUI();
+//   if (typeof window !== "undefined") {
+//     const cam = gui.addFolder("Camera");
+//     cam.add(options.camera, "speed", 0, 0.001).listen();
+//     cam.add(camera.position, "y", 0, 100).listen();
+//     cam.open();
 
-  const cam = gui.addFolder("Camera");
-  cam.add(options.camera, "speed", 0, 0.001).listen();
-  cam.add(camera.position, "y", 0, 100).listen();
-  cam.open();
+//     const velocity = gui.addFolder("Velocity");
+//     velocity
+//       .add(options, "velx", -0.2, 0.2)
+//       .name("X")
+//       .listen();
+//     velocity
+//       .add(options, "vely", -0.2, 0.2)
+//       .name("Y")
+//       .listen();
+//     velocity.open();
 
-  const velocity = gui.addFolder("Velocity");
-  velocity
-    .add(options, "velx", -0.2, 0.2)
-    .name("X")
-    .listen();
-  velocity
-    .add(options, "vely", -0.2, 0.2)
-    .name("Y")
-    .listen();
-  velocity.open();
+//     const box = gui.addFolder("Cube");
+//     box
+//       .add(cube.scale, "x", 0, 3)
+//       .name("Width")
+//       .listen();
+//     box
+//       .add(cube.scale, "y", 0, 3)
+//       .name("Height")
+//       .listen();
+//     box
+//       .add(cube.scale, "z", 0, 3)
+//       .name("Length")
+//       .listen();
+//     box.add(cube.material, "wireframe").listen();
+//     box.open();
 
-  const box = gui.addFolder("Cube");
-  box
-    .add(cube.scale, "x", 0, 3)
-    .name("Width")
-    .listen();
-  box
-    .add(cube.scale, "y", 0, 3)
-    .name("Height")
-    .listen();
-  box
-    .add(cube.scale, "z", 0, 3)
-    .name("Length")
-    .listen();
-  box.add(cube.material, "wireframe").listen();
-  box.open();
-
-  gui.add(options, "stop");
-  gui.add(options, "reset");
-};
+//     gui.add(options, "stop");
+//     gui.add(options, "reset");
+//   }
+// };
 
 export default class {
   constructor(canvas) {
@@ -70,11 +71,13 @@ export default class {
     // #region configuration
     // renderer configuration (no special mobile configuration yet)
     // #region
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(this._winWidth, this._winHeight, false);
-    this.renderer.shadowMap.enabled = threeConfig.renderer.shadow.enabled;
-    this.renderer.shadowMap.type = threeConfig.renderer.shadow.type;
-    this._canvas.appendChild(this.renderer.domElement); // append threejs canvas to the canvas on the document
+    if (typeof window !== "undefined") {
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.renderer.setSize(this._winWidth, this._winHeight, false);
+      this.renderer.shadowMap.enabled = threeConfig.renderer.shadow.enabled;
+      this.renderer.shadowMap.type = threeConfig.renderer.shadow.type;
+      this._canvas.appendChild(this.renderer.domElement); // append threejs canvas to the canvas on the document
+    }
     // #endregion
 
     // camera
@@ -153,7 +156,8 @@ export default class {
     // #endregion
 
     // #region event listeners
-    window.addEventListener("resize", this.onWindowResize.bind(this), false);
+    if (typeof window !== "undefined")
+      window.addEventListener("resize", this.onWindowResize.bind(this), false);
     // #endregion
   }
 
@@ -174,9 +178,11 @@ export default class {
   // }
 
   onWindowResize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    if (typeof window !== "undefined") {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
   }
 
   // onWindowResize(e) {

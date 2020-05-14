@@ -210,8 +210,7 @@ export default class extends View {
 
     this.scene.background = new Color(threeConfig.background.color);
     // #endregion scene
-
-    this.update();
+    if (typeof window !== "undefined") this.update();
   }
 
   update() {
