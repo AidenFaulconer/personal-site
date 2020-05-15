@@ -1,6 +1,6 @@
 ---
 template: BlogPost
-path: blog/workflow/with-code
+path: /blog/workflow/with-code
 date: 2020-05-03T07:19:22.010Z
 title: Hello world
 thumbnail: /assets/flow.jpg
