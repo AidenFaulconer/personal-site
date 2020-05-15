@@ -1,6 +1,6 @@
 ---
 template: BlogPost
-path: /uiux/Hello World
+path: blog/uiux/Hello World
 date: 2020-05-03T07:07:18.407Z
 title: Hello World!
 thumbnail: /assets/office-820390_960_720.jpg
