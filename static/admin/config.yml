@@ -1,7 +1,7 @@
 #enable local cms development
 
-local_backend:
-  name: file-system
+# local_backend:
+#   name: file-system
 
 backend:
   name: github

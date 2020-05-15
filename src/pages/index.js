@@ -3,7 +3,6 @@ import Helmet from "react-helmet";
 import { graphql } from "gatsby";
 import { CSSTransition } from "react-transition-group";
 import Layout from "../components/layout";
-import PostLink from "../components/post-link";
 import HeroHeader from "../components/heroHeader";
 import SectionBuilder from "../components/section-builder";
 import ThreeComponent from "../components/threejs/three-component";
@@ -14,16 +13,8 @@ import LastListened from "../components/last-listened";
 
 export default ({
   // data is a global populated from our query
-  data: {
-    site,
-    allMarkdownRemark: { edges }
-  }
+  data: { site }
 }) => {
-  // get posts
-  const Posts = edges
-    .filter(edge => !!edge.node.frontmatter.date) // You can filter your posts based on some criteria
-    .map(edge => <PostLink key={edge.node.id} post={edge.node} />);
-
   const [inProp, setInProp] = useState(false);
   useEffect(() => {
     setInProp(true);
@@ -32,11 +23,7 @@ export default ({
 
   return (
     <>
-      <Layout
-        Posts={Posts}
-        LeftPanelContent={() => <></>}
-        RightPanelContent={LastListened}
-      >
+      <Layout LeftPanelContent={() => <></>} RightPanelContent={LastListened}>
         <Helmet>
           <title>{site.siteMetadata.title}</title>
           <meta name="description" content={site.siteMetadata.description} />
@@ -51,7 +38,7 @@ export default ({
           {/** page content */}
           <div style={{ position: "relative" }}>
             <HeroHeader />
-            <SectionBuilder Posts={Posts} />
+            <SectionBuilder />
           </div>
         </CSSTransition>
       </Layout>

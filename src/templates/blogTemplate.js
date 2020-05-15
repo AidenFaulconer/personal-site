@@ -4,12 +4,15 @@ import { graphql } from "gatsby";
 import Layout from "../components/layout";
 
 export default function Template({
+  path,
+  context,
   data // this prop will be injected by the GraphQL query below.
 }) {
+  console.log(`${path} ${context}`);
   const { markdownRemark } = data; // data.markdownRemark holds your post data
   const { frontmatter, html } = markdownRemark;
   return (
-    <Layout>
+    <Layout LeftPanelContent={() => <></>} RightPanelContent={() => <></>}>
       <Helmet>
         <title>{frontmatter.title}</title>
         <meta name="description" content={frontmatter.metaDescription} />
@@ -41,6 +44,7 @@ export default function Template({
   );
 }
 
+// get markdown data from path value
 export const pageQuery = graphql`
   query($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {

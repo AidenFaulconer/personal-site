@@ -11,8 +11,7 @@ const path = require(`path`);
 exports.createPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions;
 
-  const blogPostTemplate = path.resolve(`src/templates/blogTemplate.js`);
-
+  // store this remark data
   const result = await graphql(`
     {
       allMarkdownRemark(
@@ -40,8 +39,8 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   result.data.allMarkdownRemark.edges.forEach(({ node }) => {
     createPage({
       path: node.frontmatter.path,
-      component: blogPostTemplate,
-      context: {} // additional data can be passed via context
+      component: path.resolve(`src/templates/blogTemplate.js`), // call this component for each page, passing the following values in
+      context: { test: "test" } // additional data can be passed via context (to the template component)
     });
   });
 };

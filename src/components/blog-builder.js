@@ -127,13 +127,13 @@ export default React.memo(() => {
 
         (() =>
           data.allMarkdownRemark.edges.map(edge => {
-            const thisCatagory = edge.node.frontmatter.path.split("/")[1];
+            const thisCatagory = edge.node.frontmatter.path.split("/")[2];
             if (catagoryMappings[thisCatagory])
               // push edge to array
               catagoryMappings[thisCatagory].push(edge);
             else catagoryMappings[thisCatagory] = []; // empty arrwy
           }))();
-
+        console.log(catagoryMappings);
         // get catagories from path of blog, use those catagoreis to correspond to a component to handle it, iterate on all the posts of that catagory passing it to that component
         return Object.keys(catagoryMappings).map((catagory, i) => {
           // get posts

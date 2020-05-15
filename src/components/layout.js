@@ -165,7 +165,6 @@ export const PageProgressIndicator = ({ progress, stroke, radius }) => {
 // #endregion circular progress indicator
 
 export default ({
-  Posts,
   children,
   pageState,
   LeftPanelContent,

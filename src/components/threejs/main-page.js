@@ -118,10 +118,12 @@ export default class extends View {
 
       // start audio on user interaction
       document.getElementById("main").addEventListener(
-        "mouseenter",
+        "click",
         () => {
-          this.audio.muted = false;
-          this.audio.play();
+          this.audioEnabled = !this.audioEnabled;
+          this.audio.muted = !this.audioEnabled;
+          if (this.audioEnabled) this.audio.play();
+          else this.audio.pause();
         },
         false
       );
@@ -135,11 +137,22 @@ export default class extends View {
 
     // #region scene
     this.group = new Group();
-    this.planeGeometry = new PlaneGeometry(800, 800, 15, 15);
+    let planeSpan = 800;
+    let planeDetail = 15;
+    if (threeConfig.isMobile) {
+      planeSpan = 0;
+      planeDetail = 0;
+    }
+    this.planeGeometry = new PlaneGeometry(
+      planeSpan,
+      planeSpan,
+      planeDetail,
+      planeDetail
+    );
     this.planeMaterial = new MeshLambertMaterial({
       color: "#8CF2D9",
       side: FrontSide,
-      opacity: 0.25,
+      opacity: threeConfig.isMobile ? 0 : 0.25,
       wireframe: true
     });
 
@@ -150,7 +163,7 @@ export default class extends View {
 
     this.plane2 = new Mesh(this.planeGeometry, this.planeMaterial);
     this.plane2.rotation.x = -0.5 * Math.PI;
-    this.plane2.position.set(0, -30, 0);
+    this.plane2.position.set(0, -45, 0);
     this.group.add(this.plane2);
 
     this.icosahedronGeometry = new IcosahedronGeometry(8, 4);
@@ -257,52 +270,57 @@ export default class extends View {
   }
 
   update() {
-    if (this.audioEnabled) {
-      this.analyser.getByteFrequencyData(this.dataArray);
+    this.analyser.getByteFrequencyData(this.dataArray);
 
-      const lowerHalfArray = this.dataArray.slice(
-        0,
-        this.dataArray.length / 2 - 1
-      );
-      const upperHalfArray = this.dataArray.slice(
-        this.dataArray.length / 2 - 1,
-        this.dataArray.length - 1
-      );
-      // const overallAvg = avg(this.dataArray);
+    const lowerHalfArray = this.dataArray.slice(
+      0,
+      this.dataArray.length / 2 - 1
+    );
+    const upperHalfArray = this.dataArray.slice(
+      this.dataArray.length / 2 - 1,
+      this.dataArray.length - 1
+    );
+    // const overallAvg = avg(this.dataArray);
 
-      const lowerMax = this.max(lowerHalfArray);
-      const lowerMaxFr = lowerMax / lowerHalfArray.length / 2;
+    const lowerMax = this.max(lowerHalfArray);
+    let lowerMaxFr;
 
-      // const lowerAvg = avg(lowerHalfArray);
-      // const lowerAvgFr = lowerAvg / lowerHalfArray.length;
+    // const lowerAvg = avg(lowerHalfArray);
+    // const lowerAvgFr = lowerAvg / lowerHalfArray.length;
 
-      const upperAvg = this.avg(upperHalfArray);
-      // const upperMax = max(upperHalfArray);
-      // const upperMaxFr = upperMax / upperHalfArray.length;
+    const upperAvg = this.avg(upperHalfArray);
+    // const upperMax = max(upperHalfArray);
+    // const upperMaxFr = upperMax / upperHalfArray.length;
 
-      const upperAvgFr = upperAvg / upperHalfArray.length;
+    let upperAvgFr;
 
-      const time = this.window.performance.now();
-      const r = time * 0.0005;
+    const time = this.window.performance.now();
+    const r = time * 0.0005;
 
-      // this.makeRoughGround(this.plane, modulate(upperAvgFr, 0, 1, 0.5, 4));
-      const groundModulate = this.modulate(lowerMaxFr*1.5, 0, 1, 0.5, 4);
-      this.makeRoughGround(groundModulate, time);
-
-      const yModulate = this.modulate(Math.pow(lowerMaxFr, 0.8), 0, 1, 0, 8);
-      const zModulate = this.modulate(upperAvgFr, 0, 1, 0, 3);
-      this.makeRoughBall(yModulate, zModulate, r / 2, time);
-
-      this.group.rotation.y += 0.0005;
-
-      this.group.position.x = 5 * Math.cos(r);
-      this.group.position.z = 5 * Math.sin(r);
-      this.group.position.y = 5 * Math.sin(r);
-
-      this.group.children[0].position.x = 70 * Math.cos(2 * r);
-      this.group.children[0].position.z = 70 * Math.sin(r);
+    if (lowerMax < 1) {
+      upperAvgFr = 0.25;
+      lowerMaxFr = 0.25;
+    } else {
+      upperAvgFr = upperAvg / upperHalfArray.length;
+      lowerMaxFr = lowerMax / lowerHalfArray.length / 2;
     }
 
+    // this.makeRoughGround(this.plane, modulate(upperAvgFr, 0, 1, 0.5, 4));
+    const groundModulate = this.modulate(lowerMaxFr * 1.5, 0, 1, 0.5, 4);
+    this.makeRoughGround(groundModulate, time);
+
+    const yModulate = this.modulate(Math.pow(lowerMaxFr, 0.8), 0, 1, 0, 8);
+    const zModulate = this.modulate(upperAvgFr, 0, 1, 0, 3);
+    this.makeRoughBall(yModulate, zModulate, r / 2, time);
+
+    this.group.rotation.y += 0.00008;
+
+    this.group.position.x = 5 * Math.cos(r);
+    this.group.position.z = 5 * Math.sin(r);
+    this.group.position.y = 5 * Math.sin(r);
+
+    this.group.children[0].position.x = 70 * Math.cos(2 * r);
+    this.group.children[0].position.z = 70 * Math.sin(r);
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(this.update.bind(this));
   }

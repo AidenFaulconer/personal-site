@@ -11,7 +11,6 @@ import { Controls } from "../controls/controls";
 
 // post processing
 // import Composer from '@superguigui/wagner/src/Composer'
-import ObjectPool from "../gameobject/objectpool";
 
 // export const datGUIConfigure = () => {
 //   const gui = new dat.GUI();
@@ -64,7 +63,7 @@ export default class {
     // scene
     this.scene = new Scene();
     this.renderer = new WebGLRenderer({
-      antialias: false,
+      antialias: !threeConfig.isMobile,
       preserveDrawingBuffer: true
     });
 
