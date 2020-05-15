@@ -5,7 +5,7 @@ import Layout from "../components/layout";
 
 const ContactPage = ({ data: { site } }) => {
   return (
-    <Layout>
+    <Layout LeftPanelContent={() => <></>} RightPanelContent={() => <></>}>
       <Helmet>
         <title>Contact —{site.siteMetadata.title}</title>
         <meta name="description" content={site.siteMetadata.description} />
