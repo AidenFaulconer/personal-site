@@ -200,15 +200,15 @@ export default {
   fog: {
     isFog: true,
     color: "#080515", // was #100A29 and 080515
-    density: .75,
+    density: 1,
     near: 0.20008,
-    far: 220
+    far: 620
   },
   camera: {
     orthographic: false,
     fov: 50,
     near: 0.01,
-    far: 300,
+    far: 600,
     aspect: 1,
     // base position
     posX: -14,

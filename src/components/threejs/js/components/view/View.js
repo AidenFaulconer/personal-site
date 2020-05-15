@@ -64,13 +64,11 @@ export default class {
     // scene
     this.scene = new Scene();
     this.renderer = new WebGLRenderer({
-      antialias: true,
-      preserveDrawingBuffer: false
+      antialias: false,
+      preserveDrawingBuffer: true
     });
 
     // #region configuration
-    // renderer configuration (no special mobile configuration yet)
-    // #region
     if (typeof window !== "undefined") {
       this.renderer.setPixelRatio(window.devicePixelRatio);
       this.renderer.setSize(this._winWidth, this._winHeight, false);
@@ -79,9 +77,6 @@ export default class {
       this._canvas.appendChild(this.renderer.domElement); // append threejs canvas to the canvas on the document
     }
     // #endregion
-
-    // camera
-    // #region
 
     // orthographic or perspective?
     if (threeConfig.isMobile && threeConfig.camera.mobile.orthographic) {
@@ -130,23 +125,6 @@ export default class {
       this.camera.rotateZ(threeConfig.camera.rotZ);
     }
 
-    // #endregion
-
-    // field of view
-    this._tanFov = Math.tan(((Math.PI / 180) * this.camera.fov) / 2);
-
-    // camera controls (camera configuration happens in here)
-    this._controls = new Controls(
-      this.camera,
-      this.renderer.domElement,
-      [],
-      this.scene
-    );
-    this._updateCallbacks.push(this._controls.update.bind(this._controls));
-    if (this._updateCallbacks.length > 3) this._updateCallbacks = [];
-
-    // #endregion
-
     // #region post processing
     this._pixelRatio = this.renderer.getPixelRatio(); // used in postprocessing uniform values in shader
     this._passes = [];
@@ -170,12 +148,6 @@ export default class {
     this.onWindowResize(); // ensure resolution is set when we enable this shader
   }
 
-  // disablePostProcessing() {
-  //   for (i = 0; i < this._passes.length; ++i) {
-  //     delete this._pass[i]; // delete allocated memory from refrence
-  //   }
-  //   this.onWindowResize(); // update frame to be without post processing passes
-  // }
 
   onWindowResize() {
     if (typeof window !== "undefined") {

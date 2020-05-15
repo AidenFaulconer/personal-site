@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { StaticQuery, Link, graphql } from "gatsby";
 import { CSSTransition } from "react-transition-group";
-import PostLink from "./post-link";
+// import PostLink from "./post-link";
 // import ContentViewer from "./content-viewer";
 
 const svgIcons = {
@@ -19,6 +19,7 @@ const svgIcons = {
 `,
   arrow: ``
 };
+
 export const postContainer = "blog__wrapper";
 
 // TODO: add a contentID that refs a blog article, or find a better workaround here
@@ -181,11 +182,12 @@ export default React.memo(() => {
 });
 
 export const UXUI = ({ post }) => (
-  <article className="blog__post">
+  <article className="blog__post" key={Math.random()}>
     <Link to={post.frontmatter.path}>
       {!!post.frontmatter.thumbnail && (
         <img
           loading="lazy"
+          key={post.frontmatter.thumbnail}
           src={post.frontmatter.thumbnail}
           alt={`${post.frontmatter.title}- Featured Shot`}
         />
@@ -200,6 +202,7 @@ export const UXUI = ({ post }) => (
     </header>
   </article>
 );
+
 export const ThreeD = ({ post }) => (
   <article className="blog__post">
     <Link to={post.frontmatter.path}>

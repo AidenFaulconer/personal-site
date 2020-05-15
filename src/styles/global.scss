@@ -308,7 +308,7 @@ $gradient-color: $foreground-color;
 //#endregion animation mixins
 
 @mixin shadow1 {
-  // box-shadow: 10px 10px 20px rgba($foreground-color, $alpha: .25);
+  box-shadow: 10px 10px 20px rgba($foreground-color, $alpha: .25);
 }
 
 @mixin shadow2 {
@@ -462,12 +462,12 @@ $border2:1px solid rgba(0, 0, 0, .1);
 
 // #region custom browser styling
 ::selection {
-  color: coral;
+  color: $primary-color;
   background: transparent;
 }
 
 ::-moz-selection {
-  color: coral;
+  color: $primary-color;
   background: transparent;
 }
 
@@ -605,7 +605,7 @@ body {
 }
 
 * {
-  margin-top: 0;
+  // margin-top: 0;
   box-sizing: border-box;
 }
 
@@ -1616,7 +1616,8 @@ $ellipses-slider: (slides: 5,
     position: relative;
     width: auto;
     width: 100%;
-    min-height: 40vh; //ensures sections are large enough to be calculated by navigation menu
+    min-height: 25vh; //ensures sections are large enough to be calculated by navigation menu
+    max-height: 50vh;
     background: $primary-color;
     margin: 0px;
     fill: inherit;
@@ -1637,7 +1638,7 @@ $ellipses-slider: (slides: 5,
       color: inherit;
       z-index: 5;
       width: $panel-offset * 3.25;
-      background: linear-gradient(90deg, currentColor 25%, transparent);
+      background: linear-gradient(90deg, currentColor 5%, transparent);
       height: 100%;
 
       @include media-breakpoint-down(sm) {
@@ -1666,7 +1667,7 @@ $ellipses-slider: (slides: 5,
       // width: auto;
       height: 100%;
       z-index: 1;
-      min-height: 70vh;
+      min-height: 60vh;
       // margin-bottom: $standard-margin;
       overflow-x: scroll;
       // overflow-y: hidden;
@@ -1677,10 +1678,10 @@ $ellipses-slider: (slides: 5,
       @include occupyContainer();
 
       .blog__post {
-        min-width: 35vw;
-        min-height: 45vh;
-        max-height: 25vh;
-        max-width: 25vw;
+        min-width: 25vw;
+        min-height: 25vh;
+        max-height: 15vh;
+        max-width: 45vw;
         z-index: 4;
         border: $border2;
         color: inherit;
@@ -1695,8 +1696,9 @@ $ellipses-slider: (slides: 5,
         @include animation1(margin);
 
         &:hover {
-          margin: $standard-margin * 4.5 $standard-margin * .5;
+          margin-bottom: $standard-margin;
           @include animation1(margin);
+
           @include shadow1();
         }
 
@@ -1722,7 +1724,7 @@ $ellipses-slider: (slides: 5,
           bottom: 0px;
           width: 100%;
           font-size: $p;
-          color: inherit;
+          color: $primary-text-color;
           padding: $standard-margin * .5;
           border: $border;
           @include borderRadius2();
@@ -1761,6 +1763,7 @@ $ellipses-slider: (slides: 5,
 audio {
   @include borderRadius1();
   @include shadow2();
+  background: $foreground-color;
   border: $border;
 }
 
@@ -1800,7 +1803,7 @@ section {
 
   & .section__header {
     z-index: -1;
-    // padding: 0 5.5%;
+    padding: 0%;
     text-transform: capitalize;
     width: 100%;
     display: flex;

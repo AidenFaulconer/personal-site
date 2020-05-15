@@ -244,6 +244,7 @@ export default ({
         </div>
 
         <NavigationMenu setPageProgress={setPageProgress} />
+        <LeftPanelComponent />
 
         {pageState !== ".blog" && (
           <div className="panel right">

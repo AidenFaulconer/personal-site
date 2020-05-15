@@ -8,7 +8,8 @@ import "aos/dist/aos.css";
 // import { MainVR } from './js/mainVR'
 
 // threeComponent wrapper
-export default React.memo(({threeJsCanvas}) => {//we pass in which threejs canvas we want to load in
+export default React.memo(({ threeJsCanvas }) => {
+  // we pass in which threejs canvas we want to load in
   const canvasRef = useRef(null);
   const [threeContext, setThreeContext] = useState(null);
 
@@ -33,7 +34,7 @@ export default React.memo(({threeJsCanvas}) => {//we pass in which threejs canva
         return check;
       })())
         ? (threeConfig.isMobile = true)
-        : console.log("configuring for desktop usage");
+        : console.log("configuring for desktop");
       setThreeContext(new threeJsCanvas(canvasRef.current)); // this is the deafult and reccomended entry for the experience, which is with vr off at default
       // #endregion
 
@@ -51,7 +52,7 @@ export default React.memo(({threeJsCanvas}) => {//we pass in which threejs canva
     }
   }, []);
 
-  useEffect(() => console.log("warning, reinitalizing canvas"), [threeContext]);
+  useEffect(() => console.log("reinitalizing canvas"), [threeContext]);
 
   // suspense makes this component asynchronous, since nothing mounts from the <suspense></suspense>
   // tags wrapping everything this component outputs, hacky workaround used to get this to render server side properly

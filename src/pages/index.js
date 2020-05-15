@@ -34,7 +34,7 @@ export default ({
     <>
       <Layout
         Posts={Posts}
-        LeftPanelContent={<></>}
+        LeftPanelContent={() => <></>}
         RightPanelContent={LastListened}
       >
         <Helmet>
