@@ -1,6 +1,6 @@
 ---
 template: BlogPost
-path: /3d/remark-kitchen-sink
+path: blog/3d/remark-kitchen-sink
 date: 2020-05-03T07:18:54.365Z
 title: Hello world!!
 thumbnail: /assets/3d.jpg
