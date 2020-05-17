@@ -61,9 +61,6 @@ export default React.memo(() => {
                   <h1 data-aos="fade-up" key={`${sectionName}-h1`}>
                     {sectionName.toUpperCase()}
                   </h1>
-                  <h1 data-aos="fade-up" key={`${sectionName}-h1-no`}>
-                    {++i}
-                  </h1>
                 </div>
                 <div
                   className="section__wrapper"

@@ -58,7 +58,7 @@ module.exports = {
       title: "Python apps",
       mediaUrl: "https://i.imgur.com/jaP2kH5.mp4",
       catagory: "Desktop Application",
-      description: "simple console/GUI apps made in python",
+      description: "Simple console/GUI apps made in python",
       blog: {
         about: "",
         objectives: "",
@@ -86,7 +86,7 @@ module.exports = {
       description: ` I love working in teams, coming from experience at the Australian War Memorial, being a
       Manager in retail,
       and as a lead developer
-      for Mentoras.I always orient myself towards the teams goals,
+      for Mentoras. I always orient myself towards the team's goals,
       instead of
       just my own.
       `,
@@ -99,13 +99,13 @@ module.exports = {
     },
     {
       title: "LEARNING",
-      description: `Im passionite about technology, my actions speak for themselves. I have over <a
+      description: `I'm passionate about technology, my actions speak for themselves. I have over <a
       href = 'https://www.linkedin.com/in/aiden-faulconer/' > 20 online course
       certifications </a> in IT,
       fully competent in more than 3 programming languages,
       and perform daily acts to imporve my
-      development & design skills.I also have
-      multiple gold badges on <a href='https://www.hackerrank.com/aidenf091?hr_r=1'> Hackerrank </a>. Finally, i'm
+      development and design skills. I also have
+      multiple gold badges on <a href='https://www.hackerrank.com/aidenf091?hr_r=1'> Hackerrank </a>. Finally, I'm
       nearing my bachelors degree in software engineering proving my commitment to learning,
       and providing a
       strong university grade education in IT.
@@ -114,34 +114,34 @@ module.exports = {
     },
     {
       title: "3D",
-      description: ` I love 3d, its the dimension we are built for and its also the new frontier for technology. I know the
+      description: ` I love 3D, its the dimension we are built for and its also the new frontier for technology. I know the
       environment really well,
       from my experience building vr applications,
-      3 d modelling,
+      3D modelling,
       and designing
-      for 3 d
+      for 3D
       experiences.All of which comes together to make me a well rounded individial
-      for any 3 d related work.
+      for any 3D related work.
       `,
       summaryPoints: [
-        "Good with Trigonomotry",
-        "Understands Shaders",
-        "Good at 3d Modelling",
-        "Specialised through hobby & professional experience"
+        "Good with trigonometry",
+        "Understands shaders",
+        "Good at 3D modelling",
+        "Specialised through hobby and professional experience"
       ]
     },
     {
       title: "TECHNICAL",
-      description: `Being a developer is about being agile, and working with change not against it. Over my career ive learned a
+      description: `Being a developer is about being agile, and working with change not against it. Over my career i've learned a
       lot,
       I am competent in the following tech.
       `,
       summaryPoints: [
         "AWS",
-        "React, Vue, and Gatsby.js",
-        "C#, Java, and C++",
-        "Drupal, and Wordpress",
-        "MongoDB, and MySQL",
+        "React, vue, and gatsby.js",
+        "C#, java, and C++",
+        "Drupal, and wordpress",
+        "MongoDB, and mysql",
         ".NET, ASP.NET, and any MVC framework"
       ]
     },
@@ -155,7 +155,7 @@ module.exports = {
         "great with typography",
         "love UI design",
         "big on Color theory",
-        "proficient in all Adobe products & Figma"
+        "proficient in all Adobe products and Figma"
       ]
     },
     {
@@ -185,7 +185,7 @@ module.exports = {
     },
     {
       title: "Full-Stack Development",
-      description: `I've been a development lead, and a participant in many exciting software projects. I'll bring my expeirence to help formulate the requirements for your projects, and deploy them in your environments while providing documentation in-and-out of the codebase. Knowing such a wide variety of back-end and front-end technologies/frameworks means ill deffinitly adapt to your technicals needs on your project.`
+      description: `I've been a development lead, and a participant in many exciting software projects. I'll bring my experience to help formulate the requirements for your projects, and deploy them in your environments while providing documentation in-and-out of the codebase. Knowing such a wide variety of back-end and front-end technologies/frameworks means I'll definitely adapt to your technical needs on your project.`
     }
   ],
   about: [
@@ -193,7 +193,7 @@ module.exports = {
       title: "BACKGROUND",
       description: `Before graduating University I was contracted for the Australian War Memorial. I created 3D/VR experiences for the 1.14 million visitors to Nations Capital.
     <pre></pre>
-    Currently I am the Lead Software developer/designer for Mentoras, where I am creating a marketplace for consultants and mentors
+    Currently I am the lead software developer/designer for Mentoras, where I am creating a marketplace for consultants and mentors
     <pre></pre>
     In my free time i’m a freelance designer and software developer. And a vfx artist currently assembling a show-reel`,
       mediaUrl: ""
@@ -219,6 +219,6 @@ module.exports = {
     "UI developer",
     "3D designer",
     "Software Developer",
-    "Lets boost your online presence"
+    "Let's boost your online presence"
   ]
 };

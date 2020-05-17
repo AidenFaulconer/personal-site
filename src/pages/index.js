@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Helmet from "react-helmet";
 import { graphql } from "gatsby";
 import { CSSTransition } from "react-transition-group";
@@ -8,6 +8,8 @@ import SectionBuilder from "../components/section-builder";
 import ThreeComponent from "../components/threejs/three-component";
 import MainThreeJs from "../components/threejs/main-page";
 import LastListened from "../components/last-listened";
+import Loading from "../components/loading";
+
 // when ssr, wrap components using window with this to avoid undefined windowerrors
 // TODO: add google analytics
 
@@ -16,13 +18,28 @@ export default ({
   data: { site }
 }) => {
   const [inProp, setInProp] = useState(false);
+  const [loadProgress, setLoadProgress] = useState(0);
+
+  const loadManager = useCallback(amnt => setLoadProgress(amnt));
+
   useEffect(() => {
     setInProp(true);
-    return () => setInProp(false); // called on component unmount
+
+    if (typeof window !== "undefined") {
+      if (window.localStorage.length) setLoadProgress(1); // we have likley already cached the website on a previous visit
+      window.onload = loadManager(1);
+    }
+
+    return () => {
+      window.removeEventListener(onload, loadManager);
+      setInProp(false);
+    }; // called on component unmount
   }, []); // transition on component load
 
   return (
     <>
+      <Loading loadProgress={loadProgress} />
+
       <Layout LeftPanelContent={() => <></>} RightPanelContent={LastListened}>
         <Helmet>
           <title>{site.siteMetadata.title}</title>

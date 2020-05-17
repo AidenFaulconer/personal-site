@@ -98,7 +98,7 @@ export default class extends View {
       // this.audio.autoplay = true;
       this.audio.src = `/sounds/Whippin.mp3`;
       this.audio.load();
-      this.audio.play();
+      // this.audio.play();
 
       this.analyser.connect(this.context.destination);
       this.analyser.fftSize = 512;
@@ -113,7 +113,7 @@ export default class extends View {
       this.camera.lookAt(this.scene.position);
 
       this.audio.addEventListener("canplay", () => {
-        this.audioEnabled = true;
+        // this.audioEnabled = true;
       });
 
       // start audio on user interaction
@@ -129,7 +129,8 @@ export default class extends View {
       );
       this.analyser.getByteFrequencyData(this.dataArray);
 
-      this.window.onload = () => (this.audio.src = `/sounds/Whippin.mp3`);
+      // this.window.onload = () => (
+      // );
 
       // opacify(this.analyser);
     }
@@ -166,7 +167,7 @@ export default class extends View {
     this.plane2.position.set(0, -45, 0);
     this.group.add(this.plane2);
 
-    this.icosahedronGeometry = new IcosahedronGeometry(8, 4);
+    this.icosahedronGeometry = new IcosahedronGeometry(10, 4);
     this.lambertMaterial = new MeshLambertMaterial({
       color: "#8CF2D9",
       wireframe: true
@@ -197,6 +198,12 @@ export default class extends View {
 
     this.scene.background = new Color(threeConfig.background.color);
     // #endregion scene
+
+    // #region loading manager
+    // DefaultLoadingManager.onProgress = (url, itemsLoaded, itemsTotal) =>
+    //   (global.windowLoadProgress = Math.floor(itemsLoaded / itemsTotal));
+    // DefaultLoadingManager.onLoad = () => (global.windowLoadProgress = 1 && console.log(global.windowLoadProgress));
+    // #endregion loading manager
     if (typeof window !== "undefined") this.update();
   }
 
@@ -298,15 +305,15 @@ export default class extends View {
     const r = time * 0.0005;
 
     if (lowerMax < 1) {
-      upperAvgFr = 0.25;
-      lowerMaxFr = 0.25;
+      upperAvgFr = 0.15;
+      lowerMaxFr = 0.35;
     } else {
       upperAvgFr = upperAvg / upperHalfArray.length;
-      lowerMaxFr = lowerMax / lowerHalfArray.length / 2;
+      lowerMaxFr = lowerMax / lowerHalfArray.length / 1.5;
     }
 
     // this.makeRoughGround(this.plane, modulate(upperAvgFr, 0, 1, 0.5, 4));
-    const groundModulate = this.modulate(lowerMaxFr * 1.5, 0, 1, 0.5, 4);
+    const groundModulate = this.modulate(lowerMaxFr * 2.5, 0, 1, 0.5, 4);
     this.makeRoughGround(groundModulate, time);
 
     const yModulate = this.modulate(Math.pow(lowerMaxFr, 0.8), 0, 1, 0, 8);

@@ -71,9 +71,9 @@ export default ({ setPageProgress }) => {
   const [localState, updateLocalState] = useState(false); // forces a re-render of the compnent, which is required for consistent local functin state and jsx state
   // #region local function state (not for use in jsx!!!) requires component refresh to update
   const offset = 0;
-  let prevPosition = 0;
-  let sectionCPY = [];
   let ellipses = [];
+  let sectionCPY = [];
+  let prevPosition = 0;
   let sectionBreakpoints = [];
   // #endregion local function state (not reliable for use in jsx!!!)
 
