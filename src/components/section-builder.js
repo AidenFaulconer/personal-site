@@ -96,7 +96,7 @@ export const Projects = ({ data }) => {
               <div
                 className="projects__card"
                 key={`${title}-card`}
-                onClick={() => toggleProjectViewer(true)}
+                // onClick={() => toggleProjectViewer(true)}
               >
                 <h2 className="title" attribute="title" key={`${title}-title`}>
                   {title}

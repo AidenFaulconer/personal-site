@@ -20,21 +20,24 @@ export default ({
   const [inProp, setInProp] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
 
+  // allow use of state outside react DOM
   const loadManager = useCallback(amnt => setLoadProgress(amnt));
 
   useEffect(() => {
-    setInProp(true);
+
+    setInProp(true); // transition on component load
 
     if (typeof window !== "undefined") {
-      if (window.localStorage.length) setLoadProgress(1); // we have likley already cached the website on a previous visit
-      window.onload = loadManager(1);
+      if (window.localStorage.length >= 1) loadManager(1); // we have likley already cached the website on a previous visit
+      window.onload = loadManager(1); // let DOM interact with React DOM
     }
 
     return () => {
       window.removeEventListener(onload, loadManager);
       setInProp(false);
     }; // called on component unmount
-  }, []); // transition on component load
+
+  }, []);
 
   return (
     <>

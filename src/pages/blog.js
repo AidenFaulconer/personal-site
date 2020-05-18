@@ -14,7 +14,11 @@ export default () => {
   }, []); // transition on component load
 
   return (
-    <Layout pageState="blog" RightPanelContent={() => <></>} LeftPanelContent={()=><></>}>
+    <Layout
+      pageState="blog"
+      RightPanelContent={() => <></>}
+      LeftPanelContent={() => <></>}
+    >
       <Helmet />
       <CSSTransition in={inProp} timeout={1000} classNames="right-transition">
         <div className="blog-main">

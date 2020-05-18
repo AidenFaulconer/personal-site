@@ -7,12 +7,12 @@ module.exports = {
       objectives: "",
       results: ""
     },
-    {
-      name: "corona-visualization",
-      about: "",
-      objectives: "",
-      results: ""
-    }
+    // {
+    //   name: "corona-visualization",
+    //   about: "",
+    //   objectives: "",
+    //   results: ""
+    // }
   ],
   projects: [
     {

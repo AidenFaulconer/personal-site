@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group";
-import { logoSvg } from "./layout"; // TODO: export svgs from a js file not individual component files
+import { logoSvg } from "../../static/svg/hardcoded-svgs";
 
 export default ({ loadProgress }) => {
   // if site cached, forget loading screen
   useEffect(() => {
-   //  if (Cache.length >= 0) setLoadProgress(1);
+    // if (win.length >= 0) loadProgress = 1;
   }, []);
 
   // useEffect(() => {}, loadProgress);
@@ -35,7 +35,7 @@ export default ({ loadProgress }) => {
           <div className="loading__content">
             <div
               className="loading-logo"
-              dangerouslySetInnerHTML={{ __html: logoSvg[0] }}
+              dangerouslySetInnerHTML={{ __html: logoSvg }}
             />
             <img
               src="http://samherbert.net/svg-loaders/svg-loaders/puff.svg"

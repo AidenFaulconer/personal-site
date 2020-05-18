@@ -1389,7 +1389,6 @@ $ellipses-slider: (slides: 5,
 .form-container {
   background-color: #f7f8fe;
   padding: 32px;
-  border: 1px solid #d3d6e7;
   border-radius: 9px;
 
   label {
@@ -1416,8 +1415,15 @@ $ellipses-slider: (slides: 5,
 }
 
 .two-grids {
+  @include borderRadius1();
+  border: $border;
+  position: relative;
+  width: $panel-offset * 10.7;
   display: grid;
+  padding: $panel-offset $standard-margin;
+  left: $panel-offset;
   grid-gap: 32px;
+  color: $foreground-color;
 
   &.-contact {
     .post-thumbnail {

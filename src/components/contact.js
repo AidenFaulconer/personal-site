@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Helmet from "react-helmet";
 import { graphql } from "gatsby";
-import Layout from "../components/layout";
+import validator from "validator";
+import Layout from "./layout";
 
 const ContactPage = ({ data: { site } }) => {
+  const checkInput = useCallback(input => {
+    // validator.blacklist()//configure
+    // validator.stripLow(input)//sanitize
+    // validator.trim(input)//sanitize
+    // validator.isEmail(input)
+    // validator.isLength(input,400)
+    // validator.isJSON(input)//fail
+  });
+
   return (
     <Layout LeftPanelContent={() => <></>} RightPanelContent={() => <></>}>
       <Helmet>
@@ -14,7 +24,7 @@ const ContactPage = ({ data: { site } }) => {
         <div
           className="post-thumbnail"
           style={{
-            backgroundImage: `url('/assets/alexander-andrews-HgUDpaGPTEA-unsplash.jpg')`,
+            backgroundImage: `url('https://i.imgur.com/6q9idRJ.jpg')`,
             marginBottom: 0
           }}
         >
@@ -24,24 +34,26 @@ const ContactPage = ({ data: { site } }) => {
         <div>
           <form
             className="form-container"
-            action="https://sendmail.w3layouts.com/SubmitContactForm"
-            method="post"
+            method="POST"
+            encType="multipart/form-data"
+            name="enquire"
+            action="mailto:aidenf09@yahoo.com"
           >
             <div>
-              <label htmlFor="w3lName">Name</label>
-              <input type="text" name="w3lName" id="w3lName" />
+              <label htmlFor="Name">Name</label>
+              <input type="text" name="Name" id="Name" />
             </div>
             <div>
-              <label htmlFor="w3lSender">Email</label>
-              <input type="email" name="w3lSender" id="w3lSender" />
+              <label htmlFor="Sender">Email</label>
+              <input type="email" name="Sender" id="Sender" />
             </div>
             <div>
-              <label htmlFor="w3lSubject">Subject</label>
-              <input type="text" name="w3lSubject" id="w3lSubject" />
+              <label htmlFor="Subject">Subject</label>
+              <input type="text" name="Subject" id="Subject" />
             </div>
             <div>
-              <label htmlFor="w3lMessage">Message</label>
-              <textarea name="w3lMessage" id="w3lMessage" />
+              <label htmlFor="Message">Message</label>
+              <textarea name="Message" id="Message" />
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <input

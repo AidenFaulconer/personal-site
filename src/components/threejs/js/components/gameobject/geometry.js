@@ -105,7 +105,7 @@ export default class Geometry {
               childMesh.scale.set(...config.scale);
               childMesh.position.set(...config.position);
               childMesh.rotation.set(...config.rotation);
-              console.log(childMesh.name)
+              console.log(childMesh.name);
               // check for fx on object and append them to material
             });
           }
