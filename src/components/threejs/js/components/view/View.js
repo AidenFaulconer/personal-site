@@ -110,7 +110,7 @@ export default class {
     if (typeof window !== "undefined") {
       this.camera.aspect = window.innerWidth / window.innerHeight;
       this.camera.updateProjectionMatrix();
-      this.renderer.setSize(window.innerWidth, window.innPerHeight);
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
   }
 
