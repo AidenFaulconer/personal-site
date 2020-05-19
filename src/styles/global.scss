@@ -1252,7 +1252,7 @@ $ellipses-slider: (slides: 5,
 
 .post {
   padding: $standard-margin;
-  padding-left: $panel-offset * 1.5;
+
 
   >.blog-post-content {
     @include borderRadius1();
@@ -1280,7 +1280,15 @@ $ellipses-slider: (slides: 5,
   }
 
   @include media-breakpoint-between(sm, md) {
-    padding-left: $panel-offset;
+    padding-left: $panel-offset * 1.25;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $standard-margin;
+  }
+
+  @include media-breakpoint-up(md) {
+    padding-left: $panel-offset * 1.25;
   }
 
 }
