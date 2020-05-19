@@ -1,7 +1,6 @@
 //reset stupid differences in css from each browser
 // @import '../../node_modules/reset-css/sass/_reset.scss';
 
-
 // #region custom page colors
 $secondary-color: #100A29;
 $foreground-color: #080515;
@@ -308,7 +307,7 @@ $gradient-color: $foreground-color;
 //#endregion animation mixins
 
 @mixin shadow1 {
-  box-shadow: 10px 10px 20px rgba($foreground-color, $alpha: .25);
+  box-shadow: 2px 1px 10px rgba($foreground-color, $alpha: .25), -2px -1px 10px rgba($foreground-color, $alpha: .25);
 }
 
 @mixin shadow2 {
@@ -318,7 +317,7 @@ $gradient-color: $foreground-color;
 
 //#region sass imports
 @import '../../node_modules/bootstrap-scss/mixins';
-
+@use "@material/ripple";
 //#region hamburger menu styling and importation
 $hamburger-layer-color: $primary-color;
 $hamburger-layer-width: 3.5em; //WAS 60PX
@@ -786,8 +785,11 @@ $hero-header: 90vh;
   //where the nav bar resides
   &.left {
     left: 0px;
+    border: $border;
     @include hoverFillTop();
     @include animation1();
+    background: rgba($foreground-color, .4);
+
 
     & .branding {
       fill: $primary-color;
@@ -815,22 +817,22 @@ $hero-header: 90vh;
         }
 
         & #progress-indicator {
-          overflow: visible;
+          // overflow: visible;
           background: rgba($foreground-color, .9);
-          margin: 0 auto;
+          margin: auto;
+
           z-index: -1;
           position: relative;
           display: block;
           @include borderRadius100();
           border: $border;
-          @include shadow2();
 
           // width: max-content
           & circle {
+            border: $border;
             stroke: $primary-color;
-            stroke-width: 2px;
-            transform-origin: 50% 50%;
-            // transition: stroke-dashoffset 0.35s;
+            stroke-width: 3px;
+            transform-origin: 50% 51%;
             @include rotate-90();
           }
 
@@ -931,7 +933,7 @@ $hero-header: 90vh;
 .hamburger {
   z-index: 1001;
   position: fixed;
-  top: 2%;
+  top: $mobile-standard-margin * 1.5;
   right: 0%;
   display: none;
 
@@ -1035,7 +1037,6 @@ $ellipses-slider: (slides: 5,
     width: 85%;
 
     @include media-breakpoint-down(md) {
-      @include shadow1();
       border: none;
       background: transparent;
     }
@@ -1045,7 +1046,7 @@ $ellipses-slider: (slides: 5,
       width: 100%;
       background: rgba($third-text-color, .025);
       border: $border;
-      padding: $standard-margin * .25;
+      padding: $standard-margin * .25 $standard-margin * .1;
       @include shadow2();
       @include borderRadius1();
       text-align: center;
@@ -1250,8 +1251,7 @@ $ellipses-slider: (slides: 5,
 
 .post {
   padding: $standard-margin;
-  background: $foreground-color;
-
+  padding-left: $panel-offset * 1.5;
 
   >.blog-post-content {
     @include borderRadius1();
@@ -1449,7 +1449,7 @@ $ellipses-slider: (slides: 5,
     fill: inherit;
     color: inherit;
     z-index: 0;
-    padding-left: $panel-offset;
+    padding-left: $panel-offset * 1.5;
     @include occupyContainer();
 
     @include media-breakpoint-down(sm) {

@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@analytics/google-analytics": "^0.3.1",
+    "@material-ui/core": "^4.9.14",
+    "@material/ripple": "^6.0.0",
     "analytics": "^0.3.5",
     "aos": "^2.3.4",
     "axios": "^0.19.2",

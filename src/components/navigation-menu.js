@@ -112,9 +112,9 @@ export default ({ setPageProgress }) => {
   const handleCurrentPosition = useCallback(() => {
     let thisPosition;
     if (typeof window !== "undefined") {
-      thisPosition = window.scrollY + window.innerHeight/2;//add half the view size to offset the scroll y distance
+      thisPosition = window.scrollY + window.innerHeight / 2; // add half the view size to offset the scroll y distance
     } else {
-      thisPosition = document.body.scrollTop + document.body.clientHeight/2;
+      thisPosition = document.body.scrollTop + document.body.clientHeight / 2;
     }
     const thisPageProgress =
       (thisPosition / sectionBreakpoints[sectionBreakpoints.length - 1]) * 100;
@@ -195,7 +195,7 @@ export default ({ setPageProgress }) => {
               />
             )) // sass logic handles which one is checked
             }
-            <div id="slider">
+            <div id="slider" className="mdc-ripple-surface">
               {sections.map((sectionName, i) => (
                 <label key={`label${i}`} htmlFor={`ellipses-page__${i}`}>
                   <span key={`text${i}`} className="slider-label">
