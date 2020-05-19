@@ -696,7 +696,7 @@ $hero-header: 90vh;
     font-size: $small;
     display: flex;
     justify-content: center;
-    color: $primary-color;
+    // color: $primary-color;
     width: 100%;
     position: relative;
     margin: auto;
@@ -710,6 +710,7 @@ $hero-header: 90vh;
     }
 
     & .typewriter {
+      opacity: .6;
       margin-top: 0px;
       font-family: 'brown-light';
       position: relative;
