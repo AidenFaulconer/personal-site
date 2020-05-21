@@ -12,7 +12,8 @@ import {
   MeshLambertMaterial,
   SpotLight,
   Vector3,
-  FrontSide
+  FrontSide,
+  BackSide
 } from "three";
 
 // boiler plate setup
@@ -151,9 +152,10 @@ export default class extends View {
       planeDetail
     );
     this.planeMaterial = new MeshLambertMaterial({
-      color: "#8CF2D9",
-      side: FrontSide,
-      opacity: threeConfig.isMobile ? 0 : 0.25,
+      color: "#868892",
+      side: BackSide,
+      transparent: true,
+      opacity: threeConfig.isMobile ? 0 : 1,
       wireframe: true
     });
 
@@ -174,7 +176,7 @@ export default class extends View {
     });
 
     this.ball = new Mesh(this.icosahedronGeometry, this.lambertMaterial);
-    this.ball.position.set(0, 0, 0);
+    this.ball.position.set(0, -12, 0);
     this.group.add(this.ball);
 
     this.ambientLight = new AmbientLight(0xaaaaaa);

@@ -21,17 +21,15 @@ export default React.memo(() => (
     `}
     render={data => (
       <section className="hero-header" id="main">
-        <div className="headline">{data.site.siteMetadata.home.title}</div>
         <div className="primary-content">
           <TypeWriter
             typewriterText={data.site.siteMetadata.contentConfig.description}
           />
         </div>
-        {/**
+        <div className="headline">{data.site.siteMetadata.home.title}</div>
         <Link to="#contact" className="button -primary">
           Get in touch &rarr;
         </Link>
-         */}
       </section>
     )}
   />

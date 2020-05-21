@@ -371,7 +371,7 @@ $container-max-widths: (sm: 540px,
 //#endregion golden ratio font calculator
 
 //#region desktop element dimension properties
-$panel-offset: 150px;
+$panel-offset: 140px;
 $standard-margin: 25px;
 $standard-margin: 3vh;
 $section-margin: 23vh;
@@ -391,6 +391,8 @@ $p: 1.618em;
 $h2: 2.618em;
 $h1: 4.236em;
 $title: 6.854em;
+$min-svg1: 25px;
+$max-svg1: 35px;
 
 
 // #region custom properties
@@ -582,7 +584,6 @@ html,
 body {
   color: $primary-text-color;
   margin: 0;
-  padding: 0;
   letter-spacing: 90%;
   scroll-behavior: smooth;
   font-size: $baseFontSize;
@@ -593,7 +594,6 @@ body {
 
   //tablet
   @include media-breakpoint-between(sm, lg) {
-
     font-size: .9em; //drop font size by 25%
   }
 
@@ -670,16 +670,18 @@ $hero-header: 90vh;
 
 //TODO: move site header out of hero header
 .hero-header {
-  padding: 0 14%;
-  padding-top: $standard-margin * .7;
-  padding-bottom: $standard-margin * 6;
-  padding-left: 10%;
-  // calc($panel-offset + $standard-margin);
-  // height: $hero-header;
+  padding-bottom: $standard-margin * 9;
+  padding-top: 1.5%;
+  padding-left: $panel-offset * .5;
+  @include testBounds();
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   border: none;
 
   .headline {
-    font-size: $h1;
+    top: 50%;
+    font-size: $title;
     width: 100%;
     text-align: center;
     font-family: 'brown-bold';
@@ -692,14 +694,25 @@ $hero-header: 90vh;
     }
   }
 
-  & .primary-content {
-    font-size: $small;
-    display: flex;
-    justify-content: center;
-    // color: $primary-color;
-    width: 100%;
+  & a {
+    margin: 0 auto;
+    margin-top: $standard-margin * .75;
+    top: 0px;
     position: relative;
-    margin: auto;
+
+    @include media-breakpoint-down(sm) {
+      text-align: left;
+      left: 0px;
+      margin-left: 0;
+    }
+  }
+
+  & .primary-content {
+    font-size: $small * .5;
+    display: flex;
+    // justify-content: center;
+    color: $primary-text-color;
+    width: 100%;
     font-weight: 300;
     bottom: 0px;
     height: 100%;
@@ -710,12 +723,11 @@ $hero-header: 90vh;
     }
 
     & .typewriter {
-      opacity: .6;
-      margin-top: 0px;
       font-family: 'brown-light';
       position: relative;
       text-align: center;
-      margin-bottom: $standard-margin;
+      margin: auto;
+      // margin-bottom: $standard-margin;
 
       @include media-breakpoint-down(sm) {
         text-align: left;
@@ -770,13 +782,13 @@ $hero-header: 90vh;
 
 .panel {
   position: fixed;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-content: stretch;
   justify-content: space-between;
   top: 0px;
-  padding: $standard-margin 1.3%;
+  padding: $standard-margin $standard-margin * .25;
   width: $panel-offset;
   color: $third-text-color;
   fill: $primary-color;
@@ -786,10 +798,10 @@ $hero-header: 90vh;
   //where the nav bar resides
   &.left {
     left: 0px;
-    border: $border;
+    // border: $border;
     @include hoverFillTop();
     @include animation1();
-    background: rgba($foreground-color, .4);
+    // background: rgba($foreground-color, .2);
 
 
     & .branding {
@@ -797,7 +809,7 @@ $hero-header: 90vh;
       max-width: 100%;
       z-index: 100;
       position: relative;
-      flex-grow: 2;
+      flex-grow: 1;
 
       & .logo-container {
         position: relative;
@@ -808,11 +820,12 @@ $hero-header: 90vh;
         & .logo {
           position: absolute;
           padding: 25%;
-          left: 1%;
           bottom: 5%;
           @include occupyContainer();
 
           & svg {
+            max-width: $max-svg1 * 2;
+            min-width: $min-svg1 * 2;
             @include occupyContainer();
           }
         }
@@ -821,7 +834,7 @@ $hero-header: 90vh;
           // overflow: visible;
           background: rgba($foreground-color, .9);
           margin: auto;
-
+          left: 0px;
           z-index: -1;
           position: relative;
           display: block;
@@ -832,7 +845,8 @@ $hero-header: 90vh;
           & circle {
             border: $border;
             stroke: $primary-color;
-            stroke-width: 3px;
+            stroke-width: 1.5px;
+            top: -5px;
             transform-origin: 50% 51%;
             @include rotate-90();
           }
@@ -851,28 +865,30 @@ $hero-header: 90vh;
         align-items: center;
         margin: 0 auto;
         margin-top: 30%;
-        max-width: 85%;
+        margin-bottom:
+          $standard-margin;
+        max-width: 100%;
         background: rgba($foreground-color, .9);
-        padding: $standard-margin $standard-margin*.25;
-        border: $border;
+        padding: $standard-margin * .5;
+        // border: $border;
         flex-grow: 3;
 
         @include borderRadius1();
 
         .navigation {
           display: flex;
-          justify-content: space-around;
           flex-direction: column;
-          font-size: $h3;
-          row-gap: $standard-margin/2;
-          font-weight: 300;
+          justify-content: flex-end;
+          font-size: $h3 * .85;
+          font-weight: bolder;
           text-transform: capitalize;
           @include occupyContainer();
 
           a {
             color: $primary-text-color;
             text-decoration: none;
-            margin: 0 8px 0;
+            // margin: 0 8px 0;
+            margin-top: $standard-margin * .5;
             padding: $standard-margin * .25 0;
             border: $border;
             @include shadow2();
@@ -891,10 +907,6 @@ $hero-header: 90vh;
 
           }
 
-        }
-
-        @include media-breakpoint-between(sm, md) {
-          width: 60%;
         }
 
         @include media-breakpoint-down(sm) {
@@ -929,6 +941,216 @@ $hero-header: 90vh;
     }
   }
 }
+
+//#region main navbar (ellipse bar)
+//list to easily add items to
+$ellipses-spacing: 1.5rem;
+$ellipses-slider: (slides: 5,
+  transition-speed: 1.5s);
+
+//sas loops to handle carousel interaction
+//style active
+@for $i from 0 through map_get($ellipses-slider, slides) {
+  #ellipses-page__#{$i}:checked~#slider label[for="ellipses-page__#{$i}"] {
+
+    @include animation3();
+
+    background: rgba($third-text-color, .25);
+
+    & .slider-label {
+      color: $primary-color;
+    }
+
+    & .slider-number {
+      color: $primary-text-color;
+    }
+
+    & svg {
+      fill: $primary-color;
+    }
+  }
+}
+
+.ellipses-bar {
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  // height: 10%;
+  flex-grow: 4;
+
+  // @include testBounds();
+  //desktop navigation bar
+  color: $secondary-text-color;
+
+  // hide input radio fields
+  & input[name="ellipses"] {
+    display: none;
+  }
+
+
+  #slider {
+    background: $foreground-color;
+    // position: relative;
+    display: flex;
+    z-index: 101;
+    font-size: 125%;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: $standard-margin * .5;
+    width: 100%;
+    // border: $border;
+    @include borderRadius1();
+
+    @include media-breakpoint-down(md) {
+      // border: none;
+    }
+
+
+    & label {
+      border: $border;
+      padding: $standard-margin * .25;
+      margin-top: $standard-margin * .5;
+      @include shadow2();
+      @include borderRadius1();
+      text-align: center;
+      display: flex;
+      font-weight: bolder;
+      // flex-wrap: wrap;
+      flex-direction: row;
+      cursor: pointer;
+
+      & .slider-label {
+        font-size: $small;
+        color: $third-text-color;
+        display: inline-block;
+        width: 50%;
+        // margin-top: -5px;
+        margin: auto;
+        // margin-bottom: 5px;
+        width: 100%;
+        text-align: center;
+        order: 3;
+      }
+
+      & .slider-number {
+        display: none;
+      }
+
+      & svg {
+        position: relative;
+        margin: auto;
+        @include occupyContainer();
+        max-width: $max-svg1;
+        min-width: $min-svg1;
+        fill: $third-text-color;
+        order: 2;
+        color: $primary-color;
+        @include animation3();
+      }
+
+      &:hover {
+        & svg {
+          @include animation3();
+          fill: $primary-text-color;
+        }
+
+        background: rgba($primary-color, .25);
+
+        & .slider-label {
+          color: $primary-text-color;
+
+        }
+      }
+
+      @include media-breakpoint-down(md) {
+        background: rgba($foreground-color, 1);
+      }
+
+    }
+
+
+  }
+
+
+  //tablet navigation bar
+  @include media-breakpoint-down(md) {
+    #slider {
+      font-size: 1.5em;
+
+      & label {
+        flex-direction: column;
+
+        & svg {
+          // max-width: $max-svg1;
+          min-width: $max-svg1;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    visibility: hidden;
+  }
+
+}
+
+//#region social media links
+#social-media-bar {
+  @include borderRadius1();
+  width: 100%;
+  display: flex;
+  fill: inherit;
+  z-index: 1;
+  color: inherit;
+  justify-content: space-evenly;
+  flex-direction: row;
+
+  & a {
+    margin: auto;
+    position: relative;
+    justify-content: center;
+    fill: inherit;
+    color: $primary-color;
+    cursor: pointer;
+    @include occupyContainer();
+
+    & svg {
+      max-width: $max-svg1;
+      max-width: $min-svg1;
+    }
+
+    &:hover svg {
+      fill: $primary-text-color;
+    }
+  }
+
+  @include media-breakpoint-between(sm, lg) {
+    // display: none;
+  }
+
+  @include media-breakpoint-down(sm) {
+    // display: none;
+  }
+}
+
+//#endregion social media links
+
+.site-title a {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  font-weight: 500;
+  left: -100%;
+  width: 150%;
+  text-transform: uppercase;
+  text-align: left;
+  fill: inherit;
+  z-index: 1;
+}
+
+
+//#endregion nav bar
 
 
 .hamburger {
@@ -976,204 +1198,6 @@ $hero-header: 90vh;
   display: block;
 }
 
-//#region main navbar (ellipse bar)
-//list to easily add items to
-$ellipses-spacing: 1.5rem;
-$ellipses-slider: (slides: 5,
-  transition-speed: 1.5s);
-
-//sas loops to handle carousel interaction
-//style active
-@for $i from 0 through map_get($ellipses-slider, slides) {
-  #ellipses-page__#{$i}:checked~#slider label[for="ellipses-page__#{$i}"] {
-
-    @include animation3();
-
-    background: rgba($third-text-color, .25);
-
-    & .slider-label {
-      color: $primary-color;
-    }
-
-    & .slider-number {
-      color: $primary-text-color;
-    }
-
-    & svg {
-      fill: $primary-color;
-    }
-  }
-}
-
-.ellipses-bar {
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 0%;
-  flex-grow: 1;
-
-  // @include testBounds();
-  //desktop navigation bar
-  color: $secondary-text-color;
-
-  // hide input radio fields
-  & input[name="ellipses"] {
-    display: none;
-  }
-
-
-  #slider {
-    padding: $standard-margin * .5;
-    background: $foreground-color;
-    // position: relative;
-    display: flex;
-    z-index: 101;
-    justify-content: space-evenly;
-    flex-direction: column;
-    // width: 60%;
-    border: $border;
-    @include borderRadius1();
-    height: 100%;
-    width: 85%;
-
-    @include media-breakpoint-down(md) {
-      border: none;
-      background: transparent;
-    }
-
-
-    & label {
-      width: 100%;
-      background: rgba($third-text-color, .025);
-      border: $border;
-      padding: $standard-margin * .25 $standard-margin * .1;
-      @include shadow2();
-      @include borderRadius1();
-      text-align: center;
-      display: flex;
-      margin: 5px 0;
-      font-weight: bolder;
-      flex-direction: column;
-      cursor: pointer;
-
-      & .slider-label {
-        font-size: $small;
-        color: $third-text-color;
-        display: inline-block;
-        margin-top: -10px;
-        width: 100%;
-        text-align: center;
-        order: 3;
-      }
-
-      & .slider-number {
-        display: none;
-      }
-
-      & svg {
-        display: inline-flex;
-        position: relative;
-        margin: 0% auto;
-        @include occupyContainer();
-        max-width: 45px;
-        fill: $third-text-color;
-        order: 2;
-        color: $primary-color;
-        @include animation3();
-      }
-
-      &:hover {
-        & svg {
-          @include animation3();
-          fill: $primary-text-color;
-        }
-
-        background: rgba($primary-color, .25);
-
-        & .slider-label {
-          color: $primary-text-color;
-
-        }
-      }
-
-      @include media-breakpoint-down(md) {
-        background: rgba($foreground-color, 1);
-      }
-
-    }
-
-
-  }
-
-
-  //tablet navigation bar
-  @include media-breakpoint-between(sm, lg) {
-
-    #slider {
-      font-size: 1.5em;
-      padding: 0%;
-      width: 60%;
-      margin: auto;
-    }
-  }
-
-  @include media-breakpoint-down(sm) {
-    visibility: hidden;
-  }
-
-}
-
-//#region social media links
-#social-media-bar {
-  @include borderRadius1();
-  width: 100%;
-  display: flex;
-  fill: inherit;
-  z-index: 1;
-  color: inherit;
-  justify-content: space-evenly;
-  flex-direction: row;
-
-  & a {
-    position: relative;
-    justify-content: center;
-    fill: inherit;
-    color: $primary-color;
-    cursor: pointer;
-
-    &:hover svg {
-      fill: $primary-text-color;
-    }
-  }
-
-  @include media-breakpoint-between(sm, lg) {
-    display: none;
-  }
-
-  @include media-breakpoint-down(sm) {
-    display: none;
-  }
-}
-
-//#endregion social media links
-
-.site-title a {
-  display: block;
-  position: relative;
-  text-decoration: none;
-  font-weight: 500;
-  left: -50%;
-  width: 150%;
-  text-transform: uppercase;
-  text-align: right;
-  fill: inherit;
-  z-index: 1;
-}
-
-
-//#endregion nav bar
-
 //#region loading screen
 .loading {
   position: absolute;
@@ -1219,7 +1243,7 @@ $ellipses-slider: (slides: 5,
 //#region blog styling
 
 .button {
-  padding: 9px 18px;
+  padding: $standard-margin * .5;
   display: inline-block;
   background: #fff;
   border: 1px solid #d3d6e7;
@@ -1288,7 +1312,7 @@ $ellipses-slider: (slides: 5,
   }
 
   @include media-breakpoint-up(md) {
-    padding-left: $panel-offset * 1.25;
+    padding-left: $panel-offset * 1.2 5;
   }
 
 }
@@ -1345,6 +1369,7 @@ $ellipses-slider: (slides: 5,
   @include shadow2();
   border: $border;
   overflow: hidden;
+  min-width: 300px;
 
 
   &:hover .post-link {
@@ -1596,11 +1621,7 @@ $ellipses-slider: (slides: 5,
 
 
 audio {
-  width: d; //odd hack to override styles in chrome
   @include borderRadius1();
-  @include shadow2();
-  background: $foreground-color;
-  border: $border;
 }
 
 //#region content styling
@@ -1613,7 +1634,7 @@ section {
   min-height: 45vh; //ensures sections are large enough to be calculated by navigation menu
   // @include shadow2();
 
-  @include media-breakpoint-between(sm, lg) {
+  @include media-breakpoint-down(md) {
     width: 80%;
     padding-left: $panel-offset;
     position: relative;
@@ -1640,7 +1661,7 @@ section {
   & .section__header {
     z-index: -1;
     padding: 0%;
-    padding-left: $standard-margin;
+    padding-left: $standard-margin * 4;
     text-transform: capitalize;
     width: 100%;
     display: flex;
@@ -1652,6 +1673,11 @@ section {
     @include media-breakpoint-down(sm) {
       background: transparent;
       font-size: $small;
+    }
+
+    @include media-breakpoint-down(md) {
+      background: transparent;
+      font-size: $h3;
     }
   }
 
@@ -1670,6 +1696,8 @@ section {
     & .section__grid {
       color: $secondary-color;
       display: grid;
+      padding: 0 $standard-margin * 3;
+
       grid-template-columns: 1fr 1fr 1fr;
       grid-gap: $standard-margin * .1;
       height: 5%;
@@ -1677,11 +1705,11 @@ section {
 
       //mobile
 
-      @include media-breakpoint-between(sm, lg) {
+      @include media-breakpoint-down(lg) {
         grid-template-columns: 1fr 1fr;
       }
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         padding: 2%;
         grid-gap: 10px;
         overflow: scroll;
@@ -1689,12 +1717,14 @@ section {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
       }
 
+
       //#region mixins reused with different card types, should remain consistent
       @mixin title {
 
         & .title {
           width: 80%;
-          margin-bottom: $standard-margin * 2;
+          font-size: $p;
+          margin-bottom: $standard-margin;
           line-height: 1em;
 
           //drop margin size on mobile
@@ -1833,6 +1863,7 @@ section {
       //standard grid of cards does not go into into right panel
       & .section__grid__card {
         position: relative;
+        flex-wrap: wrap;
         @include borderRadius1();
         display: grid;
         padding: $standard-margin;
@@ -1858,12 +1889,12 @@ section {
           padding: $standard-margin;
           //mobile
           @include occupyContainer();
-          @include title();
           @include description();
+          @include title();
           @include animation3();
 
-          @include media-breakpoint-down(sm) {
-            min-width: 250px;
+          @include media-breakpoint-down(md) {
+            min-width: 350px;
           }
 
 
@@ -1895,7 +1926,8 @@ section {
           position: relative;
           padding: $standard-margin;
           padding-right: 10%;
-          min-width: 100%;
+          // min-width: 100%;
+          min-width: 300px;
 
           right: 0px;
           @include borderRadius1();
@@ -1912,10 +1944,10 @@ section {
           @include preview();
 
           //mobile
-          @include media-breakpoint-down(sm) {
+          @include media-breakpoint-down(md) {
             //lower this padding in mobile
-            min-width: 290px;
-            margin-top: $standard-margin;
+            min-width: 250px;
+            margin: $standard-margin;
           }
 
           //#region project card hover effect
@@ -1950,13 +1982,13 @@ section {
             font-size: $h3;
             text-align: left;
             font-family: 'brown-light';
-            padding: 3%;
-            color: $primary-text-color;
+            padding: 5%;
+            color: $foreground-color;
             @include shadow2();
-            background: $foreground-color;
+            background: $primary-color;
             border: $border;
-            width: 10%;
-            right: -$standard-margin * 1.5;
+            width: 15%;
+            right: -12%;
             z-index: 3;
             @include verticalText();
             @include animation1();
