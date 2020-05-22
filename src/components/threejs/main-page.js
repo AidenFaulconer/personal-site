@@ -176,7 +176,7 @@ export default class extends View {
     });
 
     this.ball = new Mesh(this.icosahedronGeometry, this.lambertMaterial);
-    this.ball.position.set(0, -12, 0);
+    this.ball.position.set(threeConfig.isMobile ? 0 : 11, -15, 0);
     this.group.add(this.ball);
 
     this.ambientLight = new AmbientLight(0xaaaaaa);

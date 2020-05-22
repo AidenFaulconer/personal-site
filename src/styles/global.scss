@@ -250,7 +250,7 @@ $gradient-color: $foreground-color;
     left: 0px;
     z-index: -1;
     @include animation1(opacity.3s);
-    background: rgba($primary-color, .1);
+    background: rgba($foreground-color, 1);
   }
 
   &:hover {
@@ -371,7 +371,7 @@ $container-max-widths: (sm: 540px,
 //#endregion golden ratio font calculator
 
 //#region desktop element dimension properties
-$panel-offset: 140px;
+$panel-offset: 140px * 1.5;
 $standard-margin: 25px;
 $standard-margin: 3vh;
 $section-margin: 23vh;
@@ -671,72 +671,69 @@ $hero-header: 90vh;
 //TODO: move site header out of hero header
 .hero-header {
   padding-bottom: $standard-margin * 9;
-  padding-top: 1.5%;
-  padding-left: $panel-offset * .5;
+  padding-top: 10%;
+  padding-left: $panel-offset;
   @include testBounds();
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   border: none;
 
-  .headline {
-    top: 50%;
-    font-size: $title;
-    width: 100%;
-    text-align: center;
-    font-family: 'brown-bold';
-    line-height: 100%;
-
-    @include media-breakpoint-down(sm) {
-      font-size: $h1;
-      top: 0px;
-      text-align: left;
-    }
-  }
-
-  & a {
-    margin: 0 auto;
-    margin-top: $standard-margin * .75;
-    top: 0px;
-    position: relative;
-
-    @include media-breakpoint-down(sm) {
-      text-align: left;
-      left: 0px;
-      margin-left: 0;
-    }
+  @include media-breakpoint-down(md) {
+    padding-left: $panel-offset/1.75;
+    width: 80%;
   }
 
   & .primary-content {
-    font-size: $small * .5;
     display: flex;
-    // justify-content: center;
+    flex-direction: column;
+    justify-content: center;
     color: $primary-text-color;
     width: 100%;
     font-weight: 300;
     bottom: 0px;
     height: 100%;
+    text-align: center;
 
-    @include media-breakpoint-down(sm) {
-      font-size: $small;
-      text-align: left;
+    & a {
+      margin: 0 auto;
+      top: 0px;
+      position: relative;
+
+      @include media-breakpoint-down(sm) {
+        text-align: left;
+        left: 0px;
+        margin-top: $mobile-standard-margin * 2;
+        margin-left: 0;
+      }
+    }
+
+    & .headline {
+      top: 50%;
+      font-size: $title;
+      width: 100%;
+      font-family: 'brown-bold';
+      line-height: 100%;
+
+      @include media-breakpoint-down(sm) {
+        font-size: $h1;
+        top: 0px;
+        text-align: left;
+      }
     }
 
     & .typewriter {
-      font-family: 'brown-light';
+      font-size: $h3;
       position: relative;
-      text-align: center;
-      margin: auto;
-      // margin-bottom: $standard-margin;
+      font-family: 'brown-light';
 
       @include media-breakpoint-down(sm) {
+        font-size: $small;
         text-align: left;
         left: 0px;
         display: none;
       }
 
       & span {
-        border-right: .05em solid;
+        border-right: .15em solid;
+        padding-right: .15em;
         animation: caret 1s steps(1) infinite;
         -webkit-animation: caret 1s steps(1) infinite;
       }
@@ -788,7 +785,7 @@ $hero-header: 90vh;
   align-content: stretch;
   justify-content: space-between;
   top: 0px;
-  padding: $standard-margin $standard-margin * .25;
+  padding: $standard-margin 0;
   width: $panel-offset;
   color: $third-text-color;
   fill: $primary-color;
@@ -797,12 +794,22 @@ $hero-header: 90vh;
 
   //where the nav bar resides
   &.left {
+    padding: $standard-margin 1.5%;
     left: 0px;
-    // border: $border;
-    @include hoverFillTop();
+    border-right: $border;
     @include animation1();
-    // background: rgba($foreground-color, .2);
+    background: $primary-color;
 
+    @include media-breakpoint-down(md) {
+      width: $panel-offset/1.5;
+      padding: $mobile-standard-margin;
+    }
+
+    //turn the left panel into a bottom panel (content within this panel have adjustments made indivial of this panel scss hierarchy)
+    @include media-breakpoint-down(sm) {
+      visibility: hidden;
+      display: none;
+    }
 
     & .branding {
       fill: $primary-color;
@@ -819,20 +826,20 @@ $hero-header: 90vh;
 
         & .logo {
           position: absolute;
-          padding: 25%;
+          padding: 20%;
           bottom: 5%;
           @include occupyContainer();
 
           & svg {
-            max-width: $max-svg1 * 2;
-            min-width: $min-svg1 * 2;
+            max-width: $max-svg1 * 3;
+            min-width: $min-svg1 * 3;
             @include occupyContainer();
           }
         }
 
         & #progress-indicator {
           // overflow: visible;
-          background: rgba($foreground-color, .9);
+          background: $foreground-color;
           margin: auto;
           left: 0px;
           z-index: -1;
@@ -845,7 +852,7 @@ $hero-header: 90vh;
           & circle {
             border: $border;
             stroke: $primary-color;
-            stroke-width: 1.5px;
+            stroke-width: 5.5px;
             top: -5px;
             transform-origin: 50% 51%;
             @include rotate-90();
@@ -868,7 +875,6 @@ $hero-header: 90vh;
         margin-bottom:
           $standard-margin;
         max-width: 100%;
-        background: rgba($foreground-color, .9);
         padding: $standard-margin * .5;
         // border: $border;
         flex-grow: 3;
@@ -885,24 +891,26 @@ $hero-header: 90vh;
           @include occupyContainer();
 
           a {
+            background: $foreground-color;
             color: $primary-text-color;
             text-decoration: none;
             // margin: 0 8px 0;
             margin-top: $standard-margin * .5;
             padding: $standard-margin * .25 0;
-            border: $border;
+            border: $border2;
             @include shadow2();
             @include borderRadius1();
 
             &[aria-current] {
-              background: rgba($third-text-color, .25);
-              color: $primary-color;
+
+              background: rgba($foreground-color, .25);
+              color: $primary-text-color;
               font-weight: 700;
             }
 
             &:hover {
-              background: rgba($primary-color, .25);
-              color: $primary-color;
+              background: rgba($foreground-color, .25);
+              // color: $primary-color;
             }
 
           }
@@ -917,16 +925,13 @@ $hero-header: 90vh;
 
     }
 
-    //turn the left panel into a bottom panel (content within this panel have adjustments made indivial of this panel scss hierarchy)
-    @include media-breakpoint-down(sm) {
-      visibility: hidden;
-      display: none;
-    }
+
   }
 
   //moves to left side on breakpoint
   & .right {
     right: 0px;
+    width: $panel-offset / 2;
     z-index: -1;
     pointer-events: none;
 
@@ -955,18 +960,13 @@ $ellipses-slider: (slides: 5,
 
     @include animation3();
 
-    background: rgba($third-text-color, .25);
 
-    & .slider-label {
-      color: $primary-color;
-    }
+    background: rgba($foreground-color, .25);
 
-    & .slider-number {
-      color: $primary-text-color;
-    }
+    color: $primary-text-color;
 
     & svg {
-      fill: $primary-color;
+      fill: currentColor;
     }
   }
 }
@@ -990,7 +990,6 @@ $ellipses-slider: (slides: 5,
 
 
   #slider {
-    background: $foreground-color;
     // position: relative;
     display: flex;
     z-index: 101;
@@ -1008,13 +1007,14 @@ $ellipses-slider: (slides: 5,
 
 
     & label {
-      border: $border;
+      border: $border2;
       padding: $standard-margin * .25;
       margin-top: $standard-margin * .5;
       @include shadow2();
       @include borderRadius1();
       text-align: center;
       display: flex;
+      color: $foreground-color;
       font-weight: bolder;
       // flex-wrap: wrap;
       flex-direction: row;
@@ -1022,7 +1022,6 @@ $ellipses-slider: (slides: 5,
 
       & .slider-label {
         font-size: $small;
-        color: $third-text-color;
         display: inline-block;
         width: 50%;
         // margin-top: -5px;
@@ -1043,29 +1042,21 @@ $ellipses-slider: (slides: 5,
         @include occupyContainer();
         max-width: $max-svg1;
         min-width: $min-svg1;
-        fill: $third-text-color;
+        fill: currentColor;
         order: 2;
-        color: $primary-color;
         @include animation3();
       }
 
       &:hover {
+        color: $primary-text-color;
+        fill: $primary-text-color;
+        background: rgba($foreground-color, .25);
+
         & svg {
           @include animation3();
-          fill: $primary-text-color;
-        }
-
-        background: rgba($primary-color, .25);
-
-        & .slider-label {
-          color: $primary-text-color;
-
         }
       }
 
-      @include media-breakpoint-down(md) {
-        background: rgba($foreground-color, 1);
-      }
 
     }
 
@@ -1276,7 +1267,7 @@ $ellipses-slider: (slides: 5,
 
 .post {
   padding: $standard-margin;
-
+  padding-left: $panel-offset * 1.15;
 
   >.blog-post-content {
     @include borderRadius1();
@@ -1303,8 +1294,8 @@ $ellipses-slider: (slides: 5,
     text-align: center;
   }
 
-  @include media-breakpoint-between(sm, md) {
-    padding-left: $panel-offset * 1.25;
+  @include media-breakpoint-down(md) {
+    padding-left: $panel-offset/1.5 * 1.25;
   }
 
   @include media-breakpoint-down(sm) {
@@ -1483,28 +1474,15 @@ $ellipses-slider: (slides: 5,
     fill: inherit;
     color: inherit;
     z-index: 0;
-    padding-left: $panel-offset * 1.5;
+    padding-left: $panel-offset * 1.15;
     @include occupyContainer();
+
+    @include media-breakpoint-down(md) {
+      padding-left: $panel-offset /1.5 * 1.15;
+    }
 
     @include media-breakpoint-down(sm) {
       padding-left: $mobile-standard-margin * 3;
-    }
-
-    &::before {
-      content: '';
-      pointer-events: none;
-      position: absolute;
-      left: 0px;
-      color: inherit;
-      z-index: 5;
-      width: $panel-offset * 3.25;
-      background: linear-gradient(90deg, currentColor 5%, transparent);
-      height: 100%;
-
-      @include media-breakpoint-down(sm) {
-        width: $mobile-standard-margin * 15;
-      }
-
     }
 
 
@@ -1568,8 +1546,6 @@ $ellipses-slider: (slides: 5,
           @include animation1();
           @include borderRadius1();
 
-          &::after {}
-
 
           &:hover {
             @include animation1();
@@ -1608,7 +1584,7 @@ $ellipses-slider: (slides: 5,
   opacity: 1;
   flex-grow: 5;
   top: 0px;
-  fill: white;
+  fill: $foreground-color;
 
   & svg {
     justify-content: flex-start;
@@ -1626,17 +1602,18 @@ audio {
 
 //#region content styling
 section {
-  width: 80%; //this is modified inline in react
+  width: 80%;
   margin: auto;
   margin-bottom: $standard-margin*4;
   box-sizing: content-box;
+  padding-left: $panel-offset * 1.15;
   z-index: 10;
   min-height: 45vh; //ensures sections are large enough to be calculated by navigation menu
   // @include shadow2();
 
   @include media-breakpoint-down(md) {
-    width: 80%;
-    padding-left: $panel-offset;
+    width: 100%;
+    padding-left: $panel-offset /1.5 * 1.15;
     position: relative;
   }
 
@@ -1661,13 +1638,11 @@ section {
   & .section__header {
     z-index: -1;
     padding: 0%;
-    padding-left: $standard-margin * 4;
     text-transform: capitalize;
     width: 100%;
     display: flex;
     flex-basis: content;
     justify-content: space-between;
-    border-bottom: $border;
 
 
     @include media-breakpoint-down(sm) {
@@ -1696,20 +1671,18 @@ section {
     & .section__grid {
       color: $secondary-color;
       display: grid;
-      padding: 0 $standard-margin * 3;
-
       grid-template-columns: 1fr 1fr 1fr;
       grid-gap: $standard-margin * .1;
       height: 5%;
-      // padding: $standard-margin * 2.5;
 
-      //mobile
 
-      @include media-breakpoint-down(lg) {
-        grid-template-columns: 1fr 1fr;
+      //mobile/tablet
+      @include media-breakpoint-down(md) {
+        overflow: scroll;
+        overflow-y: hidden;
       }
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         padding: 2%;
         grid-gap: 10px;
         overflow: scroll;
