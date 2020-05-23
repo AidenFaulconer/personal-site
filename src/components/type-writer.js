@@ -15,7 +15,7 @@ export default ({ typewriterText }) => {
       setTimeout(() => {
         // wait for a while and call this function again for next character
         typeWriter(text, i + 1, fnCallback);
-      }, 100);
+      }, 70);
     } else if (typeof fnCallback === "function") {
       setTimeout(fnCallback, 200);
     } // call callback after timeout recursivly (HOW FAST IT TYPES)
@@ -47,7 +47,7 @@ export default ({ typewriterText }) => {
 
   return (
     <h2 className="typewriter">
-      <span aria-hidden="true">{showText}</span>
+      <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: showText }} />
     </h2>
   ); // text modified in funciton
 };

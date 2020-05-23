@@ -21,10 +21,8 @@ export default () => {
     >
       <Helmet />
       <CSSTransition in={inProp} timeout={1000} classNames="right-transition">
-        <div className="blog-main">
-          {/** page content   */}
-          <BlogBuilder />
-        </div>
+        {/** page content   */}
+        <BlogBuilder />
       </CSSTransition>
     </Layout>
   );

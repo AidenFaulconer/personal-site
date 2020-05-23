@@ -1,10 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  createRef
+} from "react";
 import { StaticQuery, Link, graphql } from "gatsby";
 // import ProjectViewer from "./project-viewer";
+
+export const postContainer = "section__grid";
 
 // TODO: add a contentID that refs a blog article, or find a better workaround here
 // TODO: dont dangerously set inner html to avoid injeciton vunerabilities, write a script to pre-process it in nodejs rather than in react
 export default React.memo(() => {
+  const clickDrag = useCallback(container => {
+    const slider = document.getElementsByClassName(container);
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    Object.keys(slider).map(elem => {
+      elem = slider[elem];
+
+      elem.addEventListener("mousedown", e => {
+        isDown = true;
+        elem.classList.add("click-active");
+        startX = e.pageX - elem.offsetLeft;
+        scrollLeft = elem.scrollLeft;
+      });
+      elem.addEventListener("mouseleave", () => {
+        isDown = false;
+        elem.classList.remove("click-active");
+      });
+      elem.addEventListener("mouseup", () => {
+        isDown = false;
+        elem.classList.remove("click-active");
+      });
+      elem.addEventListener("mousemove", e => {
+        if (!isDown) return;
+        // e.preventDefault()
+        e.stopPropagation();
+        const x = e.pageX - elem.offsetLeft;
+        const walk = (x - startX) * 3; // scroll-fast
+        elem.scrollLeft = scrollLeft - walk;
+      });
+    });
+  });
+
+  const [inProp, setInProp] = useState(false);
+  useEffect(() => {
+    // enableSidewayScrolling(postContainer); // enable sideways scrolling
+    clickDrag(postContainer);
+    setInProp(true);
+    return () => setInProp(false); // called on component unmount
+  }, []);
+
   return (
     <StaticQuery
       query={graphql`
@@ -55,7 +104,7 @@ export default React.memo(() => {
               <section
                 id={sectionName}
                 key={sectionName + i}
-                styles={sectionStyles[sectionName]}
+                style={{ background: i % 2 !== 0 ? "#201E2B" : "" }}
               >
                 <div className="section__header" key={`${sectionName}-header`}>
                   <h1 data-aos="fade-up" key={`${sectionName}-h1`}>
@@ -98,9 +147,9 @@ export const Projects = ({ data }) => {
                 key={`${title}-card`}
                 // onClick={() => toggleProjectViewer(true)}
               >
-                <h2 className="title" attribute="title" key={`${title}-title`}>
+                <p className="title" attribute="title" key={`${title}-title`}>
                   {title}
-                </h2>
+                </p>
                 <h3
                   className="description"
                   attribute="description"
@@ -142,9 +191,9 @@ export const Skills = ({ data }) => (
       return (
         <article className="section__grid__card">
           <div className="card">
-            <h2 className="title" attribute="title">
+            <p className="title" attribute="title">
               {title}
-            </h2>
+            </p>
             <h3
               className="description"
               attribute="description"
@@ -185,14 +234,17 @@ export const About = ({ data }) => {
               )) || (
                 // spawn card for details
                 <>
-                  <h2 className="title" attribute="title">
+                  <p className="title" attribute="title">
                     {title}
-                  </h2>
-                  <h3
-                    className="description"
-                    attribute="description"
-                    dangerouslySetInnerHTML={{ __html: description }}
-                  />
+                  </p>
+
+                  <ul>
+                    <h3
+                      className="description"
+                      attribute="description"
+                      dangerouslySetInnerHTML={{ __html: description }}
+                    />
+                  </ul>
                 </>
               )}
             </div>
@@ -212,12 +264,14 @@ export const Services = ({ data }) => (
       return (
         <article className="section__grid__card">
           <div className="card">
-            <h2 className="title" attribute="title">
+            <p className="title" attribute="title">
               {title}
-            </h2>
-            <h3 className="description" attribute="description">
-              {description}
-            </h3>
+            </p>
+            <ul>
+              <h3 className="description" attribute="description">
+                {description}
+              </h3>
+            </ul>
           </div>
         </article>
       );
@@ -225,40 +279,80 @@ export const Services = ({ data }) => (
   </div>
 );
 
-export const Contact = ({ data }) => (
-  <div className="section__grid">
-    {/** build cards from data */}
-    {data.map(card => {
-      const { title, value } = card;
-      return (
-        <article className="section__grid__card">
-          <div className="card">
-            <h2 className="title" attribute="title">
-              {title}
-            </h2>
-            <h3 className="description" attribute="description">
-              {value}
-            </h3>
-          </div>
-        </article>
-      );
-    })}
-  </div>
-);
+export const Contact = ({ data }) => {
+  const [tooltipAlert, setTooltipAlert] = useState("Copy to clipboard");
 
-export const sectionStyles = {
-  skills: { borderTop: "5px solid #F28C8C" },
-  about: { borderTop: "5px solid #8CF2D9" },
-  projects: { borderTop: "5px solid #A68CF2" },
-  services: { borderTop: "5px solid #A68CF2" },
-  contact: { borderTop: "5px solid #F2D08C" }
+  const copyText = useCallback(id => {
+    const inputElem = document.getElementById(id);
+    inputElem.select();
+    inputElem.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+
+    setTooltipAlert(`Copied: ${inputElem.value}`);
+  });
+
+  const tooltipExiit = useCallback(() => {
+    setTooltipAlert("Copy to clipboard");
+  });
+
+  return (
+    <div className="section__grid">
+      {/** build cards from data */}
+      {data.map(card => {
+        const { title, value } = card;
+        return (
+          <article className="section__grid__card">
+            <div className="card" style={{ textAlign: "center" }} key={title}>
+              <h1 className="title" attribute="title">
+                {title}
+              </h1>
+              <h3 className="description" attribute="description">
+                <input type="text" value={value} id={value} />
+              </h3>
+              <ul>
+                <li>
+                  <a
+                    style={{ color: "black" }}
+                    type="button"
+                    href={
+                      title === "phone"
+                        ? `tel:${value.trim()}`
+                        : `mailto:${value}`
+                    }
+                  >
+                    {" "}
+                    {`${title} me`}
+                  </a>
+                </li>
+                <div className="tooltip">
+                  <span className="tooltiptext" key={value}>
+                    {tooltipAlert}
+                  </span>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => copyText(value)}
+                      onMouseOut={() => tooltipExiit()}
+                    >
+                      {" "}
+                      Copy contact detail
+                    </button>
+                  </li>
+                </div>
+              </ul>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
 };
 
 // ref components
 export const sections = {
-  projects: Projects,
-  skills: Skills,
-  about: About,
-  services: Services,
-  contact: Contact
+  projects: React.memo(Projects),
+  skills: React.memo(Skills),
+  about: React.memo(About),
+  services: React.memo(Services),
+  contact: React.memo(Contact)
 };

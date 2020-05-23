@@ -22,7 +22,7 @@ export default class {
     // scene
     this.scene = new Scene();
     this.renderer = new WebGLRenderer({
-      antialias: !threeConfig.isMobile,
+      antialias: true,
       preserveDrawingBuffer: true
     });
 

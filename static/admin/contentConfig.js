@@ -6,7 +6,7 @@ module.exports = {
       about: "",
       objectives: "",
       results: ""
-    },
+    }
     // {
     //   name: "corona-visualization",
     //   about: "",
@@ -215,10 +215,15 @@ module.exports = {
     }
   ],
   description: [
-    "UX designer",
-    "UI developer",
-    "3D designer",
-    "Software Developer",
-    "Let's boost your online presence"
+    `
+    Let’s build and design the future.<br>
+    Any programming language.<br>
+    Any technology.<br>
+    Any design.
+    `
+    // "UX designer",
+    // "UI developer",
+    // "3D designer",
+    // "Software Developer"
   ]
 };

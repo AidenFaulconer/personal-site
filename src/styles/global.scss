@@ -9,6 +9,7 @@ $primary-color-inverse: #7E1B25;
 $primary-text-color: #fff;
 $secondary-text-color: rgba(255, 255, 255, 0.6);
 $third-text-color: rgba(255, 255, 255, 0.1);
+$foreground-color2: #201E2B;
 $gradient-color: $foreground-color;
 // $gradient-color: linear-gradient(-0deg, rgba($foreground-color, .9) 100%,
 //   $secondary-color 99%);
@@ -31,6 +32,48 @@ $gradient-color: $foreground-color;
 @mixin grayscale {
   filter: grayscale(100%);
   -webkit-filter: grayscale(100%);
+}
+
+@mixin tooltip {
+  & .tooltip {
+    position: relative;
+    margin: auto;
+    display: inline-block;
+  }
+
+  & .tooltip .tooltiptext {
+    visibility: hidden;
+    // width: 140px;
+    background-color: #201E2B;
+    border: $border;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  & .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+
+  & .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 // #endregion custom page colorsf
@@ -195,7 +238,7 @@ $gradient-color: $foreground-color;
   }
 
   &:hover::after {
-    @include occupyContainer();
+    @include occupyParent();
     bottom: -25%;
     width: 150%;
     border: .5px solid $primary-text-color;
@@ -238,13 +281,12 @@ $gradient-color: $foreground-color;
   }
 }
 
-
 @mixin hoverFillTop {
 
   &::after {
     content: '';
     position: absolute;
-    @include occupyContainer();
+    @include occupyParent();
     opacity: 0;
     top: 0px;
     left: 0px;
@@ -315,6 +357,12 @@ $gradient-color: $foreground-color;
     -2px -1px 10px rgba($primary-color, $alpha: .06);
 }
 
+@mixin cardSize {
+  max-width: 450px;
+  min-height: 250px;
+  min-width: 300px;
+}
+
 //#region sass imports
 @import '../../node_modules/bootstrap-scss/mixins';
 @use "@material/ripple";
@@ -364,6 +412,9 @@ $container-max-widths: (sm: 540px,
 //#endregion Remy function to convert pixels to rems
 
 
+
+// #region custom properties
+
 //#region golden ratio font calculator https://www.modularscale.com/?1&em&1.2
 // @mixin font-size($scale: 1, $font-size-base: 16) {
 //   font-size: round(($font-size-base * ((exp(1.618, $scale) - exp(-0.618, $scale)) / 2.236)) + ($font-size-minor * ((exp(1.618, ($scale - 1)) - exp(-0.618, ($scale - 1))) / 2.236)));
@@ -371,9 +422,8 @@ $container-max-widths: (sm: 540px,
 //#endregion golden ratio font calculator
 
 //#region desktop element dimension properties
-$panel-offset: 140px * 1.5;
-$standard-margin: 25px;
-$standard-margin: 3vh;
+$panel-offset: 150px * 1.25;
+$standard-margin: 1.5rem;
 $section-margin: 23vh;
 //#endregion desktop element dimension properties
 
@@ -383,22 +433,18 @@ $mobile-standard-margin: 10px;
 $mobile-section-margin: 12vh;
 //#endregion mobile element dimension properties
 
-//offset to fit screen better
-$baseFontSize: 100%;
-$small: 0.618em;
-$h3: 1.0em;
-$p: 1.618em;
-$h2: 2.618em;
-$h1: 4.236em;
-$title: 6.854em;
-$min-svg1: 25px;
-$max-svg1: 35px;
-
-
-// #region custom properties
 $corner:12.5px;
 $border:1px solid rgba(255, 255, 255, .1);
 $border2:1px solid rgba(0, 0, 0, .1);
+
+$small: 0.618rem;
+$h3: 1.0rem;
+$p: 1.618rem;
+$h2: 2.618rem;
+$h1: 4.236rem;
+$title: 6.854rem;
+$min-svg1: 1.5rem;
+$max-svg1: 2.5rem;
 
 
 @mixin borderRadius1 {
@@ -444,17 +490,8 @@ $border2:1px solid rgba(0, 0, 0, .1);
   -o-transform: rotate(-90deg);
 }
 
-
-@mixin rotate-90 {
-  transform: rotate(-90deg);
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  -o-transform: rotate(-90deg);
-}
-
 //common usage, used to fill the parent element container
-@mixin occupyContainer {
+@mixin occupyParent {
   width: 100%;
   height: 100%;
 }
@@ -463,13 +500,11 @@ $border2:1px solid rgba(0, 0, 0, .1);
 
 // #region custom browser styling
 ::selection {
-  color: $primary-color;
-  background: transparent;
+  background: rgba($foreground-color, .1);
 }
 
 ::-moz-selection {
-  color: $primary-color;
-  background: transparent;
+  background: rgba($foreground-color, .1);
 }
 
 button {
@@ -560,51 +595,43 @@ button {
   opacity: 1;
 }
 
-//from script
-.click-active {
-  cursor: grabbing;
-  cursor: -webkit-grabbing;
-  @include animation1(transform);
-  transform: scale(1.05);
-  -webkit-transform: scale(1.05);
-  -moz-transform: scale(1.05);
-  -ms-transform: scale(1.05);
-  -o-transform: scale(1.05);
-
-  & .blog__post {
-    @include shadow1();
-  }
-}
 
 //#endregion react-transition-group stylings
 
 //#region layout styling
-
 html,
 body {
   color: $primary-text-color;
   margin: 0;
   letter-spacing: 90%;
   scroll-behavior: smooth;
-  font-size: $baseFontSize;
+  font-size: 1rem;
 
   font-family: brown-regular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   background: $foreground-color;
   overflow-x: hidden;
 
-  //tablet
-  @include media-breakpoint-between(sm, lg) {
-    font-size: .9em; //drop font size by 25%
+  //#region media queries
+  //phone
+  @include media-breakpoint-up(sm) {
+    font-size: .8rem;
   }
 
-  //mobile
-  @include media-breakpoint-down(sm) {
-    font-size: .85em; //drop font size by 25%
+  //tablet
+  @include media-breakpoint-up(md) {
+    font-size: .9rem;
   }
+
+  //desktop
+  @include media-breakpoint-up(lg) {
+    font-size: 1rem;
+  }
+
+  //#endregion media queries
 }
 
 * {
-  // margin-top: 0;
+  margin-top: 0;
   box-sizing: border-box;
 }
 
@@ -624,614 +651,6 @@ h2 {
 h1 {
   font-size: $h1;
 }
-
-//#endregion text sizing (golden ratio)
-
-
-
-a {
-  color: $primary-color;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.site-wrapper {
-
-
-  overflow: hidden;
-  font-size: $h3;
-  position: absolute;
-  background: transparent; // border: 2px solid red;
-  // left: $panel-offset;
-  left: 0px;
-  width: 100%;
-  // width: $panel-offset*8;
-  // margin: 0 auto;
-
-  img {
-    max-width: 100%;
-  }
-
-
-  //when in mobile, site content positions on the left side (the left panel will dissapear)
-  @include media-breakpoint-down(sm) {
-    left: 0px;
-    width: 100%;
-  }
-}
-
-
-$hero-header: 90vh;
-
-
-
-//TODO: move site header out of hero header
-.hero-header {
-  padding-bottom: $standard-margin * 9;
-  padding-top: 10%;
-  padding-left: $panel-offset;
-  @include testBounds();
-  border: none;
-
-  @include media-breakpoint-down(md) {
-    padding-left: $panel-offset/1.75;
-    width: 80%;
-  }
-
-  & .primary-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: $primary-text-color;
-    width: 100%;
-    font-weight: 300;
-    bottom: 0px;
-    height: 100%;
-    text-align: center;
-
-    & a {
-      margin: 0 auto;
-      top: 0px;
-      position: relative;
-
-      @include media-breakpoint-down(sm) {
-        text-align: left;
-        left: 0px;
-        margin-top: $mobile-standard-margin * 2;
-        margin-left: 0;
-      }
-    }
-
-    & .headline {
-      top: 50%;
-      font-size: $title;
-      width: 100%;
-      font-family: 'brown-bold';
-      line-height: 100%;
-
-      @include media-breakpoint-down(sm) {
-        font-size: $h1;
-        top: 0px;
-        text-align: left;
-      }
-    }
-
-    & .typewriter {
-      font-size: $h3;
-      position: relative;
-      font-family: 'brown-light';
-
-      @include media-breakpoint-down(sm) {
-        font-size: $small;
-        text-align: left;
-        left: 0px;
-        display: none;
-      }
-
-      & span {
-        border-right: .15em solid;
-        padding-right: .15em;
-        animation: caret 1s steps(1) infinite;
-        -webkit-animation: caret 1s steps(1) infinite;
-      }
-
-      @keyframes caret {
-        50% {
-          border-color: transparent;
-        }
-      }
-    }
-  }
-
-  @include media-breakpoint-down(sm) {
-    padding-left: $mobile-standard-margin *3;
-  }
-}
-
-//#region navigation styling
-#canvas {
-  //same size as hero header
-  height: $hero-header;
-  z-index: -1;
-  border-bottom: $border;
-  top: -$standard-margin;
-  position: absolute;
-  @include occupyContainer();
-  overflow: hidden;
-
-  canvas {
-    @include occupyContainer();
-  }
-
-  // @include media-breakpoint-between() {}
-
-  @include media-breakpoint-between(sm, md) {
-    height: 90%;
-    position: fixed;
-  }
-
-  // display: none;
-}
-
-
-.panel {
-  position: fixed;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-content: stretch;
-  justify-content: space-between;
-  top: 0px;
-  padding: $standard-margin 0;
-  width: $panel-offset;
-  color: $third-text-color;
-  fill: $primary-color;
-  z-index: 10;
-
-
-  //where the nav bar resides
-  &.left {
-    padding: $standard-margin 1.5%;
-    left: 0px;
-    border-right: $border;
-    @include animation1();
-    background: $primary-color;
-
-    @include media-breakpoint-down(md) {
-      width: $panel-offset/1.5;
-      padding: $mobile-standard-margin;
-    }
-
-    //turn the left panel into a bottom panel (content within this panel have adjustments made indivial of this panel scss hierarchy)
-    @include media-breakpoint-down(sm) {
-      visibility: hidden;
-      display: none;
-    }
-
-    & .branding {
-      fill: $primary-color;
-      max-width: 100%;
-      z-index: 100;
-      position: relative;
-      flex-grow: 1;
-
-      & .logo-container {
-        position: relative;
-        width: auto;
-        height: auto;
-        margin-bottom: $standard-margin;
-
-        & .logo {
-          position: absolute;
-          padding: 20%;
-          bottom: 5%;
-          @include occupyContainer();
-
-          & svg {
-            max-width: $max-svg1 * 3;
-            min-width: $min-svg1 * 3;
-            @include occupyContainer();
-          }
-        }
-
-        & #progress-indicator {
-          // overflow: visible;
-          background: $foreground-color;
-          margin: auto;
-          left: 0px;
-          z-index: -1;
-          position: relative;
-          display: block;
-          @include borderRadius100();
-          border: $border;
-
-          // width: max-content
-          & circle {
-            border: $border;
-            stroke: $primary-color;
-            stroke-width: 5.5px;
-            top: -5px;
-            transform-origin: 50% 51%;
-            @include rotate-90();
-          }
-
-        }
-
-      }
-
-
-      .site-header {
-        z-index: 3;
-        text-align: center;
-        left: 0px;
-        position: relative;
-        bottom: 0px;
-        align-items: center;
-        margin: 0 auto;
-        margin-top: 30%;
-        margin-bottom:
-          $standard-margin;
-        max-width: 100%;
-        padding: $standard-margin * .5;
-        // border: $border;
-        flex-grow: 3;
-
-        @include borderRadius1();
-
-        .navigation {
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          font-size: $h3 * .85;
-          font-weight: bolder;
-          text-transform: capitalize;
-          @include occupyContainer();
-
-          a {
-            background: $foreground-color;
-            color: $primary-text-color;
-            text-decoration: none;
-            // margin: 0 8px 0;
-            margin-top: $standard-margin * .5;
-            padding: $standard-margin * .25 0;
-            border: $border2;
-            @include shadow2();
-            @include borderRadius1();
-
-            &[aria-current] {
-
-              background: rgba($foreground-color, .25);
-              color: $primary-text-color;
-              font-weight: 700;
-            }
-
-            &:hover {
-              background: rgba($foreground-color, .25);
-              // color: $primary-color;
-            }
-
-          }
-
-        }
-
-        @include media-breakpoint-down(sm) {
-          display: none;
-          visibility: hidden;
-        }
-      }
-
-    }
-
-
-  }
-
-  //moves to left side on breakpoint
-  & .right {
-    right: 0px;
-    width: $panel-offset / 2;
-    z-index: -1;
-    pointer-events: none;
-
-
-    & * {
-      pointer-events: visible;
-    }
-
-    @include media-breakpoint-down(md) {
-      display: none;
-      visibility: hidden;
-    }
-  }
-}
-
-//#region main navbar (ellipse bar)
-//list to easily add items to
-$ellipses-spacing: 1.5rem;
-$ellipses-slider: (slides: 5,
-  transition-speed: 1.5s);
-
-//sas loops to handle carousel interaction
-//style active
-@for $i from 0 through map_get($ellipses-slider, slides) {
-  #ellipses-page__#{$i}:checked~#slider label[for="ellipses-page__#{$i}"] {
-
-    @include animation3();
-
-
-    background: rgba($foreground-color, .25);
-
-    color: $primary-text-color;
-
-    & svg {
-      fill: currentColor;
-    }
-  }
-}
-
-.ellipses-bar {
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  // height: 10%;
-  flex-grow: 4;
-
-  // @include testBounds();
-  //desktop navigation bar
-  color: $secondary-text-color;
-
-  // hide input radio fields
-  & input[name="ellipses"] {
-    display: none;
-  }
-
-
-  #slider {
-    // position: relative;
-    display: flex;
-    z-index: 101;
-    font-size: 125%;
-    justify-content: flex-start;
-    flex-direction: column;
-    padding: $standard-margin * .5;
-    width: 100%;
-    // border: $border;
-    @include borderRadius1();
-
-    @include media-breakpoint-down(md) {
-      // border: none;
-    }
-
-
-    & label {
-      border: $border2;
-      padding: $standard-margin * .25;
-      margin-top: $standard-margin * .5;
-      @include shadow2();
-      @include borderRadius1();
-      text-align: center;
-      display: flex;
-      color: $foreground-color;
-      font-weight: bolder;
-      // flex-wrap: wrap;
-      flex-direction: row;
-      cursor: pointer;
-
-      & .slider-label {
-        font-size: $small;
-        display: inline-block;
-        width: 50%;
-        // margin-top: -5px;
-        margin: auto;
-        // margin-bottom: 5px;
-        width: 100%;
-        text-align: center;
-        order: 3;
-      }
-
-      & .slider-number {
-        display: none;
-      }
-
-      & svg {
-        position: relative;
-        margin: auto;
-        @include occupyContainer();
-        max-width: $max-svg1;
-        min-width: $min-svg1;
-        fill: currentColor;
-        order: 2;
-        @include animation3();
-      }
-
-      &:hover {
-        color: $primary-text-color;
-        fill: $primary-text-color;
-        background: rgba($foreground-color, .25);
-
-        & svg {
-          @include animation3();
-        }
-      }
-
-
-    }
-
-
-  }
-
-
-  //tablet navigation bar
-  @include media-breakpoint-down(md) {
-    #slider {
-      font-size: 1.5em;
-
-      & label {
-        flex-direction: column;
-
-        & svg {
-          // max-width: $max-svg1;
-          min-width: $max-svg1;
-        }
-      }
-    }
-  }
-
-  @include media-breakpoint-down(sm) {
-    visibility: hidden;
-  }
-
-}
-
-//#region social media links
-#social-media-bar {
-  @include borderRadius1();
-  width: 100%;
-  display: flex;
-  fill: inherit;
-  z-index: 1;
-  color: inherit;
-  justify-content: space-evenly;
-  flex-direction: row;
-
-  & a {
-    margin: auto;
-    position: relative;
-    justify-content: center;
-    fill: inherit;
-    color: $primary-color;
-    cursor: pointer;
-    @include occupyContainer();
-
-    & svg {
-      max-width: $max-svg1;
-      max-width: $min-svg1;
-    }
-
-    &:hover svg {
-      fill: $primary-text-color;
-    }
-  }
-
-  @include media-breakpoint-between(sm, lg) {
-    // display: none;
-  }
-
-  @include media-breakpoint-down(sm) {
-    // display: none;
-  }
-}
-
-//#endregion social media links
-
-.site-title a {
-  display: block;
-  position: relative;
-  text-decoration: none;
-  font-weight: 500;
-  left: -100%;
-  width: 150%;
-  text-transform: uppercase;
-  text-align: left;
-  fill: inherit;
-  z-index: 1;
-}
-
-
-//#endregion nav bar
-
-
-.hamburger {
-  z-index: 1001;
-  position: fixed;
-  top: $mobile-standard-margin * 1.5;
-  right: 0%;
-  display: none;
-
-  @include media-breakpoint-down(sm) {
-    display: block;
-    margin: auto;
-  }
-}
-
-
-.mobile__menu__overlay {
-  z-index: 1000;
-  position: fixed;
-  top: 0px;
-  background-size: cover;
-  @include occupyContainer();
-  padding: 30% 0;
-  background-image: url('https://i.imgur.com/jNPlJI5.png');
-  background-color: rgba($foreground-color, .9);
-  display: flex;
-  left: 0px;
-  justify-content: space-evenly;
-  flex-direction: column;
-
-  & span {
-    font-size: $h1;
-    display: flex;
-    justify-content: center;
-
-
-    & a {
-      color: $primary-text-color;
-    }
-
-    margin-bottom: $mobile-standard-margin * 2;
-  }
-
-  opacity: 1;
-  display: block;
-}
-
-//#region loading screen
-.loading {
-  position: absolute;
-  background: $foreground-color;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1000000;
-  display: flex;
-  justify-content: center;
-  fill: white;
-
-  // & * {
-  //   @include testBounds();
-  // }
-
-  & .loading__content {
-    display: flex;
-
-    & .loading-logo,
-    .p {
-      position: absolute;
-      display: inline;
-      width: 250px;
-      height: 250px;
-      text-align: center;
-      top: 47%;
-    }
-
-    img {
-      width: 250px;
-    }
-  }
-}
-
-//#endregion loading rings and content
-
-//#endregion navigation styling
-
-
-
-//#endregion layout styling
-
-//#region blog styling
 
 .button {
   padding: $standard-margin * .5;
@@ -1264,6 +683,52 @@ $ellipses-slider: (slides: 5,
   }
 }
 
+audio {
+  @include borderRadius1();
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+input {
+  @include borderRadius1();
+  padding: $standard-margin * .25;
+}
+
+//site content all wraps in this
+.site-wrapper {
+  overflow: hidden;
+  font-size: $h3;
+  position: absolute;
+  left: 0px;
+  width: 100%;
+}
+
+//#endregion layout styling
+
+//#region blog styling
+.click-active {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  @include animation1(transform);
+  border-style: outset;
+  border: $border;
+  // transform: scale(1.05);
+  // -webkit-transform: scale(1.05);
+  // -moz-transform: scale(1.05);
+  // -ms-transform: scale(1.05);
+  // -o-transform: scale(1.05);
+
+  & .blog__post {
+    @include shadow1();
+  }
+}
 
 .post {
   padding: $standard-margin;
@@ -1331,7 +796,7 @@ $ellipses-slider: (slides: 5,
     position: absolute;
     top: 0;
     left: 0;
-    @include occupyContainer();
+    @include occupyParent();
     z-index: 1;
   }
 
@@ -1457,129 +922,6 @@ $ellipses-slider: (slides: 5,
   }
 }
 
-.blog-main {
-  position: relative;
-  min-height: 100%;
-  width: 100%;
-
-  section {
-
-    position: relative;
-    width: auto;
-    width: 100%;
-    min-height: 25vh; //ensures sections are large enough to be calculated by navigation menu
-    max-height: 50vh;
-    background: $primary-color;
-    margin: 0px;
-    fill: inherit;
-    color: inherit;
-    z-index: 0;
-    padding-left: $panel-offset * 1.15;
-    @include occupyContainer();
-
-    @include media-breakpoint-down(md) {
-      padding-left: $panel-offset /1.5 * 1.15;
-    }
-
-    @include media-breakpoint-down(sm) {
-      padding-left: $mobile-standard-margin * 3;
-    }
-
-
-    .blog__header {
-      z-index: 6;
-      margin-bottom: $standard-margin;
-      margin-top: $standard-margin;
-      display: flex;
-      flex-direction: row;
-      row-gap: $standard-margin;
-      position: absolute;
-      color: $foreground-color;
-      font-size: $h1;
-      pointer-events: none;
-    }
-
-
-    .blog__wrapper {
-      display: flex;
-      // width: auto;
-      height: 100%;
-      z-index: 1;
-      min-height: 60vh;
-      // margin-bottom: $standard-margin;
-      overflow-x: scroll;
-      // overflow-y: hidden;
-      justify-content: start;
-      // flex-wrap: wrap; tosdo: enable by button
-      @include hideScrollbar();
-      @include animation1(transform);
-      @include occupyContainer();
-
-      .blog__post {
-        min-width: 25vw;
-        min-height: 25vh;
-        max-height: 15vh;
-        max-width: 45vw;
-        z-index: 4;
-        border: $border2;
-        color: inherit;
-        margin: $standard-margin 0;
-        margin-right: $standard-margin * 2;
-        margin-left: $standard-margin * 2;
-        margin-top: $standard-margin * 6.2;
-        position: relative;
-        // pointer-events: visible;
-        @include shadow1();
-        @include borderRadius1();
-        @include animation1(margin);
-
-        &:hover {
-          margin-bottom: $standard-margin;
-          @include animation1(margin);
-
-          @include shadow1();
-        }
-
-        img {
-          object-fit: cover;
-          @include occupyContainer();
-          @include animation1();
-          @include borderRadius1();
-
-
-          &:hover {
-            @include animation1();
-            @include shadow1();
-          }
-        }
-
-        .post__title {
-          left: 0px;
-          position: absolute;
-          background: $foreground-color;
-          bottom: 0px;
-          width: 100%;
-          font-size: $p;
-          color: $primary-text-color;
-          padding: $standard-margin * .5;
-          border: $border;
-          @include borderRadius2();
-        }
-
-        .post__meta {
-          // bottom: -$standard-margin;
-          border-style: inset;
-          display: none;
-          position: absolute;
-        }
-
-
-      }
-    }
-  }
-}
-
-
 .go-back {
   opacity: 1;
   flex-grow: 5;
@@ -1596,24 +938,111 @@ $ellipses-slider: (slides: 5,
 //#endregion blog styling
 
 
-audio {
-  @include borderRadius1();
+//#region content styling
+//#region landing page content
+$hero-header: 100vh;
+
+#canvas-cta {
+  position: absolute;
+  right: $standard-margin * 2.5;
+  top: 60vh;
+  color: $third-text-color;
 }
 
-//#region content styling
+//TODO: move site header out of hero header
+.hero-header {
+  height: $hero-header;
+  padding-top: 10%;
+
+
+  & .primary-content {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: $primary-text-color;
+    font-weight: 300;
+    top: 0px;
+    text-align: left;
+
+    & a {
+      margin: 0 auto;
+      margin-left: 0px;
+      position: relative;
+
+      @include media-breakpoint-down(sm) {
+        text-align: left;
+        left: 0px;
+        margin-top: $mobile-standard-margin * 2;
+        margin-left: 0;
+      }
+    }
+
+    & .headline {
+      top: 50%;
+      font-size: $title;
+      font-family: 'brown-bold';
+      line-height: 100%;
+
+      @include media-breakpoint-down(sm) {
+        font-size: $h1;
+        top: 0px;
+        text-align: left;
+      }
+    }
+
+    & .typewriter {
+      margin-top: $standard-margin;
+      margin-bottom: $standard-margin;
+      font-family: 'brown-light';
+      font-weight: 100;
+      font-size: $h3 * 1.5;
+      text-align: left;
+      line-height: 100%;
+      // margin: auto;
+      position: relative;
+
+      @include media-breakpoint-down(sm) {
+        font-size: $small;
+        text-align: left;
+        left: 0px;
+        display: none;
+      }
+
+      & span {
+        border-right: .08em solid;
+        padding-right: .15em;
+        animation: caret 1s steps(1) infinite;
+        -webkit-animation: caret 1s steps(1) infinite;
+      }
+
+      @keyframes caret {
+        50% {
+          border-color: transparent;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $mobile-standard-margin *3;
+  }
+}
+
+
 section {
-  width: 80%;
-  margin: auto;
-  margin-bottom: $standard-margin*4;
-  box-sizing: content-box;
+  width: 100%;
   padding-left: $panel-offset * 1.15;
-  z-index: 10;
-  min-height: 45vh; //ensures sections are large enough to be calculated by navigation menu
-  // @include shadow2();
+  padding-right: $panel-offset * .65;
+  border: $border;
+  min-height: 50vh;
+
+  @include media-breakpoint-up(lg) {
+    padding-right: $panel-offset * 2 * .65;
+    padding-left: $panel-offset * 2 * 1.15;
+  }
 
   @include media-breakpoint-down(md) {
-    width: 100%;
-    padding-left: $panel-offset /1.5 * 1.15;
     position: relative;
   }
 
@@ -1625,7 +1054,7 @@ section {
     margin-bottom: $mobile-section-margin * .25;
   }
 
-  //when user screen fit mobile screen
+  //#region landing page content
   & a {
     color: $primary-color;
     text-decoration: none;
@@ -1658,28 +1087,27 @@ section {
 
   //allows overflowing on mobile view
   & .section__wrapper {
-    width: auto;
 
-    //mobile stlying
     @include media-breakpoint-down(sm) {
       @include borderRadius1();
       border: 1px solid $primary-text-color;
       width: 100%;
-
     }
 
     & .section__grid {
       color: $secondary-color;
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-gap: $standard-margin * .1;
-      height: 5%;
+      margin: auto;
+      padding: $standard-margin * 1 0;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: $standard-margin;
 
-
-      //mobile/tablet
       @include media-breakpoint-down(md) {
-        overflow: scroll;
-        overflow-y: hidden;
+        @include hideScrollbar();
+        margin: 0 -$standard-margin * 3;
+        width: 81vw;
+        // padding: 0px $standard-margin * 10;
+        min-height: 700px;
       }
 
       @include media-breakpoint-down(lg) {
@@ -1690,15 +1118,18 @@ section {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
       }
 
+      @include media-breakpoint-down(sm) {
+        margin: auto;
+      }
 
       //#region mixins reused with different card types, should remain consistent
       @mixin title {
 
         & .title {
           width: 80%;
-          font-size: $p;
           margin-bottom: $standard-margin;
           line-height: 1em;
+          font-weight: bold;
 
           //drop margin size on mobile
           @include media-breakpoint-down(sm) {
@@ -1710,6 +1141,8 @@ section {
       @mixin description {
         & .description {
           margin-bottom: $standard-margin;
+          font-family: 'brown';
+          font-weight: 300;
 
           //drop margin size on mobile
           @include media-breakpoint-down(sm) {
@@ -1724,14 +1157,14 @@ section {
           position: absolute;
           top: -5%;
           left: -5%;
-          @include occupyContainer();
+          @include occupyParent();
           @include borderRadius1();
           @include animation1();
           @include shadow1();
           z-index: -2;
 
           & video {
-            @include occupyContainer();
+            @include occupyParent();
             @include borderRadius1();
             opacity: .4;
             max-width: 100%;
@@ -1776,7 +1209,7 @@ section {
             content: '';
             position: absolute;
             z-index: -1;
-            @include occupyContainer();
+            @include occupyParent();
             @include animation3();
             @include borderRadius100();
             background: $primary-text-color
@@ -1818,7 +1251,7 @@ section {
 
           & svg {
             position: relative;
-            @include occupyContainer();
+            @include occupyParent();
             fill: $foreground-color;
           }
 
@@ -1835,20 +1268,13 @@ section {
 
       //standard grid of cards does not go into into right panel
       & .section__grid__card {
-        position: relative;
-        flex-wrap: wrap;
-        @include borderRadius1();
-        display: grid;
-        padding: $standard-margin;
-
-        @include media-breakpoint-down(sm) {
-          @include occupyContainer();
-        }
-
+        margin: auto;
 
         & img {
           @include borderRadius1();
           object-fit: fill;
+          @include cardSize();
+
 
           &:hover {
             @include grayscale();
@@ -1860,8 +1286,11 @@ section {
           z-index: 2;
           background: white;
           padding: $standard-margin;
+
+          max-width: 500px;
+          min-height: 400px;
           //mobile
-          @include occupyContainer();
+          @include occupyParent();
           @include description();
           @include title();
           @include animation3();
@@ -1870,14 +1299,37 @@ section {
             min-width: 350px;
           }
 
+          & ul {
+            @include tooltip();
+            @include occupyParent();
+            display: flex;
+            background: #E7E6E8;
+            @include borderRadius1();
+            flex-direction: row;
+            flex-wrap: wrap;
+            font-size: $h3;
+            font-family: 'brown';
+            font-weight: 300;
+            padding: $standard-margin;
+
+            & li {
+              list-style-type: none;
+              margin: auto $standard-margin * .25;
+              padding: $standard-margin * .25;
+              background: #D1CFD3;
+              @include animation3();
+              @include borderRadius1();
+            }
+          }
 
           &:hover {
-            & li {
-              padding: 1.5%;
-              margin-left: -$standard-margin * 2;
-              background: white;
+            & ul {
               color: $foreground-color;
-              @include borderRadius1();
+
+              & li {
+                background: white;
+                @include borderRadius1();
+              }
             }
 
             @include animation3();
@@ -1888,33 +1340,31 @@ section {
       }
 
       & .section__grid__projects {
-
         z-index: 2;
         padding: $standard-margin;
+        margin: auto;
 
         //used on projects section (has hover effects)
         & .projects__card {
           color: $secondary-color;
           background-color: $primary-text-color;
           position: relative;
-          padding: $standard-margin;
-          padding-right: 10%;
+          padding: $standard-margin * 2.5;
           // min-width: 100%;
-          min-width: 300px;
+          @include cardSize();
 
           right: 0px;
           @include borderRadius1();
 
-          @include shadow2();
-
           @include animation1();
-          @include occupyContainer();
+          @include occupyParent();
 
           @include title();
           @include description();
           @include cta();
           //underneath all other content, then comes up on hover
           @include preview();
+          @include shadow2();
 
           //mobile
           @include media-breakpoint-down(md) {
@@ -1956,9 +1406,9 @@ section {
             text-align: left;
             font-family: 'brown-light';
             padding: 5%;
-            color: $foreground-color;
+            color: $primary-text-color;
             @include shadow2();
-            background: $primary-color;
+            background: #6bb7a8;
             border: $border;
             width: 15%;
             right: -12%;
@@ -1982,33 +1432,551 @@ section {
     }
   }
 
-  & li {
-    margin-bottom: $standard-margin / 2;
-    list-style-image: url('../../static/svg/arrow.svg');
+  //#endregion landing page content
+
+
+  //#region blog content
+  .blog__header {
+    z-index: 6;
+    margin-bottom: $standard-margin;
+    margin-top: $standard-margin;
+    display: flex;
+    flex-direction: row;
+    row-gap: $standard-margin;
+    position: absolute;
+    color: $foreground-color;
+    font-size: $h1;
+    pointer-events: none;
+  }
+
+  .blog__wrapper {
+    display: flex;
+    width: 80vw;
+    z-index: 1;
+    min-height: 60vh;
+    margin-left: -$panel-offset * .25;
+    margin-bottom: $standard-margin * 1.5;
+    // margin-bottom: $standard-margin;
+    overflow-x: scroll;
+    // overflow-y: hidden;
+    justify-content: start;
+
+    // flex-wrap: wrap; tosdo: enable by button
+    @include hideScrollbar();
+    @include animation1(transform);
+
+    @include media-breakpoint-down(md) {
+      margin-left: 0px;
+      @include occupyParent();
+    }
+
+    .blog__post {
+      @include cardSize();
+      z-index: 4;
+      border: $border2;
+      color: inherit;
+      margin: $standard-margin 0;
+      margin-right: $standard-margin * 2;
+      margin-left: $standard-margin * 2;
+      margin-top: $standard-margin * 6.2;
+      position: relative;
+      // pointer-events: visible;
+      @include shadow1();
+      @include borderRadius1();
+      @include animation1(margin);
+
+      &:hover {
+        margin-bottom: $standard-margin;
+        @include animation1(margin);
+
+        @include shadow1();
+      }
+
+      img {
+        object-fit: cover;
+        @include occupyParent();
+        @include animation1();
+        @include borderRadius1();
+
+
+        &:hover {
+          @include animation1();
+          @include shadow1();
+        }
+      }
+
+      .post__title {
+        left: 0px;
+        position: absolute;
+        background: $foreground-color;
+        bottom: 0px;
+        width: 100%;
+        font-size: $p;
+        color: $primary-text-color;
+        padding: $standard-margin * .5;
+        border: $border;
+        @include borderRadius2();
+      }
+
+      .post__meta {
+        // bottom: -$standard-margin;
+        border-style: inset;
+        display: none;
+        position: absolute;
+      }
+
+
+    }
+  }
+
+  //#endregion blog content
+
+}
+
+//#region navigation styling
+#canvas {
+  position: absolute;
+  //same size as hero header
+  z-index: -1;
+  padding-left: $panel-offset * .5;
+  overflow: hidden;
+  @include occupyParent();
+  height: $hero-header;
+
+  @include media-breakpoint-down(md) {
+    padding-left: 0px;
+  }
+
+  // display: none;
+}
+
+.panel {
+  position: fixed;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-between;
+  top: 0px;
+  width: $panel-offset;
+  color: $third-text-color;
+  fill: $primary-color;
+  z-index: 10;
+
+  &.left {
+    left: 0px;
+    @include animation1();
+    background: $primary-color;
+    border-right: 1px solid #211e2d;
+
+    @include media-breakpoint-down(md) {
+      width: $panel-offset/1.25;
+    }
+
+    @include media-breakpoint-down(sm) {
+      visibility: hidden;
+      display: none;
+    }
+
+    & .branding {
+      padding: 10% $standard-margin;
+      fill: $primary-color;
+      width: 100%;
+      top: -1px;
+      z-index: 100;
+      position: relative;
+      flex-grow: 0;
+      background: #6bb7a8;
+
+      & .logo-container {
+        position: relative;
+        margin-bottom: $standard-margin;
+
+        & .logo {
+          position: absolute;
+          text-align: center;
+          @include occupyParent();
+
+          & svg {
+            margin: $max-svg1/2 auto;
+            display: block;
+            padding-bottom: 5%;
+            max-width: $max-svg1;
+          }
+        }
+
+        & #progress-indicator {
+          background: $foreground-color;
+          margin: auto;
+          left: 0px;
+          z-index: -1;
+          position: relative;
+          display: block;
+          @include borderRadius100();
+          border: $border;
+
+          // width: max-content
+          & circle {
+            border: $border;
+            stroke: $primary-color;
+            stroke-width: 5.5px;
+            top: -5px;
+            transform-origin: 50% 51%;
+            @include rotate-90();
+          }
+        }
+      }
+
+      .site-header {
+        z-index: 3;
+        text-align: center;
+        left: 0px;
+        position: relative;
+        bottom: 0px;
+        align-items: center;
+        margin: 0 auto;
+        margin-top: 30%;
+        max-width: 100%;
+        padding: $standard-margin * .5;
+        flex-grow: 3;
+
+        @include borderRadius1();
+
+        .navigation {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          font-size: $h3 * .85;
+          font-weight: bolder;
+          text-transform: capitalize;
+          @include occupyParent();
+
+          a {
+            color: $primary-text-color;
+            text-decoration: none;
+            margin-top: $standard-margin * .5;
+            padding: $standard-margin * .25 0;
+            border: $border2;
+            @include borderRadius1();
+
+            &[aria-current] {
+              background: $foreground-color;
+              color: $primary-text-color;
+            }
+
+            &:hover {
+              background: $foreground-color;
+            }
+
+          }
+
+        }
+
+        @include media-breakpoint-down(sm) {
+          display: none;
+          visibility: hidden;
+        }
+      }
+
+    }
+  }
+
+  //moves to left side on breakpoint
+  & .right {
+    right: 0px;
+    width: $panel-offset / 1.5;
+    z-index: -1;
+    pointer-events: none;
+    padding: $standard-margin;
+
+
+    & * {
+      pointer-events: visible;
+    }
+
+    @include media-breakpoint-down(md) {
+      display: none;
+      visibility: hidden;
+    }
+  }
+}
+
+//#region main navbar (ellipse bar)
+//list to easily add items to
+$ellipses-spacing: 1.5rem;
+$ellipses-slider: (slides: 5,
+  transition-speed: 1.5s);
+
+//sas loops to handle carousel interaction
+//style active
+@for $i from 0 through map_get($ellipses-slider, slides) {
+  #ellipses-page__#{$i}:checked~#slider label[for="ellipses-page__#{$i}"] {
+
     @include animation3();
-    margin-left: $standard-margin;
+
+
+    background: rgba($foreground-color, .25);
+
+    color: $primary-text-color;
+
+    & svg {
+      fill: currentColor;
+    }
+  }
+}
+
+.ellipses-bar {
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  // height: 10%;
+  flex-grow: 4;
+
+  // @include testBounds();
+  //desktop navigation bar
+  color: $secondary-text-color;
+
+  // hide input radio fields
+  & input[name="ellipses"] {
+    display: none;
+  }
+
+
+  #slider {
+    // position: relative;
+    display: flex;
+    z-index: 101;
+    font-size: 125%;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: $standard-margin * .5;
+    width: 100%;
+    // border: $border;
+    @include borderRadius1();
+
+    @include media-breakpoint-down(md) {
+      // border: none;
+    }
+
+
+    & label {
+      border: $border2;
+      padding: $standard-margin * .25;
+      margin-top: $standard-margin * .5;
+      @include shadow2();
+      @include borderRadius1();
+      text-align: center;
+      display: flex;
+      color: $foreground-color;
+      font-weight: bolder;
+      // flex-wrap: wrap;
+      flex-direction: row;
+      cursor: pointer;
+
+      & .slider-label {
+        font-size: $small;
+        display: inline-block;
+        width: 50%;
+        // margin-top: -5px;
+        margin: auto;
+        // margin-bottom: 5px;
+        width: 100%;
+        text-align: center;
+        order: 3;
+      }
+
+      & .slider-number {
+        display: none;
+      }
+
+      & svg {
+        position: relative;
+        margin: auto;
+        @include occupyParent();
+        max-width: $max-svg1;
+        min-width: $min-svg1;
+        fill: currentColor;
+        order: 2;
+        @include animation3();
+      }
+
+      &:hover {
+        color: $primary-text-color;
+        fill: $primary-text-color;
+        background: rgba($foreground-color, .25);
+
+        & svg {
+          @include animation3();
+        }
+      }
+
+
+    }
+
+
+  }
+
+
+  //tablet navigation bar
+  @include media-breakpoint-down(md) {
+    #slider {
+      font-size: 1.5em;
+
+      & label {
+        flex-direction: column;
+
+        & svg {
+          // max-width: $max-svg1;
+          min-width: $max-svg1;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    visibility: hidden;
   }
 
 }
+
+//#region social media links
+#social-media-bar {
+  @include borderRadius1();
+  width: 100%;
+  display: flex;
+  fill: inherit;
+  z-index: 1;
+  color: inherit;
+  justify-content: space-evenly;
+  flex-direction: row;
+
+  & a {
+    margin: auto;
+    position: relative;
+    justify-content: center;
+    fill: inherit;
+    color: $primary-color;
+    cursor: pointer;
+    @include occupyParent();
+
+    & svg {
+      max-width: $max-svg1;
+      max-width: $min-svg1;
+    }
+
+    &:hover svg {
+      fill: $primary-text-color;
+    }
+  }
+
+  @include media-breakpoint-between(sm, lg) {
+    // display: none;
+  }
+
+  @include media-breakpoint-down(sm) {
+    // display: none;
+  }
+}
+
+//#endregion social media links
+
+.site-title a {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  font-weight: 500;
+  left: -100%;
+  width: 150%;
+  text-transform: uppercase;
+  text-align: left;
+  fill: inherit;
+  z-index: 1;
+}
+
+
+//#endregion nav bar
+.hamburger {
+  z-index: 1001;
+  position: fixed;
+  top: $mobile-standard-margin * 1.5;
+  right: 0%;
+  display: none;
+
+  @include media-breakpoint-down(sm) {
+    display: block;
+    margin: auto;
+  }
+}
+
+
+.mobile__menu__overlay {
+  z-index: 1000;
+  position: fixed;
+  top: 0px;
+  background-size: cover;
+  @include occupyParent();
+  padding: 30% 0;
+  background-image: url('https://i.imgur.com/jNPlJI5.png');
+  background-color: rgba($foreground-color, .9);
+  display: flex;
+  left: 0px;
+  justify-content: space-evenly;
+  flex-direction: column;
+
+  & span {
+    font-size: $h1;
+    display: flex;
+    justify-content: center;
+
+
+    & a {
+      color: $primary-text-color;
+    }
+
+    margin-bottom: $mobile-standard-margin * 2;
+  }
+
+  opacity: 1;
+  display: block;
+}
+
+//#region loading screen
+.loading {
+  position: absolute;
+  background: $foreground-color;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000000;
+  display: flex;
+  justify-content: center;
+  fill: white;
+
+  // & * {
+  //   @include testBounds();
+  // }
+
+  & .loading__content {
+    display: flex;
+
+    & .loading-logo,
+    .p {
+      position: absolute;
+      display: inline;
+      width: 250px;
+      height: 250px;
+      text-align: center;
+      top: 47%;
+    }
+
+    img {
+      width: 250px;
+    }
+  }
+}
+
+//#endregion loading rings and content
+//#endregion navigation styling
+
 
 //#endregion
-
-/* Portrait and Landscape */
-@media only screen and (min-width: 768px) {
-  .grids {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media only screen and (min-width: 1024px) {
-  .grids {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  .two-grids {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 64px;
-  }
-
-}

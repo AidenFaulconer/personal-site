@@ -37,12 +37,6 @@ export default ({ loadProgress }) => {
               className="loading-logo"
               dangerouslySetInnerHTML={{ __html: logoSvg }}
             />
-            <img
-              src="http://samherbert.net/svg-loaders/svg-loaders/puff.svg"
-              width="50"
-              fill="blue"
-              alt=""
-            />
             {/**
           <p>{`loading ${progress}%`}</p>
            */}
