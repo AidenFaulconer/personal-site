@@ -28,7 +28,7 @@ export default class {
 
     // #region configuration
     if (typeof window !== "undefined") {
-      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.renderer.setPixelRatio(window.devicePixelRatio * 2);
       this.renderer.setSize(this._winWidth, this._winHeight, false);
       this.renderer.shadowMap.enabled = threeConfig.renderer.shadow.enabled;
       this.renderer.shadowMap.type = threeConfig.renderer.shadow.type;
@@ -111,6 +111,7 @@ export default class {
       this.camera.aspect = window.innerWidth / window.innerHeight;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.render(this.scene,this.camera);
     }
   }
 

@@ -34,48 +34,6 @@ $gradient-color: $foreground-color;
   -webkit-filter: grayscale(100%);
 }
 
-@mixin tooltip {
-  & .tooltip {
-    position: relative;
-    margin: auto;
-    display: inline-block;
-  }
-
-  & .tooltip .tooltiptext {
-    visibility: hidden;
-    // width: 140px;
-    background-color: #201E2B;
-    border: $border;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 150%;
-    left: 50%;
-    margin-left: -75px;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  & .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-  }
-
-  & .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
 // #endregion custom page colorsf
 
 //#region TODO: get positioning mixins
@@ -360,7 +318,14 @@ $gradient-color: $foreground-color;
 @mixin cardSize {
   max-width: 450px;
   min-height: 250px;
-  min-width: 300px;
+  max-height: 700px;
+  min-width: 250px;
+
+  @include media-breakpoint-down(sm) {
+    max-width: 100px;
+    min-height: 200px;
+    padding: $standard-margin * 1.5;
+  }
 }
 
 //#region sass imports
@@ -382,7 +347,7 @@ $hamburger-types: (stand-r); //only imprt this one to reduce css bundle size
 $grid-breakpoints: (s: 0,
   sm: 576px, //standard for phones
   md: 768px, //standard for ipad
-  lg: 992px,
+  lg: 992px, //was 992
   xl: 1000px) !default;
 
 //set container max values
@@ -437,14 +402,14 @@ $corner:12.5px;
 $border:1px solid rgba(255, 255, 255, .1);
 $border2:1px solid rgba(0, 0, 0, .1);
 
-$small: 0.618rem;
-$h3: 1.0rem;
-$p: 1.618rem;
-$h2: 2.618rem;
-$h1: 4.236rem;
-$title: 6.854rem;
-$min-svg1: 1.5rem;
-$max-svg1: 2.5rem;
+$small: 0.618em;
+$h3: 1.0em;
+$p: 1.618em;
+$h2: 2.618em;
+$h1: 4.236em;
+$title: 6.854em;
+$min-svg1: 1.5em;
+$max-svg1: 2.5em;
 
 
 @mixin borderRadius1 {
@@ -605,7 +570,7 @@ body {
   margin: 0;
   letter-spacing: 90%;
   scroll-behavior: smooth;
-  font-size: 1rem;
+  font-size: .8em;
 
   font-family: brown-regular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   background: $foreground-color;
@@ -613,17 +578,17 @@ body {
 
   //#region media queries
   //phone
-  @include media-breakpoint-up(sm) {
-    font-size: .8rem;
+  @include media-breakpoint-down(sm) {
+    font-size: .5rem;
   }
 
   //tablet
-  @include media-breakpoint-up(md) {
-    font-size: .9rem;
+  @include media-breakpoint-down(md) {
+    font-size: .8rem;
   }
 
   //desktop
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-down(xl) {
     font-size: 1rem;
   }
 
@@ -637,6 +602,12 @@ body {
 
 p {
   font-size: $p;
+}
+
+input {
+  border: $border2;
+  @include borderRadius1();
+  padding: $standard-margin * .25;
 }
 
 h3 {
@@ -696,10 +667,6 @@ a {
   }
 }
 
-input {
-  @include borderRadius1();
-  padding: $standard-margin * .25;
-}
 
 //site content all wraps in this
 .site-wrapper {
@@ -947,6 +914,11 @@ $hero-header: 100vh;
   right: $standard-margin * 2.5;
   top: 60vh;
   color: $third-text-color;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+    visibility: hidden;
+  }
 }
 
 //TODO: move site header out of hero header
@@ -1032,26 +1004,30 @@ $hero-header: 100vh;
 
 section {
   width: 100%;
-  padding-left: $panel-offset * 1.15;
-  padding-right: $panel-offset * .65;
   border: $border;
   min-height: 50vh;
 
-  @include media-breakpoint-up(lg) {
-    padding-right: $panel-offset * 2 * .65;
-    padding-left: $panel-offset * 2 * 1.15;
+  padding-right: $panel-offset * 1.3 * .65;
+  padding-left: $panel-offset * 1.3 * 1.15;
+
+  // @include media-breakpoint-down(xl) {
+  // }
+
+  @include media-breakpoint-down(lg) {
+    padding-right: $panel-offset * 1.25 * .65;
+    padding-left: $panel-offset * 1.25 * 1.15;
   }
 
   @include media-breakpoint-down(md) {
+    padding-right: $panel-offset * .65;
+    padding-left: $panel-offset * 1.15;
     position: relative;
   }
 
   @include media-breakpoint-down(sm) {
-    margin-bottom: $mobile-section-margin;
     width: 100%;
     left: 0px;
     padding: $mobile-section-margin * .25;
-    margin-bottom: $mobile-section-margin * .25;
   }
 
   //#region landing page content
@@ -1087,10 +1063,9 @@ section {
 
   //allows overflowing on mobile view
   & .section__wrapper {
-
     @include media-breakpoint-down(sm) {
       @include borderRadius1();
-      border: 1px solid $primary-text-color;
+      border: 1px solid $primary-color;
       width: 100%;
     }
 
@@ -1120,6 +1095,9 @@ section {
 
       @include media-breakpoint-down(sm) {
         margin: auto;
+        width: 100%;
+        padding: $mobile-standard-margin 0;
+        min-height: auto;
       }
 
       //#region mixins reused with different card types, should remain consistent
@@ -1270,41 +1248,54 @@ section {
       & .section__grid__card {
         margin: auto;
 
-        & img {
-          @include borderRadius1();
-          object-fit: fill;
-          @include cardSize();
-
-
-          &:hover {
-            @include grayscale();
-          }
-        }
-
-
         & .card {
           z-index: 2;
           background: white;
           padding: $standard-margin;
 
-          max-width: 500px;
-          min-height: 400px;
           //mobile
           @include occupyParent();
           @include description();
           @include title();
           @include animation3();
+          @include cardSize();
+
+          & img {
+            @include borderRadius1();
+            object-fit: cover;
+            max-height: 200px;
+            @include occupyParent();
+
+            &:hover {
+              @include grayscale();
+            }
+          }
 
           @include media-breakpoint-down(md) {
             min-width: 350px;
           }
 
+          & input {
+            text-align: center;
+          }
+
+          & #contact-button {
+            padding: $standard-margin * .5;
+            border: $border2;
+            background: $primary-color;
+            color: $foreground-color;
+            text-align: center;
+            font-size: $h3;
+            max-width: 150px;
+            font-family: 'brown-regular';
+            font-weight: 100;
+            @include borderRadius1();
+          }
+
           & ul {
-            @include tooltip();
-            @include occupyParent();
+            @include borderRadius1();
             display: flex;
             background: #E7E6E8;
-            @include borderRadius1();
             flex-direction: row;
             flex-wrap: wrap;
             font-size: $h3;
@@ -1312,9 +1303,11 @@ section {
             font-weight: 300;
             padding: $standard-margin;
 
+
             & li {
               list-style-type: none;
-              margin: auto $standard-margin * .25;
+              margin: 0 $standard-margin * .25;
+              margin-top: $standard-margin * .25;
               padding: $standard-margin * .25;
               background: #D1CFD3;
               @include animation3();
@@ -1349,9 +1342,8 @@ section {
           color: $secondary-color;
           background-color: $primary-text-color;
           position: relative;
-          padding: $standard-margin * 2.5;
+          padding: $standard-margin * 2;
           // min-width: 100%;
-          @include cardSize();
 
           right: 0px;
           @include borderRadius1();
@@ -1362,6 +1354,7 @@ section {
           @include title();
           @include description();
           @include cta();
+          @include cardSize();
           //underneath all other content, then comes up on hover
           @include preview();
           @include shadow2();
@@ -1453,7 +1446,6 @@ section {
     display: flex;
     width: 80vw;
     z-index: 1;
-    min-height: 60vh;
     margin-left: -$panel-offset * .25;
     margin-bottom: $standard-margin * 1.5;
     // margin-bottom: $standard-margin;
@@ -1540,11 +1532,17 @@ section {
   z-index: -1;
   padding-left: $panel-offset * .5;
   overflow: hidden;
-  @include occupyParent();
+  width: 100vw;
   height: $hero-header;
 
   @include media-breakpoint-down(md) {
     padding-left: 0px;
+  }
+
+  & canvas {
+    width: 100vw;
+    height: $hero-header;
+    // @include occupyParent();
   }
 
   // display: none;

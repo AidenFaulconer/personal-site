@@ -302,44 +302,22 @@ export const Contact = ({ data }) => {
         const { title, value } = card;
         return (
           <article className="section__grid__card">
-            <div className="card" style={{ textAlign: "center" }} key={title}>
+            <div className="card"  key={title}>
               <h1 className="title" attribute="title">
                 {title}
               </h1>
               <h3 className="description" attribute="description">
                 <input type="text" value={value} id={value} />
               </h3>
-              <ul>
-                <li>
-                  <a
-                    style={{ color: "black" }}
-                    type="button"
-                    href={
-                      title === "phone"
-                        ? `tel:${value.trim()}`
-                        : `mailto:${value}`
-                    }
-                  >
-                    {" "}
-                    {`${title} me`}
-                  </a>
-                </li>
-                <div className="tooltip">
-                  <span className="tooltiptext" key={value}>
-                    {tooltipAlert}
-                  </span>
-                  <li>
-                    <button
-                      type="button"
-                      onClick={() => copyText(value)}
-                      onMouseOut={() => tooltipExiit()}
-                    >
-                      {" "}
-                      Copy contact detail
-                    </button>
-                  </li>
-                </div>
-              </ul>
+              <a
+                id="contact-button"
+                type="button"
+                href={
+                  title === "phone" ? `tel:${value.trim()}` : `mailto:${value}`
+                }
+              >
+                {`${title} me`}
+              </a>
             </div>
           </article>
         );
