@@ -80,9 +80,6 @@ export default class extends View {
       this.window.msAudioContext ||
       this.window.oAudioContext;
     // #region window
-    this.audio = document.getElementById("audio");
-    this.context = new AudioContext();
-    this.analyser = this.context.createAnalyser();
     this.noise = new SimplexNoise();
 
     // bind methods to this class
@@ -92,50 +89,56 @@ export default class extends View {
     // this.makeRoughGround = this.makeRoughGround.bind(this);
     // this.avg = this.avg.bind(this);
     // this.max = this.max.bind(this);
+    this.audio;
+    this.context;
+    this.analyser;
+    this.src;
+    this.dataArray = new Uint8Array(20);
+    this.audioContextCreated = false;
 
-    if (AudioContext) {
-      // this.audio.crossOrigin = "anonymous";
-      this.audio.loop = true;
-      this.audio.muted = false; // must be enabled first
-      // this.audio.autoplay = true;
-      this.audio.src = `/sounds/Whippin.mp3`;
-      this.audio.load();
-      // this.audio.play();
+    const createAudioContext = () => {
+      // TODO: this funciton runs twice for some reason
+      if (!this.audioContextCreated) {
+        this.audio = document.getElementById("audio");
+        this.context = new AudioContext();
+        this.analyser = this.context.createAnalyser();
+        // this.audio.src = `/sounds/Whippin.mp3`;
+        this.audio.crossOrigin = "anonymous";
+        this.audio.loop = true;
+        this.audio.muted = false; // must be enabled first
+        this.audio.load();
+      }
 
-      this.analyser.connect(this.context.destination);
-      this.analyser.fftSize = 512;
-      const dataLength = this.analyser.frequencyBinCount;
-      this.dataArray = new Uint8Array(dataLength);
-      // this.audio = new Audio();
+      if (AudioContext) {
+        this.analyser.connect(this.context.destination);
+        this.analyser.fftSize = 512;
+        const dataLength = this.analyser.frequencyBinCount;
+        this.dataArray = new Uint8Array(dataLength);
 
-      this.src = this.context.createMediaElementSource(this.audio);
-      this.src.connect(this.analyser);
+        if (!this.src)
+          this.src = this.context.createMediaElementSource(this.audio); // important check!
+        this.src.connect(this.analyser);
+      }
+      this.audioContextCreated = true;
+    };
+    // start audio on user interaction
+    document.getElementById("main").addEventListener(
+      "click",
+      () => {
+        createAudioContext();
+        this.audioEnabled = !this.audioEnabled;
+        this.audio.muted = !this.audioEnabled;
+        createAudioContext();
+        this.analyser.getByteFrequencyData(this.dataArray);
 
-      this.camera.position.set(0, 0, 100);
-      this.camera.lookAt(this.scene.position);
+        if (this.audioEnabled) this.audio.play();
+        else this.audio.pause();
+      },
+      false
+    );
 
-      this.audio.addEventListener("canplay", () => {
-        // this.audioEnabled = true;
-      });
-
-      // start audio on user interaction
-      document.getElementById("main").addEventListener(
-        "click",
-        () => {
-          this.audioEnabled = !this.audioEnabled;
-          this.audio.muted = !this.audioEnabled;
-          if (this.audioEnabled) this.audio.play();
-          else this.audio.pause();
-        },
-        false
-      );
-      this.analyser.getByteFrequencyData(this.dataArray);
-
-      // this.window.onload = () => (
-      // );
-
-      // opacify(this.analyser);
-    }
+    this.camera.position.set(0, 0, 110);
+    this.camera.lookAt(this.scene.position);
     // #endregion window
 
     // #region scene
@@ -153,7 +156,7 @@ export default class extends View {
       planeDetail
     );
     this.planeMaterial = new MeshLambertMaterial({
-      color: "#211e2d",
+      color: "#ffffff", // was #211e2d
       side: BackSide,
       transparent: true,
       opacity: threeConfig.isMobile ? 0 : 1,
@@ -280,7 +283,7 @@ export default class extends View {
   }
 
   update() {
-    this.analyser.getByteFrequencyData(this.dataArray);
+    if (this.audioEnabled) this.analyser.getByteFrequencyData(this.dataArray);
 
     const lowerHalfArray = this.dataArray.slice(
       0,

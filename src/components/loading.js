@@ -37,10 +37,16 @@ export default ({ loadProgress }) => {
               className="loading-logo"
               dangerouslySetInnerHTML={{ __html: logoSvg }}
             />
-            {/**
+            <circle />
+            <circle />
+            <circle />
+            <circle />
+            <circle />
+            <p>loading</p>
+          </div>
+          {/**
           <p>{`loading ${progress}%`}</p>
            */}
-          </div>
         </div>
       </CSSTransition>
     )

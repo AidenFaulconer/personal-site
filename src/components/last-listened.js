@@ -71,7 +71,7 @@ export default React.memo(() => {
   return (
     <>
       {/** spotifyData && <div ref={lastListenedRef} id="canvas" /> */}
-      <audio id="audio" controls />
+      <audio id="audio" controls src="./sounds/Whippin.mp3" />
     </>
   );
 });

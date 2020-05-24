@@ -910,15 +910,14 @@ a {
 $hero-header: 100vh;
 
 #canvas-cta {
+
   position: absolute;
   right: $standard-margin * 2.5;
   top: 60vh;
   color: $third-text-color;
 
-  @include media-breakpoint-down(sm) {
-    display: none;
-    visibility: hidden;
-  }
+  display: none;
+  visibility: hidden;
 }
 
 //TODO: move site header out of hero header
@@ -1047,7 +1046,7 @@ section {
     width: 100%;
     display: flex;
     flex-basis: content;
-    justify-content: space-between;
+    margin-bottom: $standard-margin;
 
 
     @include media-breakpoint-down(sm) {
@@ -1082,7 +1081,6 @@ section {
         margin: 0 -$standard-margin * 3;
         width: 81vw;
         // padding: 0px $standard-margin * 10;
-        min-height: 700px;
       }
 
       @include media-breakpoint-down(lg) {
@@ -1596,14 +1594,15 @@ section {
           @include occupyParent();
 
           & svg {
-            margin: $max-svg1/2 auto;
-            display: block;
-            padding-bottom: 5%;
-            max-width: $max-svg1;
+            position: relative;
+            width: 50px;
+            height: 50px;
+            top: 20px;
           }
         }
 
         & #progress-indicator {
+          //100px width and height
           background: $foreground-color;
           margin: auto;
           left: 0px;
@@ -1946,30 +1945,120 @@ $ellipses-slider: (slides: 5,
   width: 100vw;
   height: 100vh;
   z-index: 1000000;
-  display: flex;
-  justify-content: center;
   fill: white;
+  display: flex;
+  flex-direction: row;
 
-  // & * {
-  //   @include testBounds();
-  // }
 
   & .loading__content {
-    display: flex;
+    position: relative;
+    margin: auto;
+    width: 150px;
+    height: 150px;
 
-    & .loading-logo,
-    .p {
+    & circle {
       position: absolute;
-      display: inline;
-      width: 250px;
-      height: 250px;
-      text-align: center;
-      top: 47%;
+      width: 150px;
+      height: 150px;
+      opacity: 0;
+      transform: rotate(225deg);
+      animation-iteration-count: infinite;
+      animation-name: orbit;
+      animation-duration: 5.5s;
+
+      &:after {
+        content: '';
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        border-radius: 5px;
+        background: #fff;
+        /* Pick a color */
+      }
+
+      &:nth-child(2) {
+        animation-delay: 240ms;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 480ms;
+      }
+
+      &:nth-child(4) {
+        animation-delay: 720ms;
+      }
+
+      &:nth-child(5) {
+        animation-delay: 960ms;
+      }
     }
 
-    img {
-      width: 250px;
+    @keyframes orbit {
+      0% {
+        transform: rotate(225deg);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      7% {
+        transform: rotate(345deg);
+        animation-timing-function: linear;
+      }
+
+      30% {
+        transform: rotate(455deg);
+        animation-timing-function: ease-in-out;
+      }
+
+      39% {
+        transform: rotate(690deg);
+        animation-timing-function: linear;
+      }
+
+      70% {
+        transform: rotate(815deg);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      75% {
+        transform: rotate(945deg);
+        animation-timing-function: ease-out;
+      }
+
+      76% {
+        transform: rotate(945deg);
+        opacity: 0;
+      }
+
+      100% {
+        transform: rotate(945deg);
+        opacity: 0;
+      }
     }
+
+    & p {
+      position: relative;
+      text-align: center;
+      top: 200px;
+      left: 5px;
+      font-family: 'brown';
+      font-weight: 300;
+    }
+
+    & .loading-logo {
+      position: absolute;
+      margin: auto;
+      top: 30px;
+      left: 40px;
+
+      & svg {
+        width: 85px;
+        height: 85px;
+        margin: auto;
+      }
+    }
+
   }
 }
 
