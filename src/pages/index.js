@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, Suspense } from "react";
 import Helmet from "react-helmet";
 import { graphql } from "gatsby";
 import { CSSTransition } from "react-transition-group";
@@ -7,7 +7,7 @@ import HeroHeader from "../components/heroHeader";
 import SectionBuilder from "../components/section-builder";
 import ThreeComponent from "../components/threejs/three-component";
 import MainThreeJs from "../components/threejs/main-page";
-import LastListened from "../components/last-listened";
+// import LastListened from "../components/last-listened";
 import Loading from "../components/loading";
 
 // when ssr, wrap components using window with this to avoid undefined windowerrors
@@ -24,7 +24,6 @@ export default ({
   const loadManager = useCallback(amnt => setLoadProgress(amnt));
 
   useEffect(() => {
-
     setInProp(true); // transition on component load
 
     if (typeof window !== "undefined") {
@@ -36,14 +35,21 @@ export default ({
       window.removeEventListener(onload, loadManager);
       setInProp(false);
     }; // called on component unmount
-
   }, []);
 
   return (
     <>
       <Loading loadProgress={loadProgress} />
 
-      <Layout LeftPanelContent={() => <></>} RightPanelContent={LastListened}>
+      <Layout
+        LeftPanelContent={() => <></>}
+        RightPanelContent={() =>
+          typeof window !== "undefined" && ( // suspense makes use of window, and accessing window isnt possible in nodejs enviornment
+            <Suspense fallback={<audio id="audio" controls src="" />}>
+              <audio id="audio" controls src="./sounds/Whippin.mp3" />
+            </Suspense>
+          )}
+      >
         <Helmet>
           <title>{site.siteMetadata.title}</title>
           <meta name="description" content={site.siteMetadata.description} />
