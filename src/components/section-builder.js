@@ -115,10 +115,12 @@ export default React.memo(() => {
                   className="section__wrapper"
                   key={`${sectionName}-wrapper`}
                 >
-                  <SectionComponent
-                    key={sectionName + i}
-                    data={data.site.siteMetadata.contentConfig[sectionName]}
-                  />
+                  <div className="section__grid">
+                    <SectionComponent
+                      key={sectionName + i}
+                      data={data.site.siteMetadata.contentConfig[sectionName]}
+                    />
+                  </div>
                 </div>
                 {/** i === Object.keys(sections).length && console.error('sections loaded') */}
               </section>
@@ -134,7 +136,7 @@ export const Projects = ({ data }) => {
   const [viewProject, toggleProjectViewer] = useState(false);
 
   return (
-    <div className="section__grid">
+    <>
       {/** build cards from data */}
       {(viewProject && <></>) ||
         /** <SectionBuilder data={projectData} toggleProjectViewer={toggleProjectViewer} */
@@ -179,12 +181,12 @@ export const Projects = ({ data }) => {
             </article>
           );
         })}
-    </div>
+    </>
   );
 };
 
 export const Skills = ({ data }) => (
-  <div className="section__grid">
+  <>
     {/** build cards from data */}
     {data.map(card => {
       const { title, description, summaryPoints } = card;
@@ -210,12 +212,12 @@ export const Skills = ({ data }) => (
         </article>
       );
     })}
-  </div>
+  </>
 );
 
 export const About = ({ data }) => {
   return (
-    <div className="section__grid">
+    <>
       {/** build cards from data */}
       {data.map(card => {
         const { title, description, mediaUrl } = card; // we are receiving an object not an array like the others, build two cards
@@ -251,12 +253,12 @@ export const About = ({ data }) => {
           </article>
         );
       })}
-    </div>
+    </>
   );
 };
 
 export const Services = ({ data }) => (
-  <div className="section__grid">
+  <>
     {/** build cards from data */}
     {data.map(card => {
       const { title, description } = card;
@@ -276,7 +278,7 @@ export const Services = ({ data }) => (
         </article>
       );
     })}
-  </div>
+  </>
 );
 
 export const Contact = ({ data }) => {
@@ -296,13 +298,13 @@ export const Contact = ({ data }) => {
   });
 
   return (
-    <div className="section__grid">
+    <>
       {/** build cards from data */}
       {data.map(card => {
         const { title, value } = card;
         return (
           <article className="section__grid__card">
-            <div className="card"  key={title}>
+            <div className="card" key={title}>
               <h1 className="title" attribute="title">
                 {title}
               </h1>
@@ -322,7 +324,7 @@ export const Contact = ({ data }) => {
           </article>
         );
       })}
-    </div>
+    </>
   );
 };
 

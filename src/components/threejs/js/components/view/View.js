@@ -28,7 +28,7 @@ export default class {
 
     // #region configuration
     if (typeof window !== "undefined") {
-      this.renderer.setPixelRatio(window.devicePixelRatio * 2);
+      this.renderer.setPixelRatio(window.devicePixelRatio);
       this.renderer.setSize(this._winWidth, this._winHeight, false);
       this.renderer.shadowMap.enabled = threeConfig.renderer.shadow.enabled;
       this.renderer.shadowMap.type = threeConfig.renderer.shadow.type;
