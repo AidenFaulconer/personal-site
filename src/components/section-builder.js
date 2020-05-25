@@ -107,7 +107,7 @@ export default React.memo(() => {
                 style={{ background: i % 2 !== 0 ? "#201E2B" : "" }}
               >
                 <div className="section__header" key={`${sectionName}-header`}>
-                  <h1 data-aos="fade-up" key={`${sectionName}-h1`}>
+                  <h1 key={`${sectionName}-h1`}>
                     {sectionName.toUpperCase()}
                   </h1>
                 </div>

@@ -2,7 +2,7 @@ import * as AOS from "aos";
 import React, { useEffect, useRef, useState, Suspense } from "react";
 import threeConfig from "./js/config/threeConfig";
 // ANIMATE ON SCROLL
-import "aos/dist/aos.css";
+// import "aos/dist/aos.css";
 // dont use {main}
 // import ExperienceManger from './js/components/experiencemanager/experiencemanager'
 // import { MainVR } from './js/mainVR'
@@ -39,9 +39,9 @@ export default React.memo(({ threeJsCanvas }) => {
       // #endregion
 
       // initialize AOS
-      AOS.init({
-        duration: 1200
-      });
+      // AOS.init({
+      //   duration: 1200
+      // });
 
       window.addEventListener("close", () => setThreeContext(null)); // delete allocated memory for three.js https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Delete_in_strict_mode
 

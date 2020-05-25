@@ -1014,7 +1014,7 @@ section {
   margin: auto;
   border: $border;
   min-height: 50vh;
-  padding-right: $panel-offset * 1.15;
+  padding-right: $panel-offset * .5 * 1.25;
   padding-left: $panel-offset * 1.3 * 1.15;
 
   @include media-breakpoint-down(lg) {
@@ -1074,7 +1074,7 @@ section {
       margin: auto;
       color: $secondary-color;
       grid-template-columns: 1fr 1fr;
-      gap: 100px;
+      gap: 70px;
 
       //#region breakpoints
       @include media-breakpoint-down(md) {
@@ -1344,10 +1344,11 @@ section {
 
         //used on projects section (has hover effects)
         & .projects__card {
+          // min-width: 100%;
           color: $secondary-color;
           background-color: $primary-text-color;
           padding: $standard-margin * 2;
-          // min-width: 100%;
+          @include shadow2();
 
           right: 0px;
           @include borderRadius1();
