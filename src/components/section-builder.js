@@ -74,7 +74,7 @@ export default React.memo(() => {
               <section
                 id={sectionName}
                 key={sectionName + i}
-                style={{ background: i % 2 !== 0 ? "#201E2B" : "" }}
+                style={{ background: i % 2 !== 0 ? "#080515" : "" }}
               >
                 <div className="section__header" key={`${sectionName}-header`}>
                   <h1 key={`${sectionName}-h1`}>
