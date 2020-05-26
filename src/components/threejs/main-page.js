@@ -156,7 +156,7 @@ export default class extends View {
       planeDetail
     );
     this.planeMaterial = new MeshLambertMaterial({
-      color: "#8CF2D9", // was #211e2d
+      color: "#6bb7a8", // was #211e2d
       side: FrontSide,
       transparent: true,
       opacity: threeConfig.isMobile ? 0 : 1,
