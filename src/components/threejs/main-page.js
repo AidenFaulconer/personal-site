@@ -144,7 +144,7 @@ export default class extends View {
     // #region scene
     this.group = new Group();
     let planeSpan = 800;
-    let planeDetail = 15;
+    let planeDetail = 50;
     if (threeConfig.isMobile) {
       planeSpan = 0;
       planeDetail = 0;
@@ -156,8 +156,8 @@ export default class extends View {
       planeDetail
     );
     this.planeMaterial = new MeshLambertMaterial({
-      color: "#ffffff", // was #211e2d
-      side: BackSide,
+      color: "#8CF2D9", // was #211e2d
+      side: FrontSide,
       transparent: true,
       opacity: threeConfig.isMobile ? 0 : 1,
       wireframe: true
@@ -170,7 +170,7 @@ export default class extends View {
 
     this.plane2 = new Mesh(this.planeGeometry, this.planeMaterial);
     this.plane2.rotation.x = -0.5 * Math.PI;
-    this.plane2.position.set(0, -45, 0);
+    this.plane2.position.set(0, -50, 0);
     this.group.add(this.plane2);
 
     this.icosahedronGeometry = new IcosahedronGeometry(10, 4);
@@ -180,7 +180,7 @@ export default class extends View {
     });
 
     this.ball = new Mesh(this.icosahedronGeometry, this.lambertMaterial);
-    this.ball.position.set(2, -14, 0);
+    this.ball.position.set(2, -14, 4);
     this.group.add(this.ball);
 
     this.ambientLight = new AmbientLight(0xaaaaaa);
@@ -190,7 +190,7 @@ export default class extends View {
     this.spotLight.intensity = 0.9;
     this.spotLight.position.set(-10, 40, 20);
     this.spotLight.lookAt(this.ball);
-    this.spotLight.castShadow = true;
+    // this.spotLight.castShadow = true;
     this.scene.add(this.spotLight);
 
     this.scene.add(this.group);
@@ -319,7 +319,7 @@ export default class extends View {
     }
 
     // this.makeRoughGround(this.plane, modulate(upperAvgFr, 0, 1, 0.5, 4));
-    const groundModulate = this.modulate(lowerMaxFr * 2.5, 0, 1, 0.5, 4);
+    const groundModulate = this.modulate(lowerMaxFr, 0, 1, 0.5, 4);
     this.makeRoughGround(groundModulate, time);
 
     const yModulate = this.modulate(Math.pow(lowerMaxFr, 0.8), 0, 1, 0, 8);

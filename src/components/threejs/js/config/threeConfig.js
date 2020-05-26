@@ -24,7 +24,7 @@ export default {
   isMobile: false,
   background: {
     enabled: true, // toggle use of background
-    color: "#080515", // #95E5E1 to test
+    color: "#180F3E", // #95E5E1 to test
     sceneBg: {
       mobile: ["bg_mobile-01.png", "bg-blank-01.png"],
       pc: ["bg-01.png", "bg-blank-01.png"]
@@ -199,10 +199,10 @@ export default {
   },
   fog: {
     isFog: true,
-    color: "#080515", // was #100A29 and 080515
-    density: 1,
+    color: "#180F3E", // was #100A29 and 080515
+    density: 2,
     near: 0.20008,
-    far: 620
+    far: 420
   },
   camera: {
     orthographic: false,
