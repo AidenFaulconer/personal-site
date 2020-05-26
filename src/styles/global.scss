@@ -89,8 +89,6 @@ $gradient-color: $foreground-color;
 
 //#endregion custom fonts to include
 
-//#endregion z-index layers (help organize the positioning of overlapping elements
-
 //#region animation mixins @include name to use them
 @mixin animation1($propery: all, $time: .25s) {
   transition: $propery $time cubic-bezier(0.39, 0.575, 0.565, 1);
@@ -306,6 +304,7 @@ $gradient-color: $foreground-color;
 
 //#endregion animation mixins
 
+//#region global styled mixins
 @mixin shadow1 {
   box-shadow: 2px 1px 10px rgba($foreground-color, $alpha: .25), -2px -1px 10px rgba($foreground-color, $alpha: .25);
 }
@@ -329,6 +328,8 @@ $gradient-color: $foreground-color;
     padding: $standard-margin * 1.5;
   }
 }
+
+//#endregion global styled mixins
 
 //#region sass imports
 @import '../../node_modules/bootstrap-scss/mixins';
@@ -484,6 +485,11 @@ button {
     fill: $primary-color;
     cursor: pointer;
   }
+}
+
+* {
+  scrollbar-color: $foreground-color;
+  scrollbar-width: thin;
 }
 
 @mixin hideScrollbar {
@@ -689,9 +695,9 @@ a {
   cursor: -webkit-grabbing;
   @include animation1(transform);
   border-style: outset;
-  border: $border;
+  border: $border2;
   @include shadow2();
-  // transform: scale(1.05);
+  @include borderRadius1(); // transform: scale(1.05);
   // -webkit-transform: scale(1.05);
   // -moz-transform: scale(1.05);
   // -ms-transform: scale(1.05);
@@ -1054,21 +1060,24 @@ section {
     }
   }
 
-  //allows overflowing on mobile view
+  //allows overflowing on mobile/tablet view
   & .section__wrapper {
-    // @include testBounds();
     position: relative;
     margin: 80px 0;
     display: flex;
     justify-content: center;
 
+    //#region breakpoints
     @include media-breakpoint-down(sm) {
       @include borderRadius1();
       border: 1px solid $primary-color;
       width: 100%;
     }
 
+    //#endregion breakpoints
+
     & .section__grid {
+      //the container of the grids holding the cards
       position: relative;
       display: grid;
       margin: auto;
@@ -1080,6 +1089,7 @@ section {
       @include media-breakpoint-down(md) {
         @include hideScrollbar();
         margin: 0 -$standard-margin * 3;
+        padding-right: 5vw;
         gap: 200px;
       }
 
@@ -1319,8 +1329,9 @@ section {
           }
 
           &:hover {
+            color: $foreground-color;
+
             & ul {
-              color: $foreground-color;
 
               & li {
                 background: white;
@@ -1329,8 +1340,8 @@ section {
             }
 
             @include animation3();
-            background: $foreground-color;
-            color: $primary-text-color;
+            background: $primary-color;
+
           }
         }
       }
@@ -1437,7 +1448,7 @@ section {
     flex-direction: row;
     row-gap: $standard-margin;
     position: absolute;
-    color: $foreground-color;
+    color: $primary-text-color;
     font-size: $h1;
     pointer-events: none;
   }
@@ -1458,7 +1469,14 @@ section {
     @include animation1(transform);
 
     @include media-breakpoint-down(md) {
-      margin-left: 0px;
+      margin-left: -$panel-offset * .5;
+      min-width: 83.5vw;
+      @include occupyParent();
+    }
+
+    @include media-breakpoint-down(sm) {
+      margin-left: $mobile-standard-margin;
+      min-width: 83.5vw;
       @include occupyParent();
     }
 
@@ -1468,12 +1486,11 @@ section {
       border: $border2;
       color: inherit;
       margin: $standard-margin 0;
-      margin-right: $standard-margin * 2;
-      margin-left: $standard-margin * 2;
+      margin-right: 50px;
       margin-top: $standard-margin * 6.2;
+      margin-left: 10px;
       position: relative;
       // pointer-events: visible;
-      @include shadow1();
       @include borderRadius1();
       @include animation1(margin);
 
@@ -1602,7 +1619,7 @@ section {
             width: 50px;
             height: 50px;
             top: 20px;
-            left: 0px;
+            left: 1px;
           }
         }
 
@@ -1732,7 +1749,12 @@ $ellipses-slider: (slides: 5,
   display: flex;
   justify-content: center;
   width: 100%;
+
   // height: 10%;
+  @include media-breakpoint-down(md) {
+    overflow-y: scroll;
+  }
+
   flex-grow: 4;
 
   // @include testBounds();
@@ -1774,6 +1796,7 @@ $ellipses-slider: (slides: 5,
       // flex-wrap: wrap;
       flex-direction: row;
       cursor: pointer;
+
 
       & .slider-label {
         font-size: $small;
